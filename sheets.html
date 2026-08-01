@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구글 시트 연동 · PUBG META</title>
+<style>
+  :root{--bg:#0b0d11;--panel:#141821;--line:#252b38;--txt:#e8ecf3;--dim:#8a93a6;--accent:#ffb020}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:'Pretendard','Malgun Gothic','맑은 고딕',system-ui,sans-serif;font-size:14px;line-height:1.7}
+  a{color:var(--accent)}
+  .wrap{max-width:900px;margin:0 auto;padding:28px 20px 80px}
+  .brand{display:inline-block;color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.12em;margin-bottom:8px}
+  h1{margin:0 0 6px;font-size:24px}
+  h2{font-size:16px;margin:32px 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .sub{color:var(--dim);font-size:13px}
+  ol{padding-left:22px}
+  code{background:#1b202b;border:1px solid var(--line);border-radius:5px;padding:2px 7px;
+    font-family:ui-monospace,Consolas,monospace;font-size:12.5px;word-break:break-all}
+  .box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+  table{width:100%;border-collapse:collapse;margin-top:10px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
+  th{color:var(--dim);font-size:11px;letter-spacing:.06em;white-space:nowrap}
+  .copy{cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--dim);
+    border-radius:5px;padding:3px 9px;font-size:11px;font-family:inherit}
+  .copy:hover{color:var(--txt);border-color:var(--accent)}
+  select{background:#1b202b;color:var(--txt);border:1px solid var(--line);border-radius:8px;
+    padding:8px 11px;font-family:inherit;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="brand" href="index.html">PUBG META</a>
+  <h1>구글 시트 연동</h1>
+  <div class="sub">계정 연동이나 권한 설정 없이, 함수 한 줄로 시트가 최신 결과를 가져갑니다.</div>
+
+  <h2>1. 대회를 고르세요</h2>
+  <select id="pick"></select>
+
+  <h2>2. 구글 시트에 붙여넣기</h2>
+  <div class="sub">새 시트를 만들고 각 탭의 <b>A1 셀</b>에 아래 함수를 붙여넣으면 됩니다.</div>
+  <div class="box"><table id="rows"></table></div>
+
+  <h2>왜 이 방식인가</h2>
+  <div class="box sub">
+    <b>IMPORTDATA</b> 는 구글 시트 기본 함수입니다. 서비스 계정도, API 키도 필요 없습니다.<br>
+    시트를 열 때마다 구글이 알아서 최신 CSV 를 받아오므로 <b>따로 갱신할 필요가 없습니다.</b><br><br>
+    저희 쪽에서 새 경기를 수집해 사이트를 다시 올리면, 시트도 자동으로 따라옵니다.<br>
+    (구글은 보통 1시간 안팎으로 다시 읽습니다. 즉시 갱신하려면 시트에서 <code>Ctrl+R</code>)
+  </div>
+
+  <h2>엑셀로 받고 싶다면</h2>
+  <div class="box sub">
+    허브에서 대회를 펼치면 <b>엑셀 (.xlsx)</b> 버튼이 있습니다.
+    SUMMARY · 매치별 결과 · 로스터 · 선수 기록 4개 시트가 한 파일에 들어 있습니다.<br>
+    구글 시트에서 <b>파일 → 가져오기</b> 로 그 xlsx 를 올려도 됩니다.
+  </div>
+</div>
+
+<script>
+const D = {"base":"https://hspark-art.github.io/pubg-meta","series":[{"id":"as-gotf26","name":"Games of the Future 2026"},{"id":"eu-ewc26","name":"Esports World Cup 2026"},{"id":"as-pnc26","name":"PUBG Nations Cup 2026"},{"id":"kr-pws2","name":"PUBG Weekly Series 2026 Phase 2 Cup"},{"id":"as-pgs6","name":"PGS 2026 Circuit 2 - Series Final"},{"id":"as-pgs5","name":"PGS 2026 Circuit 2 - Series 2"},{"id":"as-pgs4","name":"PGS 2026 Circuit 2 - Series 1"},{"id":"as-pgs3","name":"PGS 2026 Circuit 1 - Series Final"},{"id":"as-pgs2","name":"PGS 2026 Circuit 1 - Series 2"},{"id":"as-pgs1","name":"PGS 2026 Circuit 1 - Series 1"},{"id":"kr-pws1","name":"PUBG Weekly Series 2026 Phase 1"}]};
+const $ = (id) => document.getElementById(id);
+const KINDS = [
+  ['summary', 'SUMMARY (누적 순위표)'],
+  ['matches', '매치별 결과'],
+  ['roster', '로스터'],
+  ['players', '선수 기록'],
+];
+
+$('pick').innerHTML = D.series.map((s) =>
+  '<option value="' + s.id + '">' + s.name + '</option>').join('');
+
+function render() {
+  const id = $('pick').value;
+  $('rows').innerHTML = '<tr><th>탭</th><th>A1 셀에 붙여넣을 함수</th><th></th></tr>' +
+    KINDS.map(([k, label]) => {
+      const fn = '=IMPORTDATA("' + D.base + '/csv/' + id + '-' + k + '.csv")';
+      return '<tr><td>' + label + '</td><td><code>' + fn + '</code></td>' +
+        '<td><button class="copy" data-fn="' + fn.replace(/"/g, '&quot;') + '">복사</button></td></tr>';
+    }).join('');
+
+  document.querySelectorAll('.copy').forEach((b) => {
+    b.onclick = () => {
+      navigator.clipboard.writeText(b.dataset.fn);
+      b.textContent = '복사됨';
+      setTimeout(() => { b.textContent = '복사'; }, 1200);
+    };
+  });
+}
+$('pick').onchange = render;
+render();
+</script>
+</body>
+</html>

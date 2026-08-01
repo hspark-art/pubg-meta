@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PUBG META</title>
+<style>
+  :root{--bg:#0b0d11;--panel:#141821;--panel2:#1b202b;--line:#252b38;
+    --txt:#e8ecf3;--dim:#8a93a6;--accent:#ffb020;--win:#ffd24a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:'Pretendard','Malgun Gothic','맑은 고딕',system-ui,sans-serif;font-size:14px}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 20px 80px}
+  header{padding-bottom:18px;border-bottom:1px solid var(--line)}
+  h1{margin:0;font-size:26px;letter-spacing:-.02em;color:var(--accent)}
+  .sub{color:var(--dim);font-size:13px;margin-top:6px}
+
+  .tabs{display:flex;gap:6px;margin:20px 0 14px;flex-wrap:wrap}
+  .tab{padding:8px 15px;border-radius:8px;background:var(--panel);color:var(--dim);
+    cursor:pointer;font-weight:600;font-size:13px;border:1px solid transparent}
+  .tab:hover{color:var(--txt)}
+  .tab.on{color:#151515}
+  .tab .n{opacity:.6;margin-left:6px;font-size:11px}
+
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .thead{color:var(--dim);font-size:11px;font-weight:600;letter-spacing:.06em;
+    border-bottom:1px solid var(--line);cursor:default;padding:9px 10px}
+  .thead:hover{background:none}
+
+  .srow{display:grid;grid-template-columns:64px 1fr 132px 62px 62px 50px 200px 22px;
+    align-items:center;gap:10px;padding:13px 10px;cursor:pointer}
+  .srow:hover{background:#161b25}
+  .lg{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10.5px;
+    font-weight:800;color:#151515;text-align:center;letter-spacing:.03em}
+  .nm{font-weight:700;font-size:14.5px}
+  .dt,.mc,.st{color:var(--dim);font-size:12.5px;font-variant-numeric:tabular-nums}
+  .ch{font-size:12.5px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ch b{color:var(--win);font-weight:700}
+  .unk{opacity:.45}
+  .warn{color:var(--accent);margin-left:2px;font-weight:800}
+  /* 내려받기는 보조 기능입니다. 경기 정보 목록보다 아래에, 눈에 덜 띄게 둡니다. */
+  .dlbox{display:flex;align-items:center;gap:7px;flex-wrap:wrap;
+    padding:10px 10px 12px 20px;border-top:1px solid #171c25;font-size:12px;opacity:.72}
+  .dlbox:hover{opacity:1}
+  .dlbox .t{color:var(--dim);font-size:11.5px;letter-spacing:.02em}
+  .dlbtn{padding:4px 10px;border-radius:6px;background:transparent;color:var(--dim);
+    border:1px solid var(--line);font-weight:600;font-size:11.5px}
+  .dlbtn:hover{color:var(--txt);border-color:var(--accent)}
+  .dlbtn.ghost{background:transparent;color:var(--dim);border:1px solid var(--line);font-weight:600}
+  .dlbtn.ghost:hover{color:var(--txt);border-color:var(--accent)}
+  .offbox{padding:12px 10px 14px 20px;border-top:1px solid #171c25;font-size:12.5px}
+  .offbox .t{color:var(--dim);margin-bottom:6px}
+  .offbox ol{margin:0;padding-left:20px;line-height:1.9}
+  .offbox a{color:var(--accent2,#4a9eff);text-decoration:underline}
+  .caret{color:var(--dim);font-size:11px;text-align:center;transition:transform .15s}
+  .open .caret{transform:rotate(90deg)}
+
+  .stages{display:none;background:#0f1319;border-bottom:1px solid var(--line)}
+  .stages.open{display:block}
+  /* 경기 정보 = 이 페이지의 주 동선입니다. 카드형으로 크게 잡습니다. */
+  .stlabel{padding:14px 20px 4px;color:var(--dim);font-size:11.5px;
+    letter-spacing:.06em;text-transform:uppercase}
+  .strow{display:grid;grid-template-columns:64px 1fr 132px 62px 50px;
+    align-items:center;gap:10px;padding:15px 10px 15px 20px;
+    border-top:1px solid #171c25;font-size:14.5px;
+    border-left:3px solid transparent;transition:background .12s,border-color .12s}
+  .strow:hover{background:#161b25;border-left-color:var(--accent)}
+  .stn{color:var(--txt);font-weight:700}
+  .stn .arrow{color:var(--accent);margin-left:9px;font-size:12px;font-weight:600;opacity:.55}
+  .strow:hover .stn .arrow{opacity:1}
+
+  @media(max-width:860px){
+    .srow{grid-template-columns:56px 1fr 60px 22px}
+    .srow .dt,.srow .st,.srow .ch{display:none}
+    .srow .mc:last-of-type{display:none}
+    .strow{grid-template-columns:56px 1fr 56px}
+    .strow .dt{display:none}
+    .strow .mc:last-of-type{display:none}
+    .wrap{padding:16px 12px 60px}
+  }
+  footer{margin-top:36px;color:var(--dim);font-size:12px;text-align:center;
+    border-top:1px solid var(--line);padding-top:16px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title">—</h1>
+    <div class="sub" id="meta">—</div>
+  </header>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="srow thead">
+    <span>리그</span>
+    <span>대회</span>
+    <span>기간</span>
+    <span class="num">스테이지</span>
+    <span class="num">매치</span>
+    <span class="num">팀</span>
+    <span>공식 우승</span>
+    <span></span>
+  </div>
+  <div id="view"></div>
+
+  <footer>
+    매치 수는 PUBG Developer API 에서 받은 실제 경기 수입니다. <span class="warn">*</span> 는 공식 스테이지 일부가 API 에 등록되지 않아 일부만 보유한 대회입니다.<br>
+    참가팀 수와 공식 순위는 외부 출처 확인값입니다.<br>
+    대회명·스테이지명·공식 순위는 <a href="https://liquipedia.net/pubg" style="color:#8a93a6">Liquipedia</a> (CC-BY-SA 3.0) 로 확인한 값입니다.<br>
+    <span id="built"></span>
+  </footer>
+</div>
+
+<script>
+const D = {"title":"PUBG META","builtAt":"2026-08-01T10:02:12.742Z","leagues":[{"code":"PGC","name":"PUBG Global Championship","keywords":["pgc"],"color":"#f2c200","collect":true,"note":"연말 세계 최강전"},{"code":"PGS","name":"PUBG Global Series","keywords":["pgs"],"color":"#4a9eff","collect":true,"note":"글로벌 시즌 대회"},{"code":"PWS","name":"PUBG Weekly Series","keywords":["pws"],"color":"#a78bfa","collect":true,"note":"한국·일본 지역 리그"},{"code":"EWC","name":"Esports World Cup","keywords":["ewc"],"color":"#00c48c","collect":true,"note":"사우디 통합 대회"},{"code":"PNC","name":"PUBG Nations Cup","keywords":["pnc"],"color":"#ff6b6b","collect":true,"note":"국가대항전"},{"code":"GOTF","name":"Games of the Future","keywords":["gotf"],"color":"#ff9f43","collect":true,"note":"상시 수집 대상. 매년 열리는 대회도 자동 편입됩니다."},{"code":"PCS","name":"PUBG Continental Series","keywords":["pcs"],"color":"#38bdf8","collect":false,"note":"대륙별 대회. 필요해지면 true 로."},{"code":"ETC","name":"기타 대회","keywords":[],"color":"#8a93a6","collect":false,"note":"위 어디에도 안 걸리는 대회"}],"series":[{"id":"as-gotf26","league":"GOTF","name":"Games of the Future 2026","stages":[{"id":"as-gotf26","league":"GOTF","title":"Games of the Future 2026 — Invitational","stage":"Invitational","matchCount":5,"teamCount":16,"dateStart":"2026-07-31T09:39:58Z","dateEnd":"2026-07-31T17:44:31Z","champion":{"name":"Team Vitality","totalPoints":50}}],"matchCount":5,"teamCount":16,"dateStart":"2026-07-31T09:39:58Z","dateEnd":"2026-07-31T17:44:31Z","official":{"standings":[],"mvp":null,"source":"https://liquipedia.net/pubg/Games_of_the_Future/2026","note":"진행 중 (2026-07-31 ~ 08-02) — 공식 최종 순위 미정."},"officialTeams":16,"incomplete":false,"hasXlsx":true,"hasCsv":true},{"id":"eu-ewc26","league":"EWC","name":"Esports World Cup 2026","stages":[{"id":"eu-ewc26gs","league":"EWC","title":"Esports World Cup 2026 — Group Stage","stage":"Group Stage","matchCount":18,"teamCount":16,"dateStart":"2026-07-21T11:05:38Z","dateEnd":"2026-07-23T14:31:17Z","champion":{"name":"MiTH","totalPoints":119}},{"id":"eu-ewc26fs","league":"EWC","title":"Esports World Cup 2026 — Grand Final","stage":"Grand Final","matchCount":18,"teamCount":16,"dateStart":"2026-07-24T10:58:25Z","dateEnd":"2026-07-26T14:31:02Z","champion":{"name":"Virtus.pro","totalPoints":159}}],"matchCount":36,"teamCount":16,"dateStart":"2026-07-21T11:05:38Z","dateEnd":"2026-07-26T14:31:02Z","official":{"standings":[{"rank":1,"team":"Virtus.pro"},{"rank":2,"team":"The Vicious"},{"rank":3,"team":"Natus Vincere"},{"rank":4,"team":"Team Falcons"}],"mvp":null,"source":"https://liquipedia.net/pubg/Esports_World_Cup/2026","note":null},"officialTeams":24,"incomplete":false,"hasXlsx":true,"hasCsv":true},{"id":"as-pnc26","league":"PNC","name":"PUBG Nations Cup 2026","stages":[{"id":"as-pnc26ss","league":"PNC","title":"PUBG Nations Cup 2026 — Survival Stage","stage":"Survival Stage","matchCount":10,"teamCount":16,"dateStart":"2026-06-23T10:00:02Z","dateEnd":"2026-06-24T12:31:22Z","champion":{"name":"UKR","totalPoints":153}},{"id":"as-pnc26gf","league":"PNC","title":"PUBG Nations Cup 2026 — Final Stage","stage":"Final Stage","matchCount":15,"teamCount":16,"dateStart":"2026-06-26T10:28:58Z","dateEnd":"2026-06-28T12:51:40Z","champion":{"name":"BRA","totalPoints":124}}],"matchCount":25,"teamCount":16,"dateStart":"2026-06-23T10:00:02Z","dateEnd":"2026-06-28T12:51:40Z","official":{"standings":[{"rank":1,"team":"Brazil"},{"rank":2,"team":"South Korea"},{"rank":3,"team":"Neutral Team"},{"rank":4,"team":"China"}],"mvp":null,"source":"https://liquipedia.net/pubg/PUBG_Nations_Cup/2026","note":null},"officialTeams":24,"incomplete":false,"hasXlsx":true,"hasCsv":true},{"id":"kr-pws2","league":"PWS","name":"PUBG Weekly Series 2026 Phase 2 Cup","stages":[{"id":"kr-pws2c1","league":"PWS","title":"PUBG Weekly Series 2026 Phase 2 Cup — Cup Week 1","stage":"Cup Week 1","matchCount":5,"teamCount":16,"dateStart":"2026-06-13T09:50:02Z","dateEnd":"2026-06-13T12:12:30Z","champion":{"name":"EOS","totalPoints":73}},{"id":"kr-pws2c2","league":"PWS","title":"PUBG Weekly Series 2026 Phase 2 Cup — Cup Week 2","stage":"Cup Week 2","matchCount":5,"teamCount":16,"dateStart":"2026-06-20T09:50:02Z","dateEnd":"2026-06-20T12:22:49Z","champion":{"name":"SB","totalPoints":66}},{"id":"kr-pws2c3","league":"PWS","title":"PUBG Weekly Series 2026 Phase 2 Cup — Cup Week 3","stage":"Cup Week 3","matchCount":5,"teamCount":16,"dateStart":"2026-07-04T09:51:37Z","dateEnd":"2026-07-04T12:17:54Z","champion":{"name":"ISK","totalPoints":56}},{"id":"kr-pws2c4","league":"PWS","title":"PUBG Weekly Series 2026 Phase 2 Cup — Cup Week 4","stage":"Cup Week 4","matchCount":5,"teamCount":16,"dateStart":"2026-07-11T09:49:59Z","dateEnd":"2026-07-11T12:19:25Z","champion":{"name":"SGZ","totalPoints":58}},{"id":"kr-pws2c5","league":"PWS","title":"PUBG Weekly Series 2026 Phase 2 Cup — Cup Week 5","stage":"Cup Week 5","matchCount":5,"teamCount":16,"dateStart":"2026-07-18T09:50:02Z","dateEnd":"2026-07-18T12:19:48Z","champion":{"name":"C5","totalPoints":72}}],"matchCount":25,"teamCount":16,"dateStart":"2026-06-13T09:50:02Z","dateEnd":"2026-07-18T12:19:48Z","official":{"standings":[],"mvp":null,"source":"https://wwcd.lol","note":"진행 중 — 공식 최종 순위 미정. Liquipedia 의 PWS 2026 Phase 2 문서(9/9~10/4)는 별개 본선이며, 이 대회는 그 앞의 Cup 입니다."},"officialTeams":47,"incomplete":false,"hasXlsx":true,"hasCsv":true},{"id":"as-pgs6","league":"PGS","name":"PGS 2026 Circuit 2 - Series Final","stages":[{"id":"as-pgs6ss","league":"PGS","title":"PGS 2026 Circuit 2 - Series Final — Survival Stage","stage":"Survival Stage","matchCount":5,"teamCount":16,"dateStart":"2026-06-04T10:00:00Z","dateEnd":"2026-06-04T12:43:22Z","champion":{"name":"Team Falcons","totalPoints":59}},{"id":"as-pgs6gf","league":"PGS","title":"PGS 2026 Circuit 2 - Series Final — Final Stage","stage":"Final Stage","matchCount":15,"teamCount":16,"dateStart":"2026-06-05T10:00:12Z","dateEnd":"2026-06-07T12:39:44Z","champion":{"name":"MiTH","totalPoints":181}}],"matchCount":20,"teamCount":16,"dateStart":"2026-06-04T10:00:00Z","dateEnd":"2026-06-07T12:39:44Z","official":{"standings":[{"rank":1,"team":"Made in Thailand"},{"rank":2,"team":"DN SOOPers"},{"rank":3,"team":"17 Gaming"},{"rank":4,"team":"Petrichor Road"}],"mvp":null,"source":"https://liquipedia.net/pubg/PUBG_Global_Series/2026/Circuit_2/Series_Final","note":null},"officialTeams":24,"incomplete":true,"hasXlsx":true,"hasCsv":true},{"id":"as-pgs5","league":"PGS","name":"PGS 2026 Circuit 2 - Series 2","stages":[{"id":"as-pgs5ws","league":"PGS","title":"PGS 2026 Circuit 2 - Series 2 — Winners Stage","stage":"Winners Stage","matchCount":5,"teamCount":16,"dateStart":"2026-05-28T10:00:02Z","dateEnd":"2026-05-28T12:46:05Z","champion":{"name":"Anyone's Legend","totalPoints":44}},{"id":"as-pgs5ss","league":"PGS","title":"PGS 2026 Circuit 2 - Series 2 — Survival Stage","stage":"Survival Stage","matchCount":5,"teamCount":16,"dateStart":"2026-05-29T10:00:04Z","dateEnd":"2026-05-29T12:37:13Z","champion":{"name":"4AM","totalPoints":54}},{"id":"as-pgs5fs5","league":"PGS","title":"PGS 2026 Circuit 2 - Series 2 — Final Stage","stage":"Final Stage","matchCount":10,"teamCount":16,"dateStart":"2026-05-30T10:00:03Z","dateEnd":"2026-05-31T12:48:12Z","champion":{"name":"17 Gaming","totalPoints":107}}],"matchCount":20,"teamCount":16,"dateStart":"2026-05-28T10:00:02Z","dateEnd":"2026-05-31T12:48:12Z","official":{"standings":[{"rank":1,"team":"17 Gaming"},{"rank":2,"team":"Anyone's Legend"},{"rank":3,"team":"Virtus.pro"},{"rank":4,"team":"Natus Vincere"}],"mvp":null,"source":"https://liquipedia.net/pubg/PUBG_Global_Series/2026/Circuit_2/Series_2","note":null},"officialTeams":24,"incomplete":true,"hasXlsx":true,"hasCsv":true},{"id":"as-pgs4","league":"PGS","name":"PGS 2026 Circuit 2 - Series 1","stages":[{"id":"as-pgs4ws","league":"PGS","title":"PGS 2026 Circuit 2 - Series 1 — Winners Stage","stage":"Winners Stage","matchCount":5,"teamCount":16,"dateStart":"2026-05-21T10:00:00Z","dateEnd":"2026-05-21T12:52:12Z","champion":{"name":"Team Falcons","totalPoints":54}},{"id":"as-pgs4ss","league":"PGS","title":"PGS 2026 Circuit 2 - Series 1 — Survival Stage","stage":"Survival Stage","matchCount":5,"teamCount":16,"dateStart":"2026-05-22T10:00:27Z","dateEnd":"2026-05-22T12:50:13Z","champion":{"name":"T1","totalPoints":60}}],"matchCount":10,"teamCount":16,"dateStart":"2026-05-21T10:00:00Z","dateEnd":"2026-05-22T12:50:13Z","official":{"standings":[{"rank":1,"team":"Made in Thailand"},{"rank":2,"team":"T1"},{"rank":3,"team":"Twisted Minds"},{"rank":4,"team":"Four Angry Men"}],"mvp":null,"source":"https://liquipedia.net/pubg/PUBG_Global_Series/2026/Circuit_2/Series_1","note":"공식 포맷은 Group Stage(9매치) → Winners Stage(5) → Survival Stage(5) → Final Stage(10) 총 29매치입니다. PUBG API 에는 Winners·Survival 만 등록돼 있어 10매치만 보유합니다."},"officialTeams":24,"incomplete":true,"hasXlsx":true,"hasCsv":true},{"id":"as-pgs3","league":"PGS","name":"PGS 2026 Circuit 1 - Series Final","stages":[{"id":"as-pgs3ss","league":"PGS","title":"PGS 2026 Circuit 1 - Series Final — Survival Stage","stage":"Survival Stage","matchCount":5,"teamCount":16,"dateStart":"2026-04-02T10:00:03Z","dateEnd":"2026-04-02T12:46:18Z","champion":{"name":"EA","totalPoints":48}},{"id":"as-pgs3gf","league":"PGS","title":"PGS 2026 Circuit 1 - Series Final — Final Stage","stage":"Final Stage","matchCount":15,"teamCount":16,"dateStart":"2026-04-03T10:00:19Z","dateEnd":"2026-04-05T12:48:15Z","champion":{"name":"Virtus.pro","totalPoints":136}}],"matchCount":20,"teamCount":16,"dateStart":"2026-04-02T10:00:03Z","dateEnd":"2026-04-05T12:48:15Z","official":{"standings":[{"rank":1,"team":"Virtus.pro"},{"rank":2,"team":"eArena"},{"rank":3,"team":"T1"},{"rank":4,"team":"17 Gaming"}],"mvp":null,"source":"https://liquipedia.net/pubg/PUBG_Global_Series/2026/Circuit_1/Series_Final","note":null},"officialTeams":24,"incomplete":true,"hasXlsx":true,"hasCsv":true},{"id":"as-pgs2","league":"PGS","name":"PGS 2026 Circuit 1 - Series 2","stages":[{"id":"as-pgs2ws","league":"PGS","title":"PGS 2026 Circuit 1 - Series 2 — Winners Stage","stage":"Winners Stage","matchCount":5,"teamCount":16,"dateStart":"2026-03-26T09:59:56Z","dateEnd":"2026-03-26T12:40:38Z","champion":{"name":"DN SOOPers","totalPoints":48}},{"id":"as-pgs2ss","league":"PGS","title":"PGS 2026 Circuit 1 - Series 2 — Survival Stage","stage":"Survival Stage","matchCount":5,"teamCount":16,"dateStart":"2026-03-27T09:59:56Z","dateEnd":"2026-03-27T12:46:06Z","champion":{"name":"17 Gaming","totalPoints":68}},{"id":"as-pgs2fs","league":"PGS","title":"PGS 2026 Circuit 1 - Series 2 — Final Stage","stage":"Final Stage","matchCount":10,"teamCount":16,"dateStart":"2026-03-28T10:00:08Z","dateEnd":"2026-03-29T12:47:17Z","champion":{"name":"NAVI","totalPoints":93}}],"matchCount":20,"teamCount":16,"dateStart":"2026-03-26T09:59:56Z","dateEnd":"2026-03-29T12:47:17Z","official":{"standings":[{"rank":1,"team":"Natus Vincere"},{"rank":2,"team":"Anyone's Legend"},{"rank":3,"team":"Petrichor Road"},{"rank":4,"team":"DN SOOPers"}],"mvp":null,"source":"https://liquipedia.net/pubg/PUBG_Global_Series/2026/Circuit_1/Series_2","note":null},"officialTeams":24,"incomplete":true,"hasXlsx":true,"hasCsv":true},{"id":"as-pgs1","league":"PGS","name":"PGS 2026 Circuit 1 - Series 1","stages":[{"id":"as-pgs1ws","league":"PGS","title":"PGS 2026 Circuit 1 - Series 1 — Winners Stage","stage":"Winners Stage","matchCount":5,"teamCount":16,"dateStart":"2026-03-19T10:00:07Z","dateEnd":"2026-03-19T12:40:59Z","champion":{"name":"PERO","totalPoints":61}},{"id":"as-pgs1ss","league":"PGS","title":"PGS 2026 Circuit 1 - Series 1 — Survival Stage","stage":"Survival Stage","matchCount":5,"teamCount":16,"dateStart":"2026-03-20T10:00:19Z","dateEnd":"2026-03-20T12:45:18Z","champion":{"name":"Team Falcons","totalPoints":60}},{"id":"as-pgs1fs","league":"PGS","title":"PGS 2026 Circuit 1 - Series 1 — Final Stage","stage":"Final Stage","matchCount":10,"teamCount":16,"dateStart":"2026-03-21T10:00:32Z","dateEnd":"2026-03-22T12:50:57Z","champion":{"name":"4AM","totalPoints":89}}],"matchCount":20,"teamCount":16,"dateStart":"2026-03-19T10:00:07Z","dateEnd":"2026-03-22T12:50:57Z","official":{"standings":[{"rank":1,"team":"Petrichor Road"},{"rank":2,"team":"Four Angry Men"},{"rank":3,"team":"Made in Thailand"},{"rank":4,"team":"Anyone's Legend"}],"mvp":"SpaceMan1010","source":"https://liquipedia.net/pubg/PUBG_Global_Series/2026/Circuit_1/Series_1","note":null},"officialTeams":24,"incomplete":true,"hasXlsx":true,"hasCsv":true},{"id":"kr-pws1","league":"PWS","name":"PUBG Weekly Series 2026 Phase 1","stages":[{"id":"kr-pws1c1","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Cup Week 1","stage":"Cup Week 1","matchCount":5,"teamCount":16,"dateStart":"2026-02-14T09:50:05Z","dateEnd":"2026-02-14T12:38:51Z","champion":{"name":"PDE","totalPoints":83}},{"id":"kr-pws1c2","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Cup Week 2","stage":"Cup Week 2","matchCount":5,"teamCount":16,"dateStart":"2026-02-21T09:50:10Z","dateEnd":"2026-02-21T12:29:14Z","champion":{"name":"EOS","totalPoints":61}},{"id":"kr-pws1c3","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Cup Week 3","stage":"Cup Week 3","matchCount":5,"teamCount":16,"dateStart":"2026-02-28T09:50:03Z","dateEnd":"2026-02-28T12:29:58Z","champion":{"name":"SXA","totalPoints":68}},{"id":"kr-pws1c4","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Cup Week 4","stage":"Cup Week 4","matchCount":5,"teamCount":16,"dateStart":"2026-03-07T09:48:27Z","dateEnd":"2026-03-07T12:33:44Z","champion":{"name":"DD","totalPoints":55}},{"id":"kr-pws1c5","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Cup Week 5","stage":"Cup Week 5","matchCount":5,"teamCount":16,"dateStart":"2026-03-14T09:48:36Z","dateEnd":"2026-03-14T12:33:09Z","champion":{"name":"TCN","totalPoints":51}},{"id":"kr-pws1ws1","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Stage — Week 1 Day 1","stage":"Weekly Stage — Week 1 Day 1","matchCount":5,"teamCount":16,"dateStart":"2026-04-15T09:55:03Z","dateEnd":"2026-04-15T12:36:53Z","champion":{"name":"DN SOOPers","totalPoints":52}},{"id":"kr-pws1s12","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Stage — Week 1 Day 2","stage":"Weekly Stage — Week 1 Day 2","matchCount":5,"teamCount":16,"dateStart":"2026-04-16T09:50:02Z","dateEnd":"2026-04-16T12:32:54Z","champion":{"name":"EOS","totalPoints":57}},{"id":"kr-pws1s13","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Stage — Week 1 Day 3","stage":"Weekly Stage — Week 1 Day 3","matchCount":5,"teamCount":16,"dateStart":"2026-04-17T09:50:02Z","dateEnd":"2026-04-17T12:34:33Z","champion":{"name":"XXG","totalPoints":60}},{"id":"kr-pws1wf1","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Finals — Week 1","stage":"Weekly Finals — Week 1","matchCount":10,"teamCount":16,"dateStart":"2026-04-18T09:55:36Z","dateEnd":"2026-04-19T12:38:20Z","champion":{"name":"T1","totalPoints":106}},{"id":"kr-pws1s21","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Stage — Week 2 Day 1","stage":"Weekly Stage — Week 2 Day 1","matchCount":5,"teamCount":16,"dateStart":"2026-04-22T09:50:03Z","dateEnd":"2026-04-22T12:27:38Z","champion":{"name":"DN","totalPoints":46}},{"id":"kr-pws1s22","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Stage — Week 2 Day 2","stage":"Weekly Stage — Week 2 Day 2","matchCount":5,"teamCount":16,"dateStart":"2026-04-23T09:50:02Z","dateEnd":"2026-04-23T12:32:13Z","champion":{"name":"SB","totalPoints":52}},{"id":"kr-pws1s23","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Stage — Week 2 Day 3","stage":"Weekly Stage — Week 2 Day 3","matchCount":5,"teamCount":16,"dateStart":"2026-04-24T09:50:08Z","dateEnd":"2026-04-24T12:32:40Z","champion":{"name":"T1","totalPoints":69}},{"id":"kr-pws1wf2","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Finals — Week 2","stage":"Weekly Finals — Week 2","matchCount":10,"teamCount":16,"dateStart":"2026-04-25T09:50:03Z","dateEnd":"2026-04-26T12:36:55Z","champion":{"name":"Geekay Esports","totalPoints":88}},{"id":"kr-pws1s31","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Stage — Week 3 Day 1","stage":"Weekly Stage — Week 3 Day 1","matchCount":5,"teamCount":16,"dateStart":"2026-04-29T09:50:01Z","dateEnd":"2026-04-29T12:29:42Z","champion":{"name":"T1","totalPoints":51}},{"id":"kr-pws1s32","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Stage — Week 3 Day 2","stage":"Weekly Stage — Week 3 Day 2","matchCount":5,"teamCount":16,"dateStart":"2026-04-30T09:50:04Z","dateEnd":"2026-04-30T12:38:29Z","champion":{"name":"T1","totalPoints":51}},{"id":"kr-pws1s33","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Stage — Week 3 Day 3","stage":"Weekly Stage — Week 3 Day 3","matchCount":5,"teamCount":16,"dateStart":"2026-05-01T09:50:01Z","dateEnd":"2026-05-01T12:32:56Z","champion":{"name":"DN","totalPoints":74}},{"id":"kr-pws1wf3","league":"PWS","title":"PUBG Weekly Series 2026 Phase 1 — Weekly Finals — Week 3","stage":"Weekly Finals — Week 3","matchCount":10,"teamCount":16,"dateStart":"2026-05-02T09:51:42Z","dateEnd":"2026-05-03T12:41:09Z","champion":{"name":"Geekay Esports","totalPoints":103}}],"matchCount":100,"teamCount":16,"dateStart":"2026-02-14T09:50:05Z","dateEnd":"2026-05-03T12:41:09Z","official":{"standings":[{"rank":1,"team":"DN SOOPers"},{"rank":2,"team":"Geekay Esports"},{"rank":3,"team":"T1"},{"rank":4,"team":"Gen.G Esports"}],"mvp":"Seongjang","source":"https://liquipedia.net/pubg/PUBG_WEEKLY_SERIES/2026/Phase_1","note":"Finals(5/8~5/10, 15매치)가 PUBG API 에 등록되지 않아 매치 데이터가 없습니다. 순위는 Liquipedia 확인값입니다."},"officialTeams":24,"incomplete":true,"hasXlsx":true,"hasCsv":true}]};
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g,
+  (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const colorOf = (code) => (D.leagues.find((l) => l.code === code) || {}).color || '#8a93a6';
+
+let cur = 'ALL';
+const open = new Set();
+
+const ymd = (s) => (s ? s.slice(0, 10).replace(/-/g, '.').slice(2) : '');
+const period = (a, b) => (!a ? '' : (ymd(a) === ymd(b) ? ymd(a) : ymd(a) + ' ~ ' + ymd(b)));
+
+function renderTabs() {
+  const c = { ALL: D.series.length };
+  for (const s of D.series) c[s.league] = (c[s.league] || 0) + 1;
+  const codes = ['ALL', ...D.leagues.map((l) => l.code).filter((x) => c[x])];
+  $('tabs').innerHTML = codes.map((code) => {
+    const on = code === cur;
+    const col = code === 'ALL' ? '#ffb020' : colorOf(code);
+    return '<div class="tab' + (on ? ' on' : '') + '" data-c="' + code + '"' +
+      (on ? ' style="background:' + col + ';border-color:' + col + '"' : '') + '>' +
+      (code === 'ALL' ? '전체' : code) + '<span class="n">' + (c[code] || 0) + '</span></div>';
+  }).join('');
+  document.querySelectorAll('[data-c]').forEach((el) => {
+    el.onclick = () => { cur = el.dataset.c; render(); };
+  });
+}
+
+function render() {
+  renderTabs();
+  const list = D.series.filter((s) => cur === 'ALL' || s.league === cur);
+
+  $('view').innerHTML = list.map((s) => {
+    const isOpen = open.has(s.id);
+    const head =
+      '<div class="srow' + (isOpen ? ' open' : '') + '" data-s="' + esc(s.id) + '">' +
+        '<span><span class="lg" style="background:' + colorOf(s.league) + '">' +
+          esc(s.league) + '</span></span>' +
+        '<span class="nm">' + esc(s.name) + '</span>' +
+        '<span class="dt">' + period(s.dateStart, s.dateEnd) + '</span>' +
+        '<span class="st num">' + s.stages.length + '</span>' +
+        '<span class="mc num">' + s.matchCount +
+          (s.incomplete ? '<span class="warn" title="공식 스테이지 일부가 PUBG API 에 없습니다">*</span>' : '') +
+          '</span>' +
+        '<span class="mc num">' + (s.officialTeams || s.teamCount || '') + '</span>' +
+        '<span class="ch">' + (s.official && s.official.standings[0]
+          ? '<b>' + esc(s.official.standings[0].team) + '</b>'
+          : '<span class="unk">미확인</span>') + '</span>' +
+        '<span class="caret">▶</span>' +
+      '</div>';
+
+    const hasStand = s.official && s.official.standings.length > 0;
+    const off = s.official ? '<div class="offbox">' +
+      '<div class="t">' + (hasStand ? '공식 최종 순위' : '공식 정보') + ' · 출처 ' +
+        '<a href="' + esc(s.official.source) + '">' +
+        (/liquipedia/.test(s.official.source) ? 'Liquipedia' : s.official.source.replace(/^https?:\/\//, '')) +
+        '</a>' +
+      (s.official.mvp ? ' · MVP ' + esc(s.official.mvp) : '') + '</div>' +
+      (hasStand ? '<ol>' + s.official.standings.map((x) => '<li>' + esc(x.team) + '</li>').join('') + '</ol>' : '') +
+      (s.official.note ? '<div class="t" style="margin-top:8px">' + esc(s.official.note) + '</div>' : '') +
+      '</div>' : '';
+
+    const dl = (s.hasXlsx || s.hasCsv) ? '<div class="dlbox">' +
+      '<span class="t">내려받기</span>' +
+      (s.hasXlsx ? '<a class="dlbtn" href="xlsx/' + esc(s.id) + '.xlsx" download>엑셀 (.xlsx)</a>' : '') +
+      (s.hasCsv ? ['summary','matches','roster','players'].map((k, i) =>
+        '<a class="dlbtn ghost" href="csv/' + esc(s.id) + '-' + k + '.csv" download>' +
+        ['순위표','매치별','로스터','선수'][i] + ' CSV</a>').join('') : '') +
+      (s.hasCsv ? '<a class="dlbtn ghost" href="sheets.html">구글 시트 연동 →</a>' : '') +
+      '</div>' : '';
+
+    // 경기 정보 목록을 먼저 보여주고, 내려받기는 그 아래로 내립니다.
+    const stRows = '<div class="stlabel">경기 정보</div>' +
+      s.stages.map((t) =>
+        '<a class="strow" href="t/' + esc(t.id) + '.html">' +
+          '<span></span>' +
+          '<span class="stn">' + esc(t.stage) + '<span class="arrow">경기 정보 보기 →</span></span>' +
+          '<span class="dt">' + period(t.dateStart, t.dateEnd) + '</span>' +
+          '<span class="mc num">' + t.matchCount + '</span>' +
+          '<span class="mc num">' + (t.teamCount || '') + '</span>' +
+        '</a>').join('');
+
+    const stages = '<div class="stages' + (isOpen ? ' open' : '') + '" data-body="' + esc(s.id) + '">' +
+      off + stRows + dl + '</div>';
+
+    return head + stages;
+  }).join('');
+
+  document.querySelectorAll('[data-s]').forEach((el) => {
+    el.onclick = () => {
+      const id = el.dataset.s;
+      open.has(id) ? open.delete(id) : open.add(id);
+      render();
+    };
+  });
+}
+
+$('title').textContent = D.title;
+$('meta').textContent = '대회 ' + D.series.length + '개 · 스테이지 ' +
+  D.series.reduce((n, s) => n + s.stages.length, 0) + '개 · ' +
+  D.series.reduce((n, s) => n + s.matchCount, 0) + '경기';
+$('built').textContent = '갱신 ' + new Date(D.builtAt)
+  .toLocaleString('ko-KR', { dateStyle: 'medium', timeStyle: 'short' });
+render();
+</script>
+</body>
+</html>
