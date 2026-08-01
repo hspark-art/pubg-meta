@@ -1,65 +1,65 @@
-﻿순위,선수,팀,킬,딜량,기절,어시스트,헤드샷,경기,경기당킬,경기당딜
-1,AL_Sololzy,Anyone's Legend,12,1180,6,3,0,5,2.4,236
-2,17_tiantianhaovo,17 Gaming,11,1674,6,4,1,5,2.2,335
-3,TWIS_xmpl,Twisted Minds,11,1511,8,5,2,5,2.2,302
-4,T1_Heather,T1,10,2133,8,5,4,5,2,427
-5,VIT_QWZYYY,Team Vitality,9,1435,5,0,3,5,1.8,287
-6,JDG_nanss,JD Gaming,9,726,5,0,2,5,1.8,145
-7,GTE_DuCkHjeUz,GAM X TE,8,1559,4,5,2,5,1.6,312
-8,VP_curexi,Virtus.pro,8,1046,8,4,2,5,1.6,209
-9,17_Lilghost,17 Gaming,8,900,5,4,2,5,1.6,180
-10,GTE_Clories,GAM X TE,7,2143,8,5,2,5,1.4,429
-11,GK_Seongjang,Geekay Esports,7,1449,8,5,1,5,1.4,290
-12,DNS_DIEL,DN SOOPers,7,1437,7,6,1,5,1.4,287
-13,VP_Beami,Virtus.pro,7,1144,9,6,3,5,1.4,229
-14,17_xwudd,17 Gaming,7,1112,5,3,0,5,1.4,222
-15,VIT_hallomybad,Team Vitality,7,894,5,2,0,5,1.4,179
-16,DNS_Gyumin,DN SOOPers,6,1373,7,2,0,5,1.2,275
-17,GTE_TanVuu,GAM X TE,6,1369,6,4,1,5,1.2,274
-18,GK_Parkpro,Geekay Esports,6,1152,4,2,1,5,1.2,230
-19,T1_Rain1ng,T1,6,856,4,1,0,5,1.2,171
-20,FLC_TGLTN,Team Falcons,6,750,5,2,1,5,1.2,150
-21,VIT_Lev4nte,Team Vitality,5,1735,4,6,2,5,1,347
-22,FS_Belmoth,Full Sense,5,1165,7,3,1,5,1,233
-23,MiTH_Scappy,MiTH,5,1154,6,2,3,5,1,231
-24,JDG_Cold119,JD Gaming,5,1036,8,3,2,5,1,207
-25,TWIS_Lu,Twisted Minds,5,997,2,3,0,5,1,199
-26,VIT_Gedrox,Team Vitality,5,993,6,4,1,5,1,199
-27,FLC_Kickstart,Team Falcons,5,880,7,5,0,5,1,176
-28,T1_EEND,T1,5,702,4,0,1,5,1,140
-29,DNS_Heaven,DN SOOPers,5,626,4,2,2,5,1,125
-30,TWIS_TheTab,Twisted Minds,5,458,3,0,0,5,1,92
-31,VP_NIXZYEE,Virtus.pro,4,1415,7,4,0,5,0.8,283
-32,GK_EJ01,Geekay Esports,4,1169,9,8,1,5,0.8,234
-33,DNS_Rex,DN SOOPers,4,1021,5,7,0,5,0.8,204
-34,FLC_Shrimzy,Team Falcons,4,1015,7,4,0,5,0.8,203
-35,TWIS_BatulinS,Twisted Minds,4,885,7,7,0,5,0.8,177
-36,GK_AKaN,Geekay Esports,4,771,2,2,0,5,0.8,154
-37,T1_Type,T1,4,654,3,1,1,5,0.8,131
-38,R8_TedeeyyEXSA,R8 Esports,4,651,4,0,1,5,0.8,130
-39,SE_Setsunaa,Shadow Esports,4,644,2,1,0,5,0.8,129
-40,FLC_Gustav,Team Falcons,4,611,4,0,0,5,0.8,122
-41,SE_Jekzy,Shadow Esports,4,434,4,0,0,5,0.8,87
-42,AL_Himass,Anyone's Legend,3,1525,5,6,2,5,0.6,305
-43,FS_TiGGER,Full Sense,3,937,2,2,0,5,0.6,187
-44,MiTH_KISS,MiTH,3,883,4,1,1,5,0.6,177
-45,VP_Lukarux,Virtus.pro,3,831,5,7,1,5,0.6,166
-46,AL_Delwyn,Anyone's Legend,3,736,3,1,1,5,0.6,147
-47,17_Wenbo,17 Gaming,3,709,3,3,0,5,0.6,142
-48,SE_Kamalz,Shadow Esports,3,662,4,1,1,5,0.6,132
-49,DGE_imSancho,DIGA Esports,3,557,4,1,0,5,0.6,111
-50,R8_empt,R8 Esports,3,521,4,1,1,5,0.6,104
-51,SE_Hanzyy,Shadow Esports,3,426,1,1,1,5,0.6,85
-52,FS_Thanad0l,Full Sense,2,1092,7,1,0,5,0.4,218
-53,FS_Flash,Full Sense,2,888,4,6,1,5,0.4,178
-54,AL_Destroyy,Anyone's Legend,2,568,3,3,0,5,0.4,114
-55,JDG_Dec12th,JD Gaming,2,551,2,2,0,5,0.4,110
-56,DGE_Diga,DIGA Esports,2,514,2,2,1,5,0.4,103
-57,GTE_Hoangf,GAM X TE,2,409,2,0,2,5,0.4,82
-58,DGE_KoyaN,DIGA Esports,2,329,2,0,1,5,0.4,66
-59,DGE_Kursant,DIGA Esports,2,282,2,1,1,5,0.4,56
-60,MiTH_Baren,MiTH,1,655,2,1,0,5,0.2,131
-61,MiTH_Jacob,MiTH,1,605,3,1,0,5,0.2,121
-62,JDG_SuZe,JD Gaming,1,468,1,6,0,5,0.2,94
-63,R8_AJRE,R8 Esports,1,353,1,2,0,5,0.2,71
-64,R8_1MBOT,R8 Esports,0,174,0,0,0,5,0,35
+﻿순위,선수,팀,킬,딜량,기절시킴,어시스트,헤드샷,경기,경기당킬,경기당딜
+1,17_tiantianhaovo,17 Gaming,12,1766,7,4,1,6,2,294
+2,FLC_TGLTN,Team Falcons,12,1688,12,3,3,6,2,281
+3,AL_Sololzy,Anyone's Legend,12,1180,6,3,0,6,2,197
+4,T1_Heather,T1,11,2287,9,6,4,6,1.8,381
+5,TWIS_xmpl,Twisted Minds,11,1671,8,5,2,6,1.8,279
+6,GTE_TanVuu,GAM X TE,10,1996,10,5,1,6,1.7,333
+7,VIT_QWZYYY,Team Vitality,10,1585,6,0,4,6,1.7,264
+8,GK_Parkpro,Geekay Esports,10,1507,7,2,3,6,1.7,251
+9,JDG_nanss,JD Gaming,9,726,5,0,2,6,1.5,121
+10,GTE_Clories,GAM X TE,8,2397,10,5,3,6,1.3,400
+11,GTE_DuCkHjeUz,GAM X TE,8,1817,4,6,2,6,1.3,303
+12,DNS_Gyumin,DN SOOPers,8,1743,10,2,1,6,1.3,291
+13,17_xwudd,17 Gaming,8,1320,5,3,0,6,1.3,220
+14,17_Lilghost,17 Gaming,8,1207,5,6,2,6,1.3,201
+15,DNS_Heaven,DN SOOPers,8,1126,8,3,2,6,1.3,188
+16,T1_Rain1ng,T1,8,1067,5,1,1,6,1.3,178
+17,VP_curexi,Virtus.pro,8,1046,8,4,2,6,1.3,174
+18,VIT_hallomybad,Team Vitality,8,994,6,2,1,6,1.3,166
+19,GK_Seongjang,Geekay Esports,7,1449,8,5,1,6,1.2,242
+20,DNS_DIEL,DN SOOPers,7,1437,7,6,1,6,1.2,240
+21,FLC_Shrimzy,Team Falcons,7,1339,9,6,1,6,1.2,223
+22,VP_Beami,Virtus.pro,7,1306,11,6,3,6,1.2,218
+23,FLC_Kickstart,Team Falcons,7,1180,8,7,1,6,1.2,197
+24,GTE_Hoangf,GAM X TE,7,858,5,2,4,6,1.2,143
+25,VIT_Lev4nte,Team Vitality,6,1853,5,6,2,6,1,309
+26,MiTH_Scappy,MiTH,6,1412,7,2,4,6,1,235
+27,JDG_Cold119,JD Gaming,6,1136,9,3,3,6,1,189
+28,T1_EEND,T1,6,791,5,0,1,6,1,132
+29,FS_Belmoth,Full Sense,5,1422,8,4,1,6,0.8,237
+30,TWIS_Lu,Twisted Minds,5,1296,3,3,0,6,0.8,216
+31,MiTH_KISS,MiTH,5,1236,5,2,1,6,0.8,206
+32,TWIS_BatulinS,Twisted Minds,5,1151,8,7,0,6,0.8,192
+33,VIT_Gedrox,Team Vitality,5,1069,6,5,1,6,0.8,178
+34,17_Wenbo,17 Gaming,5,1022,6,4,1,6,0.8,170
+35,R8_TedeeyyEXSA,R8 Esports,5,928,5,0,1,6,0.8,155
+36,SE_Kamalz,Shadow Esports,5,880,5,2,1,6,0.8,147
+37,SE_Setsunaa,Shadow Esports,5,839,4,1,0,6,0.8,140
+38,TWIS_TheTab,Twisted Minds,5,504,3,0,0,6,0.8,84
+39,VP_NIXZYEE,Virtus.pro,4,1639,7,4,0,6,0.7,273
+40,FS_Thanad0l,Full Sense,4,1360,8,2,0,6,0.7,227
+41,GK_EJ01,Geekay Esports,4,1169,9,8,1,6,0.7,195
+42,FS_TiGGER,Full Sense,4,1085,4,2,0,6,0.7,181
+43,DNS_Rex,DN SOOPers,4,1076,5,7,0,6,0.7,179
+44,FLC_Gustav,Team Falcons,4,1057,4,3,0,6,0.7,176
+45,GK_AKaN,Geekay Esports,4,812,2,2,0,6,0.7,135
+46,T1_Type,T1,4,797,4,2,1,6,0.7,133
+47,AL_Destroyy,Anyone's Legend,4,790,5,3,1,6,0.7,132
+48,DGE_imSancho,DIGA Esports,4,652,5,1,0,6,0.7,109
+49,SE_Hanzyy,Shadow Esports,4,651,1,1,1,6,0.7,109
+50,SE_Jekzy,Shadow Esports,4,600,5,1,0,6,0.7,100
+51,AL_Himass,Anyone's Legend,3,1582,5,6,2,6,0.5,264
+52,MiTH_Baren,MiTH,3,1262,6,1,0,6,0.5,210
+53,FS_Flash,Full Sense,3,1112,5,7,1,6,0.5,185
+54,AL_Delwyn,Anyone's Legend,3,883,4,1,1,6,0.5,147
+55,JDG_Dec12th,JD Gaming,3,849,4,2,0,6,0.5,142
+56,VP_Lukarux,Virtus.pro,3,831,5,7,1,6,0.5,139
+57,R8_empt,R8 Esports,3,521,4,1,1,6,0.5,87
+58,DGE_Diga,DIGA Esports,2,739,2,3,1,6,0.3,123
+59,DGE_KoyaN,DIGA Esports,2,446,2,0,1,6,0.3,74
+60,DGE_Kursant,DIGA Esports,2,282,2,1,1,6,0.3,47
+61,MiTH_Jacob,MiTH,1,669,3,2,0,6,0.2,112
+62,JDG_SuZe,JD Gaming,1,468,1,6,0,6,0.2,78
+63,R8_AJRE,R8 Esports,1,401,1,2,0,6,0.2,67
+64,R8_1MBOT,R8 Esports,0,174,0,0,0,6,0,29
