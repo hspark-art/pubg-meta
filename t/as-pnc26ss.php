@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PUBG Nations Cup 2026 — Survival Stage · PUBG META</title>
+<link rel="stylesheet" as="style"
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  /* 배틀그라운드 중계진(주식회사 중계진) 유튜브 채널 톤에 맞춘 팔레트 —
+     골드/오렌지를 메인으로, 강조는 채널 배너의 시안 블루·레드를 씁니다. */
+  :root{
+    --bg:#0b0d11; --panel:#141821; --panel2:#1b202b; --line:#252b38;
+    --txt:#e8ecf3; --dim:#8a93a6; --accent:#ff9d1f; --accent2:#38bdf8;
+    --win:#ffd24a; --good:#4ade80; --bad:#ff5252;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:'Pretendard','Malgun Gothic','맑은 고딕',system-ui,sans-serif;
+    font-size:14px;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+
+  header{display:flex;align-items:flex-end;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  h1{margin:0;font-size:27px;font-weight:900;letter-spacing:-.03em}
+  .brand{display:inline-block;margin-bottom:8px;color:var(--accent);
+    font-size:13px;font-weight:900;letter-spacing:.14em;text-decoration:none}
+  a.brand[href]:hover{text-decoration:underline}
+  .sub{color:var(--dim);font-size:13px;margin-top:6px}
+  .badge{display:inline-block;padding:3px 9px;border-radius:99px;
+    background:var(--panel2);color:var(--accent);font-size:12px;font-weight:700;
+    border:1px solid var(--line);margin-left:8px}
+
+  /* 대회정보 헤더 배너 */
+  .info-banner{margin-top:18px;padding:20px 22px;border-radius:16px;
+    background:linear-gradient(135deg,var(--panel) 0%,var(--panel2) 100%);
+    border:1px solid var(--line);display:flex;align-items:center;
+    justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .info-banner-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .info-banner-title h2{margin:0;font-size:20px;font-weight:900;letter-spacing:-.02em}
+  .info-live{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;
+    border-radius:99px;background:rgba(248,113,113,.15);color:var(--bad);
+    font-size:12px;font-weight:800;letter-spacing:.05em;border:1px solid rgba(248,113,113,.35)}
+  .info-live::before{content:'';width:7px;height:7px;border-radius:50%;
+    background:var(--bad);animation:info-pulse 1.4s infinite}
+  @keyframes info-pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .info-meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;color:var(--dim);font-size:13px}
+  .info-meta span{display:inline-flex;align-items:center;gap:6px}
+  .info-view-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;
+    border-radius:10px;background:var(--accent);color:#1a1408;font-weight:800;
+    font-size:13px;text-decoration:none;white-space:nowrap}
+  .info-view-btn:hover{filter:brightness(1.08)}
+  @media(max-width:700px){.info-banner{flex-direction:column;align-items:flex-start}}
+
+  .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0}
+  select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);
+    border-radius:8px;padding:7px 10px;font-size:13px;font-family:inherit}
+  .ctl-label{color:var(--dim);font-size:12px}
+
+  .live{display:flex;align-items:center;gap:7px;margin-left:auto;
+    color:var(--dim);font-size:12px;cursor:pointer;user-select:none}
+  .live input{accent-color:var(--accent);cursor:pointer}
+  .cnt{color:var(--accent);font-variant-numeric:tabular-nums;min-width:30px}
+
+  .tabs{display:flex;gap:6px;margin:18px 0 16px;flex-wrap:wrap}
+  .tab{padding:9px 18px;border-radius:9px;background:var(--panel);color:var(--dim);
+    border:1px solid transparent;cursor:pointer;font-weight:700;font-size:13px;
+    transition:.12s}
+  .tab:hover{color:var(--txt)}
+  .tab.on{background:var(--accent);color:#151515;border-color:var(--accent);font-weight:800}
+
+  table{width:100%;border-collapse:collapse}
+  th{text-align:left;color:var(--dim);font-size:11.5px;font-weight:600;
+    letter-spacing:.06em;padding:10px 10px;border-bottom:1px solid var(--line);
+    white-space:nowrap}
+  td{padding:11px 10px;border-bottom:1px solid #1a1f29;vertical-align:middle}
+  tbody tr:hover{background:#161b25}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .clickable{cursor:pointer}
+  th.sortable{cursor:pointer;user-select:none;transition:color .1s}
+  th.sortable:hover{color:var(--txt)}
+  th.sortable.on{color:var(--accent)}
+  .arw{font-size:9px;margin-left:3px}
+
+  .rk{width:44px;text-align:center;font-weight:800;color:var(--dim);
+    font-variant-numeric:tabular-nums}
+  tr.top1 .rk{color:var(--win)}
+  tr.top2 .rk,tr.top3 .rk{color:var(--txt)}
+  .tag{display:inline-flex;align-items:center;gap:9px;font-weight:700}
+  .dot{width:9px;height:9px;border-radius:3px;background:var(--accent2);flex:none}
+  .total{font-weight:800;color:var(--accent);font-size:15px}
+  .adj-dot{display:inline-block;width:7px;height:7px;border-radius:50%;
+    background:#2ecc71;margin-left:6px;vertical-align:middle;cursor:help;flex:none}
+  .muted{color:var(--dim)}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;margin-bottom:14px}
+  .card h3{margin:0 0 4px;font-size:16px}
+  .mhead{display:flex;justify-content:space-between;align-items:center;
+    gap:12px;flex-wrap:wrap;cursor:pointer}
+  .map{color:var(--accent);font-weight:700;letter-spacing:.04em}
+  .wwcd{color:var(--win);font-weight:700}
+  .mbody{margin-top:14px;display:none}
+  .mbody.open{display:block}
+  .card.newest{border-color:var(--accent)}
+  .latest{display:inline-block;margin-left:9px;padding:2px 8px;border-radius:99px;
+    background:var(--accent);color:#151515;font-size:11px;font-weight:800;
+    vertical-align:middle;letter-spacing:.02em}
+  .plist{color:var(--dim);font-size:12.5px}
+
+  .bars{display:flex;gap:3px;align-items:flex-end;height:34px}
+  .bar{flex:1;min-width:5px;background:#2a3242;border-radius:2px 2px 0 0;position:relative}
+  .bar.w{background:var(--win)}
+
+  /* 팀 로고 */
+  .lg{width:24px;height:24px;border-radius:5px;object-fit:contain;flex:none;
+    background:#0f131a}
+  /* 로고가 거의 검정이면 어두운 배경에 묻힙니다.
+     불러온 뒤 밝기를 재서 어두운 것만 흰 테두리 + 밝은 바탕을 입힙니다. */
+  .lg.ondark{background:#f3f5f9;box-shadow:0 0 0 1px #ffffff;padding:2px}
+  .lgx{width:24px;height:24px;border-radius:5px;flex:none;display:flex;
+    align-items:center;justify-content:center;font-size:10px;font-weight:900;
+    color:#0d0f14;letter-spacing:-.03em}
+
+  /* 순위 변동 */
+  .dl{width:42px;text-align:center;font-size:11.5px;font-weight:800;
+    font-variant-numeric:tabular-nums;white-space:nowrap}
+  .up{color:var(--good)} .dn{color:var(--bad)} .fl{color:#3d4657}
+  .nw{color:var(--accent2);font-size:10px}
+
+  /* 순위표 + 최다 킬 2단 배치 */
+  .rankwrap{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;
+    align-items:start}
+  .lbsplit{display:grid;grid-template-columns:1fr 1fr;gap:0;
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    overflow:hidden}
+  .lbsplit>div+div{border-left:1px solid var(--line)}
+  .lbsplit table{width:100%}
+  .lbsplit th{padding:9px 8px}
+  .lbsplit td{padding:9px 8px}
+  /* 좌우 2단으로 나눈 순위표는 두 표가 각각 따로 렌더링됩니다.
+     팀명이 길어 두 줄로 접히면 그 행만 높아져 좌우가 어긋납니다.
+     행 높이를 고정하고 이름은 한 줄로 자릅니다. */
+  .lbsplit td{height:44px}
+  .lbsplit .tag{max-width:100%;min-width:0}
+  .tnm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+  tr.top1{background:linear-gradient(90deg,rgba(255,210,74,.12),transparent)}
+  tr.top1 td:first-child{box-shadow:inset 3px 0 0 var(--win)}
+
+  .kpanel{background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:14px 16px}
+  .kpanel h4{margin:0 0 2px;font-size:13px;color:var(--txt);font-weight:700;
+    letter-spacing:.02em}
+  /* 어떤 숫자인지 헷갈리지 않도록 패널 안에 컬럼 이름을 답니다 */
+  .khead{display:flex;align-items:flex-end;gap:8px;padding:6px 0 7px;
+    border-bottom:1px solid var(--line);color:var(--dim);font-size:10.5px;
+    font-weight:600;letter-spacing:.04em}
+  .krow{display:flex;align-items:center;gap:8px;padding:9px 0;
+    border-bottom:1px solid #1a1f29;font-size:13px}
+  .krow:last-child{border-bottom:none}
+  .kno{width:16px;color:var(--dim);font-weight:800;font-size:12px;
+    font-variant-numeric:tabular-nums;flex:none;text-align:right}
+  .kno.m{color:var(--accent)}
+  /* 닉네임은 잘리지 않게 — 길면 줄바꿈되고 팀명은 아래로 내립니다 */
+  .kwho{flex:1;min-width:0}
+  .knick{font-weight:700;line-height:1.3;word-break:break-word;
+    overflow-wrap:anywhere}
+  .kteam{display:block;color:var(--dim);font-size:11px;font-weight:600;
+    line-height:1.35;margin-top:1px;white-space:nowrap;overflow:hidden;
+    text-overflow:ellipsis}
+  .kdmg{color:var(--dim);font-size:12px;font-variant-numeric:tabular-nums;
+    width:72px;text-align:right;flex:none}
+  /* 머리글은 "경기당 / 평균 DMG" 두 줄로 끊어 씁니다.
+     자동 줄바꿈에 맡기면 "경기당 평 / 균 딜" 처럼 어색하게 잘립니다. */
+  .khead .kdmg{line-height:1.3;white-space:normal}
+  /* 팀 칸은 로고+팀명이 함께 들어가 폭이 넓습니다.
+     머리글을 왼쪽에 붙이면 로고 위에 얹혀 보이므로 가운데로 둡니다. */
+  th.tmh{text-align:center}
+  .kkil{font-weight:800;font-variant-numeric:tabular-nums;width:42px;
+    text-align:right;flex:none}
+
+  @media(max-width:1000px){.rankwrap{grid-template-columns:1fr}}
+  @media(max-width:760px){.lbsplit{grid-template-columns:1fr}
+    .lbsplit>div+div{border-left:none;border-top:1px solid var(--line)}}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:820px){.grid2{grid-template-columns:1fr}
+    .wrap{padding:16px 12px 60px} h1{font-size:20px}
+    th,td{padding:8px 6px;font-size:12.5px}}
+
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;
+    align-items:center;justify-content:center;padding:20px;z-index:50}
+  .overlay.on{display:flex}
+  .modal{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    max-width:820px;width:100%;max-height:86vh;overflow:auto;padding:24px}
+  .close{float:right;background:none;border:none;color:var(--dim);font-size:22px;
+    cursor:pointer;line-height:1}
+  footer{margin-top:40px;color:var(--dim);font-size:12px;text-align:center;
+    border-top:1px solid var(--line);padding-top:18px;line-height:1.7}
+  /* 로고 상표 고지 — 필요한 내용이지만 읽는 흐름을 막지 않도록 아주 작고 흐리게 */
+  .legal{margin-top:14px;font-size:10px;line-height:1.6;color:#3d4657;
+    max-width:760px;margin-left:auto;margin-right:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <a class="brand" id="brand"></a>
+      <h1 id="title">—</h1>
+      <div class="sub" id="meta">—</div>
+    </div>
+    <div class="sub" id="updated"></div>
+  </header>
+
+  <div id="infoBanner"></div>
+
+  <div class="controls">
+    <span class="ctl-label">집계 구간</span>
+    <select id="from"></select>
+    <span class="ctl-label">~</span>
+    <select id="to"></select>
+    <span class="ctl-label" id="rangeInfo"></span>
+    <label class="live"><input type="checkbox" id="auto" checked>
+      <span>자동 새로고침</span><span class="cnt" id="cnt"></span></label>
+  </div>
+
+  <div class="tabs">
+    <div class="tab on" data-tab="rank">누적 순위표</div>
+    <div class="tab" data-tab="match">매치별 결과</div>
+    <div class="tab" data-tab="player">선수 기록실</div>
+  </div>
+
+  <div id="view"></div>
+
+  <footer>
+    데이터 출처: PUBG Developer API · 이 파일은 오프라인에서도 동작합니다<br>
+    <span id="built"></span>
+    <div class="legal">팀 로고는 각 구단의 자산이며, 상표권은 해당 구단에 있습니다. 이미지는 KRAFTON 이 PUBG Esports 공식 사이트에 게시한 것을 우선 참조했고, 그곳에 없는 팀은 Liquipedia (CC-BY-SA 3.0) 를 참조했습니다. 대회 결과 정보 제공 목적으로만 표시하며, 본 사이트는 KRAFTON·Liquipedia 및 각 구단과 무관합니다.</div>
+  </footer>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal" id="modal"></div></div>
+
+<script>
+/* ── 집계 로직 (src/scoring.js 와 동일한 소스) ───────────────── */
+// 동점 처리 규칙
+//
+// SUPER 룰 (PUBG 공식 대회 기본)
+//   ① 누적 Match Points (순위 포인트 + 킬 포인트)  — 높은 팀 우선
+//   ② 누적 순위 포인트 (킬 제외)                    — 높은 팀 우선
+//   ③ 가장 최근 매치의 Match Points                 — 높은 팀 우선
+//   ④ 가장 최근 매치의 순위(Placement)              — 숫자가 작은 팀 우선
+//   ⑤ 가장 최근 매치의 총 데미지                    — 높은 팀 우선
+//
+// GOTF 룰 (이벤트 대회)
+//   총점 동률일 때 → 누적 순위 포인트 → 마지막 매치 포인트
+//                 → 마지막 매치 생존 순위 → 마지막 매치 누적 대미지
+//
+// "가장 최근 매치" 는 그 팀이 치른 마지막 경기를 뜻합니다.
+// 조별 로비로 나뉘어 팀마다 마지막 경기가 다를 수 있어서, 팀 기준으로 잡습니다.
+// 전 팀이 같은 매치를 치르는 결승 스테이지에서는 대회의 마지막 매치와 같아집니다.
+
+/** desc = 값이 클수록 상위, asc = 값이 작을수록 상위 */
+const FIELDS = {
+  totalPoints:     { dir: 'desc', label: '누적 매치 포인트' },
+  placementPoints: { dir: 'desc', label: '누적 순위 포인트' },
+  lastMatchPoints: { dir: 'desc', label: '마지막 매치 포인트' },
+  lastMatchRank:   { dir: 'asc',  label: '마지막 매치 순위' },
+  lastMatchDamage: { dir: 'desc', label: '마지막 매치 데미지' },
+  kills:           { dir: 'desc', label: '누적 킬' },
+  wwcd:            { dir: 'desc', label: 'WWCD' },
+  damage:          { dir: 'desc', label: '누적 데미지' },
+};
+
+const RULESETS = {
+  super: {
+    label: 'SUPER 룰 (PUBG 공식)',
+    chain: ['totalPoints', 'placementPoints', 'lastMatchPoints', 'lastMatchRank', 'lastMatchDamage'],
+  },
+  gotf: {
+    label: 'GOTF 룰 (이벤트)',
+    chain: ['totalPoints', 'placementPoints', 'lastMatchPoints', 'lastMatchRank', 'lastMatchDamage'],
+  },
+};
+
+/**
+ * 규칙 이름 → 비교 함수
+ * @param {string} name  'super' | 'gotf' | 사용자 정의
+ * @param {string[]} custom  직접 넘긴 순서 (있으면 우선)
+ */
+function makeComparator(name = 'super', custom = null) {
+  const chain = custom && custom.length ? custom : (RULESETS[name] || RULESETS.super).chain;
+
+  const cmp = (a, b) => {
+    for (const key of chain) {
+      const f = FIELDS[key];
+      if (!f) continue;
+      const x = a[key], y = b[key];
+      if (x == null || y == null || x === y) continue;
+      return f.dir === 'asc' ? x - y : y - x;
+    }
+    return 0;
+  };
+  cmp.chain = chain;
+  cmp.label = (RULESETS[name] || RULESETS.super).label;
+  return cmp;
+}
+
+/**
+ * 두 팀이 어느 항목에서 갈렸는지 (방송 자막용 설명)
+ * @returns {{key:string,label:string,a:number,b:number}|null}
+ */
+function decidedBy(a, b, chain) {
+  for (const key of chain) {
+    const f = FIELDS[key];
+    if (!f) continue;
+    if (a[key] == null || b[key] == null || a[key] === b[key]) continue;
+    return { key, label: f.label, a: a[key], b: b[key] };
+  }
+  return null;
+}
+
+// 점수 계산 로직 (score.js 와 watch.js 가 함께 씁니다)
+
+// ── 로스터 → 팀 묶기 (union-find) ───────────────────────────────
+function clusterTeams(summaries, manual) {
+  const parent = new Map();
+  const find = (x) => {
+    if (!parent.has(x)) parent.set(x, x);
+    while (parent.get(x) !== x) { parent.set(x, parent.get(parent.get(x))); x = parent.get(x); }
+    return x;
+  };
+  const union = (a, b) => { const ra = find(a), rb = find(b); if (ra !== rb) parent.set(ra, rb); };
+
+  for (const s of summaries) {
+    for (const r of s.rosters) {
+      const names = r.players.map((p) => p.name);
+      for (let i = 1; i < names.length; i++) union(names[0], names[i]);
+    }
+  }
+
+  const nameToManual = new Map();
+  if (manual) {
+    for (const [tag, t] of Object.entries(manual)) {
+      for (const member of t.members || []) {
+        nameToManual.set(member, { tag, name: t.name || tag, color: t.color });
+      }
+    }
+  }
+
+  const clusters = new Map();
+  for (const key of [...parent.keys()]) {
+    const root = find(key);
+    if (!clusters.has(root)) clusters.set(root, new Set());
+    clusters.get(root).add(key);
+  }
+
+  const teamOf = new Map();
+  const teamMeta = new Map();
+  for (const [root, set] of clusters) {
+    const names = [...set].sort();
+    const hit = names.map((n) => nameToManual.get(n)).find(Boolean);
+    const key = hit ? hit.tag : root;
+    const meta = teamMeta.get(key) || {
+      tag: hit?.tag || guessTag(names),
+      name: hit?.name || guessTag(names),
+      color: hit?.color || null,
+      members: [],
+    };
+    for (const n of names) {
+      teamOf.set(n, key);
+      if (!meta.members.includes(n)) meta.members.push(n);
+    }
+    teamMeta.set(key, meta);
+  }
+  return { teamOf, teamMeta };
+}
+
+/** 닉네임 공통 접두사로 팀 태그 추정 (17_xwudd, 17_tian → "17") */
+function guessTag(names) {
+  if (names.length === 0) return '?';
+  let prefix = names[0];
+  for (const n of names.slice(1)) {
+    let i = 0;
+    while (i < prefix.length && i < n.length && prefix[i] === n[i]) i++;
+    prefix = prefix.slice(0, i);
+  }
+  const cut = Math.max(
+    prefix.lastIndexOf('_'), prefix.lastIndexOf('-'),
+    prefix.lastIndexOf('.'), prefix.lastIndexOf(' ')
+  );
+  if (cut > 0) prefix = prefix.slice(0, cut);
+  prefix = prefix.replace(/[_\-.\s]+$/, '');
+  return prefix.length >= 2 ? prefix.toUpperCase() : names[0];
+}
+
+/**
+ * 누적 리더보드 계산
+ * @param summaries 매치 요약 배열 (시간순)
+ * @param rules     config/rules.json
+ * @param manual    config/teams.json (없으면 null)
+ */
+function computeLeaderboard(summaries, rules, manual = null, adjustments = []) {
+  const { teamOf, teamMeta } = clusterTeams(summaries, manual);
+  const placePt = (rank) => Number(rules.placementPoints[String(rank)] ?? 0);
+
+  const table = new Map();
+  const players = new Map();
+
+  for (const s of summaries) {
+    for (const r of s.rosters) {
+      const key = teamOf.get(r.players[0]?.name);
+      if (!key) continue;
+      const meta = teamMeta.get(key);
+      const row = table.get(key) || {
+        tag: meta.tag, name: meta.name, color: meta.color,
+        matches: 0, placementPoints: 0, kills: 0, damage: 0, wwcd: 0,
+        totalPoints: 0, ranks: [],
+        // 동점 처리용 — 그 팀이 치른 마지막 경기의 값
+        lastAt: '', lastMatchRank: 99, lastMatchPoints: 0, lastMatchDamage: 0,
+      };
+      const pp = placePt(r.rank);
+      row.matches += 1;
+      row.placementPoints += pp;
+      row.kills += r.kills;
+      row.damage += r.damage;
+      if (r.rank === 1) row.wwcd += 1;
+      row.ranks.push(r.rank);
+      row.totalPoints = row.placementPoints + row.kills * rules.killPoint;
+
+      // 매치가 시간순으로 들어오지 않을 수도 있어 createdAt 으로 판단합니다.
+      if (!row.lastAt || s.createdAt >= row.lastAt) {
+        row.lastAt = s.createdAt;
+        row.lastMatchRank = r.rank;
+        row.lastMatchPoints = pp + r.kills * rules.killPoint;
+        row.lastMatchDamage = r.damage;
+      }
+      table.set(key, row);
+
+      for (const p of r.players) {
+        const pr = players.get(p.name) || {
+          name: p.name, team: meta.tag, kills: 0, damage: 0,
+          knocks: 0, assists: 0, headshots: 0, matches: 0, timeSurvived: 0,
+        };
+        pr.kills += p.kills;
+        pr.damage += p.damage;
+        pr.knocks += p.knocks;
+        pr.assists += p.assists;
+        pr.headshots += p.headshots;
+        pr.timeSurvived += p.timeSurvived || 0;
+        pr.matches += 1;
+        players.set(p.name, pr);
+      }
+    }
+  }
+
+  // 점수조정 — 방송 재량으로 얹는 수동 보정 (Google Sheets "점수조정" 탭, src/adjustments.js).
+  // 정렬·동점 처리 전에 반영해야 순위에도 실제로 영향을 줍니다.
+  if (adjustments && adjustments.length) {
+    for (const row of table.values()) {
+      const key = row.name || row.tag;
+      const mine = adjustments.filter((a) => a.team === key || a.team === row.tag);
+      if (!mine.length) continue;
+      row.totalPoints += mine.reduce((n, a) => n + a.amount, 0);
+      row.hasAdjustment = true;
+      row.adjustmentTooltip = mine.map((a) => a.label).join(' · ');
+    }
+  }
+
+  // 동점 처리 규칙 — 기본은 SUPER 룰, 대회별로 바꿀 수 있습니다.
+  const cmp = makeComparator(rules.tiebreak || 'super',
+    Array.isArray(rules.tiebreak) ? rules.tiebreak : rules.tiebreakChain);
+
+  const sorted = [...table.values()].sort(cmp);
+  const leaderboard = sorted.map((r, i) => {
+    // 앞 팀과 총점이 같으면 어느 항목에서 갈렸는지 기록 (방송 자막용)
+    const prev = sorted[i - 1];
+    const tieWith = prev && prev.totalPoints === r.totalPoints
+      ? decidedBy(prev, r, cmp.chain) : null;
+    return { rank: i + 1, ...r, tieBreak: tieWith ? tieWith.label : null };
+  });
+  const killLeaders = [...players.values()].sort((a, b) => b.kills - a.kills || b.damage - a.damage);
+
+  return { leaderboard, killLeaders, teamMeta, tiebreakLabel: cmp.label, tiebreakChain: cmp.chain };
+}
+
+// ── 콘솔 출력 ───────────────────────────────────────────────────
+const pad = (v, n) => String(v).padEnd(n);
+const num = (v, n) => String(v).padStart(n);
+
+function printLeaderboard(leaderboard, killLeaders, { topPlayers = 10, prev = null } = {}) {
+  console.log(`\n  #   팀           경기  순위점수  킬   합계  WWCD  변동`);
+  console.log(`  ────────────────────────────────────────────────────────`);
+  for (const r of leaderboard) {
+    let delta = '';
+    if (prev) {
+      const before = prev.find((p) => p.tag === r.tag);
+      if (before) {
+        const d = before.rank - r.rank;
+        delta = d > 0 ? `▲${d}` : d < 0 ? `▼${-d}` : '－';
+      } else delta = 'NEW';
+    }
+    console.log(
+      `  ${num(r.rank, 2)}  ${pad(r.tag.slice(0, 11), 11)}  ${num(r.matches, 3)}  ` +
+      `${num(r.placementPoints, 5)}  ${num(r.kills, 3)}  ${num(r.totalPoints, 4)}  ` +
+      `${num(r.wwcd, 3)}   ${delta}`
+    );
+  }
+
+  console.log(`\n🔫 최다 킬 선수\n`);
+  for (const [i, p] of killLeaders.slice(0, topPlayers).entries()) {
+    console.log(`  ${num(i + 1, 2)}  ${pad(`${p.team} / ${p.name}`, 26)} ${num(p.kills, 3)}킬  ${num(p.damage, 6)}dmg`);
+  }
+}
+
+
+/* ── 데이터 ─────────────────────────────────────────────────── */
+const D = {"brand":"PUBG META","hub":"../index.php","logoBase":"../logos/","logos":{"17":"17.png","AL":"AL.png","DNS":"DNS.png","FLC":"FLC.png","FS":"FS.png","GK":"GK.png","GTE":"GTE.png","JDG":"JDG.png","MITH":"MiTH.png","R8":"R8.png","SE":"SE.png","T1":"T1.png","TWIS":"TWIS.png","VIT":"VIT.png","VP":"VP.png"},"pageExt":"php","title":"PUBG Nations Cup 2026 — Survival Stage","tournamentId":"as-pnc26ss","updatedAt":"2026-07-31T14:28:43.890Z","builtAt":"2026-08-06T10:44:14.118Z","rules":{"killPoint":1,"placementPoints":{"1":10,"2":6,"3":5,"4":4,"5":3,"6":2,"7":1,"8":1,"9":0,"10":0,"11":0,"12":0,"13":0,"14":0,"15":0,"16":0},"tiebreak":"super"},"teams":{"17":{"name":"17 Gaming","color":"#f2c200","members":["17_tiantianhaovo","17_xwudd","17_Wenbo","17_Lilghost"]},"_comment":"name 을 고치면 사이트 표기가 바뀝니다. 수정 후 4_사이트만들기.bat 실행.","AL":{"name":"Anyone's Legend","color":"#d4232f","members":["AL_Sololzy","AL_Delwyn","AL_Himass","AL_Destroyy"]},"GK":{"name":"Geekay Esports","color":"#2f6fd0","members":["GK_AKaN","GK_Parkpro","GK_EJ01","GK_Seongjang"]},"GTE":{"name":"GAM X TE","color":"#29a36a","members":["GTE_DuCkHjeUz","GTE_Clories","GTE_Hoangf","GTE_TanVuu"]},"TWIS":{"name":"Twisted Minds","color":"#a020f0","members":["TWIS_xmpl","TWIS_Lu","TWIS_BatulinS","TWIS_TheTab"]},"FLC":{"name":"Team Falcons","color":"#0f9d58","members":["FLC_Kickstart","FLC_Shrimzy","FLC_Gustav","FLC_TGLTN"]},"T1":{"name":"T1","color":"#e2012d","members":["T1_EEND","T1_Heather","T1_Rain1ng","T1_Type"]},"DNS":{"name":"DN SOOPers","color":"#1a9de0","verified":true,"aliases":["SOOPers","SOOP","Afreeca Freecs"],"members":["DNS_Rex","DNS_Heaven","DNS_DIEL","DNS_Gyumin"]},"VIT":{"name":"Team Vitality","color":"#ffe500","members":["VIT_QWZYYY","VIT_Lev4nte","VIT_Gedrox","VIT_hallomybad"]},"FS":{"name":"Full Sense","color":"#e8482c","members":["FS_Belmoth","FS_Flash","FS_Thanad0l","FS_TiGGER"]},"R8":{"name":"R8 Esports","color":"#00b8d4","members":["R8_TedeeyyEXSA","R8_AJRE","R8_empt","R8_1MBOT"]},"SE":{"name":"Shadow Esports","color":"#ff7a00","members":["SE_Jekzy","SE_Hanzyy","SE_Kamalz","SE_Setsunaa"]},"DGE":{"name":"DIGA Esports","color":"#8a2be2","members":["DGE_imSancho","DGE_Diga","DGE_KoyaN","DGE_Kursant"]},"MiTH":{"name":"Made in Thailand","color":"#ffd400","aliases":["MiTH","Made in Thailand"],"members":["MiTH_KISS","MiTH_Scappy","MiTH_Jacob","MiTH_Baren"]},"VP":{"name":"Virtus.pro","color":"#ff6600","members":["VP_NIXZYEE","VP_Beami","VP_Lukarux","VP_curexi"]},"JDG":{"name":"JD Gaming","color":"#c8102e","members":["JDG_nanss","JDG_Dec12th","JDG_Cold119","JDG_SuZe"]}},"matches":[{"matchId":"2dc07252-0d01-44d9-b610-bc6b8b18a21c","createdAt":"2026-06-23T10:00:02Z","duration":1640,"map":"ERANGEL","mapCode":"Baltic_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/23/10/29/661fd3b8-6eee-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":2,"won":true,"kills":13,"damage":1663,"players":[{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":5,"knocks":2,"assists":0,"damage":488,"headshots":2,"revives":1,"longestKill":155,"timeSurvived":1640,"deathType":"alive"},{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":3,"knocks":3,"assists":1,"damage":505,"headshots":1,"revives":0,"longestKill":166,"timeSurvived":1640,"deathType":"alive"},{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":3,"knocks":2,"assists":4,"damage":455,"headshots":1,"revives":0,"longestKill":192,"timeSurvived":1639,"deathType":"logout"},{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":2,"knocks":2,"assists":1,"damage":215,"headshots":2,"revives":0,"longestKill":139,"timeSurvived":1640,"deathType":"alive"}]},{"rank":2,"teamId":16,"won":false,"kills":0,"damage":250,"players":[{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":0,"knocks":1,"assists":0,"damage":121,"headshots":0,"revives":2,"longestKill":0,"timeSurvived":1270,"deathType":"byplayer"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":0,"knocks":0,"assists":0,"damage":100,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1637,"deathType":"byplayer"},{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":0,"knocks":0,"assists":0,"damage":29,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1146,"deathType":"byplayer"},{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1143,"deathType":"byplayer"}]},{"rank":3,"teamId":6,"won":false,"kills":11,"damage":2017,"players":[{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":5,"knocks":4,"assists":0,"damage":529,"headshots":2,"revives":0,"longestKill":66,"timeSurvived":1619,"deathType":"byplayer"},{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":3,"knocks":4,"assists":0,"damage":502,"headshots":0,"revives":0,"longestKill":76,"timeSurvived":1542,"deathType":"byplayer"},{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":3,"knocks":1,"assists":1,"damage":429,"headshots":1,"revives":0,"longestKill":61,"timeSurvived":1516,"deathType":"byplayer"},{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":0,"knocks":1,"assists":4,"damage":557,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1513,"deathType":"byplayer"}]},{"rank":4,"teamId":12,"won":false,"kills":10,"damage":1780,"players":[{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":3,"knocks":2,"assists":2,"damage":556,"headshots":2,"revives":0,"longestKill":221,"timeSurvived":1541,"deathType":"byzone"},{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":3,"knocks":3,"assists":2,"damage":494,"headshots":1,"revives":1,"longestKill":64,"timeSurvived":1580,"deathType":"byplayer"},{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":2,"knocks":2,"assists":5,"damage":428,"headshots":0,"revives":1,"longestKill":21,"timeSurvived":1580,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":2,"knocks":2,"assists":3,"damage":302,"headshots":1,"revives":1,"longestKill":178,"timeSurvived":1546,"deathType":"byplayer"}]},{"rank":5,"teamId":14,"won":false,"kills":5,"damage":990,"players":[{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":3,"knocks":2,"assists":1,"damage":410,"headshots":0,"revives":0,"longestKill":103,"timeSurvived":1568,"deathType":"byzone"},{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":1,"knocks":0,"assists":1,"damage":482,"headshots":0,"revives":0,"longestKill":18,"timeSurvived":1536,"deathType":"byplayer"},{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":1,"knocks":1,"assists":0,"damage":26,"headshots":0,"revives":1,"longestKill":42,"timeSurvived":1267,"deathType":"byplayer"},{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":0,"knocks":0,"assists":2,"damage":72,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1317,"deathType":"byplayer"}]},{"rank":6,"teamId":8,"won":false,"kills":3,"damage":1079,"players":[{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":2,"knocks":2,"assists":0,"damage":401,"headshots":2,"revives":0,"longestKill":33,"timeSurvived":1539,"deathType":"byplayer"},{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":1,"knocks":1,"assists":0,"damage":251,"headshots":0,"revives":0,"longestKill":156,"timeSurvived":1539,"deathType":"byplayer"},{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":0,"knocks":1,"assists":2,"damage":243,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1539,"deathType":"byplayer"},{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":0,"knocks":1,"assists":0,"damage":184,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1055,"deathType":"byplayer"}]},{"rank":7,"teamId":13,"won":false,"kills":3,"damage":1217,"players":[{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":2,"knocks":1,"assists":0,"damage":332,"headshots":1,"revives":0,"longestKill":141,"timeSurvived":1529,"deathType":"byplayer"},{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":1,"knocks":1,"assists":1,"damage":215,"headshots":0,"revives":0,"longestKill":13,"timeSurvived":1500,"deathType":"byplayer"},{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":0,"knocks":2,"assists":0,"damage":387,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1529,"deathType":"suicide"},{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":0,"knocks":0,"assists":0,"damage":283,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1529,"deathType":"byplayer"}]},{"rank":8,"teamId":11,"won":false,"kills":6,"damage":902,"players":[{"name":"ARG_Dr4FTk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":3,"knocks":3,"assists":1,"damage":515,"headshots":2,"revives":1,"longestKill":33,"timeSurvived":1400,"deathType":"byplayer"},{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":2,"knocks":1,"assists":0,"damage":159,"headshots":1,"revives":0,"longestKill":3,"timeSurvived":1366,"deathType":"suicide"},{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":1,"knocks":1,"assists":0,"damage":179,"headshots":1,"revives":1,"longestKill":53,"timeSurvived":1332,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":0,"knocks":0,"assists":0,"damage":49,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1200,"deathType":"byzone"}]},{"rank":9,"teamId":15,"won":false,"kills":2,"damage":526,"players":[{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":2,"knocks":1,"assists":0,"damage":192,"headshots":1,"revives":0,"longestKill":56,"timeSurvived":1213,"deathType":"byplayer"},{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":0,"knocks":1,"assists":0,"damage":247,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1207,"deathType":"byzone"},{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":0,"knocks":0,"assists":0,"damage":87,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1290,"deathType":"byplayer"},{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1227,"deathType":"byplayer"}]},{"rank":10,"teamId":7,"won":false,"kills":0,"damage":267,"players":[{"name":"KAZ_Verstory","playerId":"account.1c6bfacadb3947a486f134f0819bd9f2","kills":0,"knocks":0,"assists":0,"damage":102,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1135,"deathType":"byplayer"},{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":0,"knocks":0,"assists":0,"damage":76,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1214,"deathType":"byplayer"},{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":0,"knocks":0,"assists":0,"damage":73,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":856,"deathType":"byplayer"},{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":0,"knocks":0,"assists":0,"damage":16,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1214,"deathType":"suicide"}]},{"rank":11,"teamId":1,"won":false,"kills":1,"damage":228,"players":[{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":1,"knocks":1,"assists":0,"damage":36,"headshots":0,"revives":0,"longestKill":50,"timeSurvived":1113,"deathType":"byplayer"},{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":0,"knocks":0,"assists":0,"damage":104,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1201,"deathType":"byplayer"},{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":0,"knocks":0,"assists":0,"damage":88,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1121,"deathType":"byplayer"},{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1107,"deathType":"byplayer"}]},{"rank":12,"teamId":5,"won":false,"kills":0,"damage":267,"players":[{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":0,"knocks":0,"assists":0,"damage":161,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1037,"deathType":"byplayer"},{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":0,"knocks":1,"assists":0,"damage":52,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1037,"deathType":"byplayer"},{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":0,"damage":28,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1037,"deathType":"byplayer"},{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":0,"knocks":0,"assists":0,"damage":26,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1037,"deathType":"byplayer"}]},{"rank":13,"teamId":3,"won":false,"kills":0,"damage":173,"players":[{"name":"NOR_TekkerZ","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":0,"knocks":0,"assists":0,"damage":143,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1005,"deathType":"byplayer"},{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":0,"knocks":0,"assists":0,"damage":30,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1005,"deathType":"byplayer"},{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":547,"deathType":"byplayer"},{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1004,"deathType":"byplayer"}]},{"rank":14,"teamId":4,"won":false,"kills":0,"damage":52,"players":[{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":0,"knocks":0,"assists":0,"damage":26,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":904,"deathType":"byplayer"},{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":0,"knocks":0,"assists":0,"damage":26,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":899,"deathType":"byplayer"},{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":908,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":761,"deathType":"byplayer"}]},{"rank":15,"teamId":9,"won":false,"kills":0,"damage":232,"players":[{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":0,"knocks":0,"assists":0,"damage":76,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":785,"deathType":"byplayer"},{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":0,"knocks":0,"assists":0,"damage":72,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":256,"deathType":"byplayer"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":0,"knocks":0,"assists":0,"damage":60,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":265,"deathType":"byplayer"},{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":0,"knocks":0,"assists":0,"damage":24,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":781,"deathType":"byplayer"}]},{"rank":16,"teamId":10,"won":false,"kills":2,"damage":192,"players":[{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":1,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":0,"longestKill":13,"timeSurvived":561,"deathType":"byplayer"},{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":1,"knocks":1,"assists":0,"damage":92,"headshots":0,"revives":0,"longestKill":16,"timeSurvived":525,"deathType":"byplayer"},{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":523,"deathType":"byplayer"},{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":537,"deathType":"byplayer"}]}]},{"matchId":"bcc22320-8df8-4f5e-b09b-fbe674743ea8","createdAt":"2026-06-23T10:39:57Z","duration":1628,"map":"MIRAMAR","mapCode":"Desert_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/23/11/09/f3421f5b-6ef3-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":2,"won":true,"kills":11,"damage":1993,"players":[{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":4,"knocks":5,"assists":0,"damage":699,"headshots":0,"revives":0,"longestKill":103,"timeSurvived":1627,"deathType":"logout"},{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":4,"knocks":3,"assists":3,"damage":487,"headshots":0,"revives":0,"longestKill":82,"timeSurvived":1628,"deathType":"alive"},{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":2,"knocks":1,"assists":1,"damage":412,"headshots":1,"revives":0,"longestKill":27,"timeSurvived":1350,"deathType":"byplayer"},{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":1,"knocks":0,"assists":1,"damage":395,"headshots":0,"revives":0,"longestKill":62,"timeSurvived":1628,"deathType":"alive"}]},{"rank":2,"teamId":16,"won":false,"kills":13,"damage":1970,"players":[{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":7,"knocks":4,"assists":0,"damage":831,"headshots":3,"revives":0,"longestKill":270,"timeSurvived":1558,"deathType":"byplayer"},{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":3,"knocks":4,"assists":3,"damage":507,"headshots":1,"revives":0,"longestKill":230,"timeSurvived":1625,"deathType":"byplayer"},{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":3,"knocks":3,"assists":2,"damage":460,"headshots":0,"revives":2,"longestKill":206,"timeSurvived":1625,"deathType":"byplayer"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":0,"knocks":0,"assists":2,"damage":172,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1495,"deathType":"byplayer"}]},{"rank":3,"teamId":3,"won":false,"kills":6,"damage":1010,"players":[{"name":"NOR_TekkerZ","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":3,"knocks":2,"assists":3,"damage":270,"headshots":1,"revives":0,"longestKill":157,"timeSurvived":1612,"deathType":"byplayer"},{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":2,"knocks":1,"assists":0,"damage":304,"headshots":1,"revives":0,"longestKill":74,"timeSurvived":1598,"deathType":"byplayer"},{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":1,"knocks":1,"assists":2,"damage":336,"headshots":0,"revives":0,"longestKill":89,"timeSurvived":1612,"deathType":"byplayer"},{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":0,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":2,"longestKill":0,"timeSurvived":1599,"deathType":"byplayer"}]},{"rank":4,"teamId":4,"won":false,"kills":1,"damage":643,"players":[{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":1,"knocks":2,"assists":0,"damage":363,"headshots":0,"revives":0,"longestKill":62,"timeSurvived":1595,"deathType":"byplayer"},{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":0,"knocks":1,"assists":0,"damage":149,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1549,"deathType":"byplayer"},{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":0,"knocks":0,"assists":1,"damage":94,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1595,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":0,"assists":0,"damage":37,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1563,"deathType":"byzone"}]},{"rank":5,"teamId":7,"won":false,"kills":0,"damage":1096,"players":[{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":0,"knocks":2,"assists":1,"damage":335,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1478,"deathType":"byplayer"},{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":0,"knocks":0,"assists":0,"damage":299,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1449,"deathType":"byplayer"},{"name":"KAZ_Verstory","playerId":"account.1c6bfacadb3947a486f134f0819bd9f2","kills":0,"knocks":0,"assists":0,"damage":268,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1432,"deathType":"byplayer"},{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":0,"knocks":1,"assists":0,"damage":194,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1478,"deathType":"byplayer"}]},{"rank":6,"teamId":14,"won":false,"kills":8,"damage":1037,"players":[{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":5,"knocks":3,"assists":1,"damage":574,"headshots":0,"revives":0,"longestKill":39,"timeSurvived":1173,"deathType":"byplayer"},{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":2,"knocks":0,"assists":0,"damage":289,"headshots":0,"revives":0,"longestKill":53,"timeSurvived":1356,"deathType":"byzone"},{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":1,"knocks":1,"assists":1,"damage":174,"headshots":0,"revives":1,"longestKill":153,"timeSurvived":1188,"deathType":"byplayer"},{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":944,"deathType":"byplayer"}]},{"rank":7,"teamId":9,"won":false,"kills":1,"damage":437,"players":[{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":1,"knocks":0,"assists":0,"damage":137,"headshots":0,"revives":1,"longestKill":161,"timeSurvived":1304,"deathType":"byplayer"},{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":0,"knocks":2,"assists":2,"damage":195,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1315,"deathType":"byplayer"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":0,"knocks":0,"assists":1,"damage":86,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1303,"deathType":"byplayer"},{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":0,"knocks":0,"assists":0,"damage":19,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1160,"deathType":"byplayer"}]},{"rank":8,"teamId":1,"won":false,"kills":2,"damage":469,"players":[{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":1,"knocks":2,"assists":1,"damage":286,"headshots":0,"revives":0,"longestKill":57,"timeSurvived":1087,"deathType":"byplayer"},{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":1,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":0,"longestKill":11,"timeSurvived":1098,"deathType":"byplayer"},{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":0,"knocks":0,"assists":0,"damage":63,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1008,"deathType":"byplayer"},{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":0,"knocks":0,"assists":0,"damage":20,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1065,"deathType":"byplayer"}]},{"rank":9,"teamId":6,"won":false,"kills":0,"damage":374,"players":[{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":0,"knocks":1,"assists":0,"damage":144,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1162,"deathType":"byplayer"},{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":0,"knocks":1,"assists":1,"damage":130,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1015,"deathType":"byplayer"},{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":0,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":683,"deathType":"byplayer"},{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":704,"deathType":"byplayer"}]},{"rank":10,"teamId":11,"won":false,"kills":9,"damage":782,"players":[{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":4,"knocks":2,"assists":0,"damage":345,"headshots":1,"revives":0,"longestKill":312,"timeSurvived":1127,"deathType":"byzone"},{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":2,"knocks":1,"assists":0,"damage":228,"headshots":1,"revives":0,"longestKill":50,"timeSurvived":1064,"deathType":"byplayer"},{"name":"ARG_Dr4FTk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":2,"knocks":1,"assists":0,"damage":141,"headshots":0,"revives":0,"longestKill":442,"timeSurvived":1067,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":1,"knocks":0,"assists":0,"damage":68,"headshots":0,"revives":0,"longestKill":14,"timeSurvived":1081,"deathType":"byplayer"}]},{"rank":11,"teamId":5,"won":false,"kills":0,"damage":311,"players":[{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":0,"knocks":2,"assists":2,"damage":132,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1014,"deathType":"byplayer"},{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":0,"knocks":0,"assists":0,"damage":93,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1014,"deathType":"byplayer"},{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":0,"knocks":0,"assists":1,"damage":86,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1014,"deathType":"byplayer"},{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":348,"deathType":"byplayer"}]},{"rank":12,"teamId":15,"won":false,"kills":2,"damage":147,"players":[{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":1,"knocks":0,"assists":0,"damage":107,"headshots":0,"revives":0,"longestKill":27,"timeSurvived":997,"deathType":"byplayer"},{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":1,"knocks":1,"assists":0,"damage":40,"headshots":0,"revives":0,"longestKill":28,"timeSurvived":911,"deathType":"byplayer"},{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":997,"deathType":"byplayer"},{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":997,"deathType":"byplayer"}]},{"rank":13,"teamId":10,"won":false,"kills":0,"damage":193,"players":[{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":0,"knocks":0,"assists":0,"damage":88,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":984,"deathType":"byplayer"},{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":0,"knocks":0,"assists":0,"damage":59,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":927,"deathType":"byplayer"},{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":0,"knocks":0,"assists":0,"damage":46,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":917,"deathType":"byplayer"},{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":921,"deathType":"byplayer"}]},{"rank":14,"teamId":12,"won":false,"kills":4,"damage":448,"players":[{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":2,"knocks":1,"assists":0,"damage":125,"headshots":0,"revives":0,"longestKill":12,"timeSurvived":472,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":1,"knocks":1,"assists":0,"damage":162,"headshots":0,"revives":0,"longestKill":70,"timeSurvived":956,"deathType":"byplayer"},{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":1,"knocks":0,"assists":0,"damage":105,"headshots":0,"revives":0,"longestKill":98,"timeSurvived":940,"deathType":"byplayer"},{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":0,"knocks":0,"assists":0,"damage":56,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":982,"deathType":"byplayer"}]},{"rank":15,"teamId":8,"won":false,"kills":1,"damage":211,"players":[{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":1,"knocks":0,"assists":0,"damage":113,"headshots":0,"revives":0,"longestKill":6,"timeSurvived":962,"deathType":"byplayer"},{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":0,"knocks":0,"assists":0,"damage":82,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":962,"deathType":"byplayer"},{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":0,"knocks":0,"assists":0,"damage":16,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":891,"deathType":"byplayer"},{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":880,"deathType":"byplayer"}]},{"rank":16,"teamId":13,"won":false,"kills":3,"damage":502,"players":[{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":2,"knocks":2,"assists":0,"damage":296,"headshots":0,"revives":0,"longestKill":17,"timeSurvived":893,"deathType":"byplayer"},{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":1,"knocks":1,"assists":0,"damage":164,"headshots":0,"revives":0,"longestKill":12,"timeSurvived":457,"deathType":"byplayer"},{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":0,"knocks":0,"assists":0,"damage":24,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":438,"deathType":"byplayer"},{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":0,"knocks":0,"assists":0,"damage":18,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":484,"deathType":"byplayer"}]}]},{"matchId":"3e1a686f-91d4-445c-a231-610bb0653e6b","createdAt":"2026-06-23T11:19:58Z","duration":1759,"map":"TAEGO","mapCode":"Tiger_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/23/11/51/d92de2ba-6ef9-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":6,"won":true,"kills":13,"damage":2241,"players":[{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":6,"knocks":6,"assists":1,"damage":1037,"headshots":1,"revives":1,"longestKill":133,"timeSurvived":1745,"deathType":"byplayer"},{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":4,"knocks":2,"assists":1,"damage":365,"headshots":2,"revives":1,"longestKill":196,"timeSurvived":1759,"deathType":"alive"},{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":3,"knocks":2,"assists":3,"damage":633,"headshots":0,"revives":1,"longestKill":55,"timeSurvived":1759,"deathType":"alive"},{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":0,"knocks":0,"assists":1,"damage":206,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1759,"deathType":"alive"}]},{"rank":2,"teamId":16,"won":false,"kills":17,"damage":2790,"players":[{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":6,"knocks":4,"assists":4,"damage":1134,"headshots":1,"revives":0,"longestKill":349,"timeSurvived":1756,"deathType":"byplayer"},{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":4,"knocks":4,"assists":6,"damage":582,"headshots":1,"revives":0,"longestKill":42,"timeSurvived":1551,"deathType":"byplayer"},{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":4,"knocks":3,"assists":2,"damage":512,"headshots":0,"revives":2,"longestKill":289,"timeSurvived":1735,"deathType":"byzone"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":3,"knocks":2,"assists":2,"damage":562,"headshots":2,"revives":0,"longestKill":21,"timeSurvived":1723,"deathType":"byplayer"}]},{"rank":3,"teamId":3,"won":false,"kills":2,"damage":1036,"players":[{"name":"NOR_TekkerZ","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":1,"knocks":1,"assists":0,"damage":321,"headshots":0,"revives":0,"longestKill":24,"timeSurvived":1726,"deathType":"byplayer"},{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":1,"knocks":0,"assists":0,"damage":158,"headshots":0,"revives":0,"longestKill":277,"timeSurvived":1404,"deathType":"byplayer"},{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":0,"knocks":2,"assists":1,"damage":458,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1726,"deathType":"byplayer"},{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":0,"knocks":0,"assists":0,"damage":99,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":768,"deathType":"byplayer"}]},{"rank":4,"teamId":7,"won":false,"kills":1,"damage":555,"players":[{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":1,"knocks":1,"assists":0,"damage":313,"headshots":0,"revives":0,"longestKill":12,"timeSurvived":1660,"deathType":"byplayer"},{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":0,"knocks":0,"assists":0,"damage":120,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":779,"deathType":"byplayer"},{"name":"KAZ_Verstory","playerId":"account.1c6bfacadb3947a486f134f0819bd9f2","kills":0,"knocks":0,"assists":0,"damage":63,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":813,"deathType":"byplayer"},{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":0,"knocks":0,"assists":0,"damage":59,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":899,"deathType":"suicide"}]},{"rank":5,"teamId":11,"won":false,"kills":4,"damage":1468,"players":[{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":3,"knocks":6,"assists":0,"damage":856,"headshots":1,"revives":0,"longestKill":147,"timeSurvived":1568,"deathType":"byplayer"},{"name":"ARG_Dr4FTk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":1,"knocks":1,"assists":0,"damage":276,"headshots":0,"revives":0,"longestKill":149,"timeSurvived":1561,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":0,"knocks":1,"assists":1,"damage":232,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1568,"deathType":"byplayer"},{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":0,"knocks":0,"assists":0,"damage":104,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1543,"deathType":"byplayer"}]},{"rank":6,"teamId":12,"won":false,"kills":4,"damage":1027,"players":[{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":2,"knocks":3,"assists":0,"damage":488,"headshots":0,"revives":0,"longestKill":58,"timeSurvived":1410,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":2,"knocks":2,"assists":0,"damage":306,"headshots":0,"revives":2,"longestKill":172,"timeSurvived":1515,"deathType":"byplayer"},{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":0,"knocks":0,"assists":1,"damage":133,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1235,"deathType":"byplayer"},{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":0,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":3,"longestKill":0,"timeSurvived":1508,"deathType":"suicide"}]},{"rank":7,"teamId":9,"won":false,"kills":1,"damage":295,"players":[{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":1,"knocks":0,"assists":0,"damage":52,"headshots":1,"revives":1,"longestKill":110,"timeSurvived":1512,"deathType":"byplayer"},{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":0,"knocks":1,"assists":1,"damage":154,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1512,"deathType":"byplayer"},{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":0,"knocks":0,"assists":0,"damage":89,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":580,"deathType":"byplayer"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":598,"deathType":"byplayer"}]},{"rank":8,"teamId":1,"won":false,"kills":1,"damage":681,"players":[{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":1,"knocks":1,"assists":0,"damage":144,"headshots":0,"revives":0,"longestKill":86,"timeSurvived":881,"deathType":"byplayer"},{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":0,"knocks":1,"assists":1,"damage":235,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1352,"deathType":"byplayer"},{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":0,"knocks":0,"assists":0,"damage":213,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1352,"deathType":"byplayer"},{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":0,"knocks":0,"assists":1,"damage":89,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1352,"deathType":"byplayer"}]},{"rank":9,"teamId":13,"won":false,"kills":3,"damage":474,"players":[{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":1,"knocks":1,"assists":1,"damage":272,"headshots":0,"revives":0,"longestKill":26,"timeSurvived":1158,"deathType":"byplayer"},{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":1,"knocks":2,"assists":0,"damage":155,"headshots":0,"revives":0,"longestKill":22,"timeSurvived":1301,"deathType":"byplayer"},{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":1,"knocks":1,"assists":0,"damage":47,"headshots":1,"revives":0,"longestKill":573,"timeSurvived":791,"deathType":"byzone"},{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":696,"deathType":"byplayer"}]},{"rank":10,"teamId":10,"won":false,"kills":2,"damage":197,"players":[{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":2,"knocks":2,"assists":0,"damage":79,"headshots":0,"revives":0,"longestKill":86,"timeSurvived":1294,"deathType":"byplayer"},{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":0,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":446,"deathType":"byplayer"},{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":0,"knocks":0,"assists":0,"damage":18,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":418,"deathType":"byplayer"},{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":439,"deathType":"byplayer"}]},{"rank":11,"teamId":4,"won":false,"kills":2,"damage":278,"players":[{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":1,"knocks":1,"assists":0,"damage":90,"headshots":1,"revives":0,"longestKill":101,"timeSurvived":1190,"deathType":"byplayer"},{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":1,"knocks":0,"assists":0,"damage":76,"headshots":0,"revives":0,"longestKill":74,"timeSurvived":1234,"deathType":"byplayer"},{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":0,"knocks":0,"assists":1,"damage":90,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1234,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":0,"assists":0,"damage":22,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1220,"deathType":"byplayer"}]},{"rank":12,"teamId":15,"won":false,"kills":0,"damage":565,"players":[{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":0,"knocks":1,"assists":0,"damage":219,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1204,"deathType":"byplayer"},{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":0,"knocks":1,"assists":0,"damage":202,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1204,"deathType":"byplayer"},{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":0,"knocks":0,"assists":0,"damage":77,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1163,"deathType":"byplayer"},{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":0,"knocks":0,"assists":0,"damage":67,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1182,"deathType":"byplayer"}]},{"rank":13,"teamId":8,"won":false,"kills":6,"damage":781,"players":[{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":3,"knocks":2,"assists":0,"damage":117,"headshots":0,"revives":0,"longestKill":285,"timeSurvived":795,"deathType":"byplayer"},{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":2,"knocks":3,"assists":2,"damage":405,"headshots":1,"revives":0,"longestKill":15,"timeSurvived":793,"deathType":"byzone"},{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":1,"knocks":1,"assists":1,"damage":161,"headshots":0,"revives":0,"longestKill":21,"timeSurvived":511,"deathType":"byplayer"},{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":0,"knocks":0,"assists":2,"damage":98,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":859,"deathType":"byplayer"}]},{"rank":14,"teamId":14,"won":false,"kills":4,"damage":720,"players":[{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":2,"knocks":1,"assists":1,"damage":202,"headshots":1,"revives":0,"longestKill":149,"timeSurvived":888,"deathType":"byplayer"},{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":1,"knocks":2,"assists":0,"damage":237,"headshots":0,"revives":0,"longestKill":49,"timeSurvived":710,"deathType":"byplayer"},{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":1,"knocks":1,"assists":1,"damage":162,"headshots":0,"revives":0,"longestKill":66,"timeSurvived":900,"deathType":"byplayer"},{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":0,"knocks":0,"assists":1,"damage":119,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":765,"deathType":"byplayer"}]},{"rank":15,"teamId":2,"won":false,"kills":1,"damage":373,"players":[{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":1,"knocks":1,"assists":0,"damage":197,"headshots":0,"revives":1,"longestKill":13,"timeSurvived":699,"deathType":"byplayer"},{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":0,"knocks":0,"assists":1,"damage":130,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":650,"deathType":"byplayer"},{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":0,"knocks":0,"assists":0,"damage":46,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":699,"deathType":"byplayer"},{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":616,"deathType":"byplayer"}]},{"rank":16,"teamId":5,"won":false,"kills":1,"damage":208,"players":[{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":1,"knocks":1,"assists":0,"damage":129,"headshots":1,"revives":1,"longestKill":9,"timeSurvived":278,"deathType":"byplayer"},{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":0,"damage":46,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":278,"deathType":"byplayer"},{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":0,"knocks":0,"assists":1,"damage":33,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":278,"deathType":"byplayer"},{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":278,"deathType":"byplayer"}]}]},{"matchId":"98d22e64-904a-4239-9c28-9c5f2f42edc6","createdAt":"2026-06-23T11:57:30Z","duration":1649,"map":"RONDO","mapCode":"Neon_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/23/12/27/d5cfca81-6efe-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":5,"won":true,"kills":9,"damage":996,"players":[{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":5,"knocks":2,"assists":1,"damage":326,"headshots":0,"revives":0,"longestKill":212,"timeSurvived":1649,"deathType":"alive"},{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":3,"knocks":1,"assists":0,"damage":234,"headshots":1,"revives":0,"longestKill":105,"timeSurvived":1649,"deathType":"alive"},{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":1,"knocks":1,"assists":2,"damage":244,"headshots":0,"revives":0,"longestKill":175,"timeSurvived":1649,"deathType":"alive"},{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":1,"damage":192,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1649,"deathType":"alive"}]},{"rank":2,"teamId":6,"won":false,"kills":12,"damage":1261,"players":[{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":6,"knocks":2,"assists":1,"damage":402,"headshots":1,"revives":0,"longestKill":210,"timeSurvived":1646,"deathType":"byplayer"},{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":2,"knocks":0,"assists":3,"damage":470,"headshots":2,"revives":0,"longestKill":28,"timeSurvived":1646,"deathType":"byplayer"},{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":2,"knocks":3,"assists":1,"damage":279,"headshots":0,"revives":0,"longestKill":146,"timeSurvived":1281,"deathType":"byplayer"},{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":2,"knocks":1,"assists":0,"damage":110,"headshots":1,"revives":0,"longestKill":279,"timeSurvived":1277,"deathType":"byplayer"}]},{"rank":3,"teamId":15,"won":false,"kills":5,"damage":931,"players":[{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":2,"knocks":3,"assists":1,"damage":382,"headshots":1,"revives":1,"longestKill":24,"timeSurvived":1305,"deathType":"byplayer"},{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":2,"knocks":1,"assists":1,"damage":337,"headshots":0,"revives":1,"longestKill":56,"timeSurvived":1621,"deathType":"byplayer"},{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":1,"knocks":1,"assists":0,"damage":176,"headshots":1,"revives":0,"longestKill":97,"timeSurvived":1185,"deathType":"byplayer"},{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":0,"knocks":0,"assists":0,"damage":36,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1205,"deathType":"byplayer"}]},{"rank":4,"teamId":4,"won":false,"kills":4,"damage":899,"players":[{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":3,"knocks":3,"assists":1,"damage":491,"headshots":0,"revives":0,"longestKill":287,"timeSurvived":1604,"deathType":"byplayer"},{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":1,"knocks":1,"assists":0,"damage":151,"headshots":0,"revives":0,"longestKill":27,"timeSurvived":1413,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":0,"assists":1,"damage":217,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1437,"deathType":"byplayer"},{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":0,"knocks":0,"assists":0,"damage":40,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1127,"deathType":"byplayer"}]},{"rank":5,"teamId":13,"won":false,"kills":5,"damage":1129,"players":[{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":3,"knocks":2,"assists":0,"damage":169,"headshots":1,"revives":2,"longestKill":43,"timeSurvived":1455,"deathType":"byplayer"},{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":1,"knocks":1,"assists":1,"damage":294,"headshots":1,"revives":0,"longestKill":130,"timeSurvived":1455,"deathType":"byplayer"},{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":1,"knocks":1,"assists":0,"damage":142,"headshots":1,"revives":0,"longestKill":218,"timeSurvived":1438,"deathType":"byplayer"},{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":0,"knocks":0,"assists":3,"damage":524,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1422,"deathType":"byplayer"}]},{"rank":6,"teamId":14,"won":false,"kills":2,"damage":349,"players":[{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":1,"knocks":1,"assists":0,"damage":68,"headshots":0,"revives":0,"longestKill":34,"timeSurvived":1408,"deathType":"byplayer"},{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":1,"knocks":1,"assists":0,"damage":15,"headshots":0,"revives":0,"longestKill":5,"timeSurvived":1287,"deathType":"suicide"},{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":0,"knocks":2,"assists":1,"damage":266,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1049,"deathType":"byplayer"},{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":963,"deathType":"byplayer"}]},{"rank":7,"teamId":2,"won":false,"kills":9,"damage":1918,"players":[{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":4,"knocks":4,"assists":1,"damage":725,"headshots":1,"revives":0,"longestKill":320,"timeSurvived":1318,"deathType":"byplayer"},{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":2,"knocks":2,"assists":1,"damage":473,"headshots":0,"revives":0,"longestKill":246,"timeSurvived":1318,"deathType":"byplayer"},{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":2,"knocks":1,"assists":0,"damage":404,"headshots":0,"revives":0,"longestKill":106,"timeSurvived":1304,"deathType":"byplayer"},{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":1,"knocks":1,"assists":0,"damage":316,"headshots":0,"revives":0,"longestKill":62,"timeSurvived":1318,"deathType":"byplayer"}]},{"rank":8,"teamId":16,"won":false,"kills":3,"damage":627,"players":[{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":2,"knocks":1,"assists":1,"damage":226,"headshots":0,"revives":0,"longestKill":43,"timeSurvived":877,"deathType":"byplayer"},{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":1,"knocks":2,"assists":1,"damage":184,"headshots":0,"revives":0,"longestKill":84,"timeSurvived":640,"deathType":"byplayer"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":0,"knocks":1,"assists":1,"damage":127,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1058,"deathType":"byzone"},{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":0,"knocks":0,"assists":1,"damage":90,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":715,"deathType":"byplayer"}]},{"rank":9,"teamId":10,"won":false,"kills":2,"damage":242,"players":[{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":2,"knocks":1,"assists":2,"damage":214,"headshots":0,"revives":1,"longestKill":84,"timeSurvived":1190,"deathType":"byplayer"},{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":0,"knocks":1,"assists":1,"damage":28,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1186,"deathType":"byplayer"},{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1160,"deathType":"byplayer"},{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1167,"deathType":"byplayer"}]},{"rank":10,"teamId":11,"won":false,"kills":4,"damage":1121,"players":[{"name":"ARG_Dr4FTk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":2,"knocks":4,"assists":0,"damage":486,"headshots":2,"revives":0,"longestKill":98,"timeSurvived":1100,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":2,"knocks":1,"assists":0,"damage":308,"headshots":1,"revives":0,"longestKill":119,"timeSurvived":1100,"deathType":"byplayer"},{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":0,"knocks":1,"assists":0,"damage":204,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1100,"deathType":"byplayer"},{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":0,"knocks":0,"assists":1,"damage":123,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1100,"deathType":"byplayer"}]},{"rank":11,"teamId":9,"won":false,"kills":4,"damage":512,"players":[{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":2,"knocks":2,"assists":2,"damage":193,"headshots":1,"revives":0,"longestKill":20,"timeSurvived":1001,"deathType":"byplayer"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":2,"knocks":2,"assists":0,"damage":130,"headshots":2,"revives":0,"longestKill":291,"timeSurvived":948,"deathType":"byplayer"},{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":0,"knocks":0,"assists":0,"damage":189,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1077,"deathType":"byplayer"},{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":845,"deathType":"byplayer"}]},{"rank":12,"teamId":3,"won":false,"kills":1,"damage":449,"players":[{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":1,"knocks":1,"assists":0,"damage":219,"headshots":1,"revives":0,"longestKill":52,"timeSurvived":1061,"deathType":"byplayer"},{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":0,"knocks":0,"assists":0,"damage":142,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1041,"deathType":"byplayer"},{"name":"NOR_TekkerZ","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":0,"knocks":0,"assists":0,"damage":88,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1061,"deathType":"byplayer"},{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1038,"deathType":"byplayer"}]},{"rank":13,"teamId":1,"won":false,"kills":0,"damage":284,"players":[{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":0,"knocks":0,"assists":0,"damage":206,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":979,"deathType":"byplayer"},{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":0,"knocks":0,"assists":0,"damage":56,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":866,"deathType":"byplayer"},{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":0,"knocks":0,"assists":0,"damage":22,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":647,"deathType":"byplayer"},{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":533,"deathType":"byplayer"}]},{"rank":14,"teamId":7,"won":false,"kills":0,"damage":104,"players":[{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":0,"knocks":0,"assists":0,"damage":79,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":976,"deathType":"byplayer"},{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":0,"knocks":0,"assists":0,"damage":25,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":976,"deathType":"byplayer"},{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":648,"deathType":"byplayer"},{"name":"KAZ_Verstory","playerId":"account.1c6bfacadb3947a486f134f0819bd9f2","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":976,"deathType":"byplayer"}]},{"rank":15,"teamId":12,"won":false,"kills":2,"damage":364,"players":[{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":1,"knocks":1,"assists":0,"damage":124,"headshots":0,"revives":0,"longestKill":40,"timeSurvived":575,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":1,"knocks":1,"assists":1,"damage":106,"headshots":0,"revives":0,"longestKill":68,"timeSurvived":587,"deathType":"byplayer"},{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":0,"knocks":0,"assists":1,"damage":69,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":565,"deathType":"byplayer"},{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":0,"knocks":1,"assists":1,"damage":65,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":768,"deathType":"byplayer"}]},{"rank":16,"teamId":8,"won":false,"kills":0,"damage":0,"players":[{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":621,"deathType":"byplayer"},{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":107,"deathType":"byplayer"},{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":458,"deathType":"byplayer"},{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":99,"deathType":"byplayer"}]}]},{"matchId":"311ffa58-9302-4e6a-aec4-3ad1c4da9388","createdAt":"2026-06-23T12:44:56Z","duration":1752,"map":"ERANGEL","mapCode":"Baltic_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/23/13/16/b35f16be-6f05-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":2,"won":true,"kills":11,"damage":1895,"players":[{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":6,"knocks":4,"assists":3,"damage":357,"headshots":3,"revives":1,"longestKill":60,"timeSurvived":1752,"deathType":"alive"},{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":3,"knocks":2,"assists":1,"damage":850,"headshots":2,"revives":0,"longestKill":140,"timeSurvived":1752,"deathType":"alive"},{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":1,"knocks":1,"assists":1,"damage":442,"headshots":0,"revives":0,"longestKill":230,"timeSurvived":1566,"deathType":"byplayer"},{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":1,"knocks":1,"assists":1,"damage":246,"headshots":0,"revives":0,"longestKill":40,"timeSurvived":1751,"deathType":"logout"}]},{"rank":2,"teamId":9,"won":false,"kills":7,"damage":1071,"players":[{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":2,"knocks":1,"assists":0,"damage":344,"headshots":2,"revives":0,"longestKill":119,"timeSurvived":1749,"deathType":"byplayer"},{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":2,"knocks":1,"assists":1,"damage":314,"headshots":0,"revives":0,"longestKill":199,"timeSurvived":1749,"deathType":"byplayer"},{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":2,"knocks":1,"assists":0,"damage":122,"headshots":2,"revives":0,"longestKill":223,"timeSurvived":1716,"deathType":"byplayer"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":1,"knocks":1,"assists":1,"damage":291,"headshots":0,"revives":0,"longestKill":115,"timeSurvived":1632,"deathType":"byplayer"}]},{"rank":3,"teamId":16,"won":false,"kills":4,"damage":1109,"players":[{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":2,"knocks":2,"assists":1,"damage":420,"headshots":0,"revives":0,"longestKill":24,"timeSurvived":1634,"deathType":"byplayer"},{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":1,"knocks":0,"assists":2,"damage":315,"headshots":1,"revives":0,"longestKill":42,"timeSurvived":1699,"deathType":"byplayer"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":1,"knocks":2,"assists":1,"damage":221,"headshots":0,"revives":0,"longestKill":35,"timeSurvived":1318,"deathType":"byplayer"},{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":0,"knocks":1,"assists":2,"damage":153,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":733,"deathType":"byplayer"}]},{"rank":4,"teamId":11,"won":false,"kills":6,"damage":1306,"players":[{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":3,"knocks":1,"assists":0,"damage":606,"headshots":1,"revives":0,"longestKill":141,"timeSurvived":1640,"deathType":"byplayer"},{"name":"ARG_Dr4FTk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":2,"knocks":1,"assists":1,"damage":548,"headshots":0,"revives":0,"longestKill":204,"timeSurvived":1475,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":1,"knocks":0,"assists":1,"damage":61,"headshots":0,"revives":0,"longestKill":363,"timeSurvived":1138,"deathType":"byplayer"},{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":0,"knocks":0,"assists":0,"damage":91,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":548,"deathType":"byplayer"}]},{"rank":5,"teamId":3,"won":false,"kills":3,"damage":590,"players":[{"name":"NOR_TekkerZ","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":1,"knocks":0,"assists":1,"damage":268,"headshots":0,"revives":0,"longestKill":298,"timeSurvived":1638,"deathType":"byplayer"},{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":1,"knocks":1,"assists":0,"damage":180,"headshots":1,"revives":0,"longestKill":187,"timeSurvived":1196,"deathType":"byplayer"},{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":1,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":0,"longestKill":50,"timeSurvived":676,"deathType":"byplayer"},{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":0,"knocks":0,"assists":1,"damage":42,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":813,"deathType":"byplayer"}]},{"rank":6,"teamId":1,"won":false,"kills":4,"damage":755,"players":[{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":2,"knocks":3,"assists":1,"damage":462,"headshots":0,"revives":0,"longestKill":44,"timeSurvived":1629,"deathType":"byplayer"},{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":1,"knocks":0,"assists":0,"damage":169,"headshots":0,"revives":0,"longestKill":403,"timeSurvived":948,"deathType":"byplayer"},{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":1,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":0,"longestKill":10,"timeSurvived":1622,"deathType":"byplayer"},{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":0,"knocks":0,"assists":0,"damage":24,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":961,"deathType":"byplayer"}]},{"rank":7,"teamId":13,"won":false,"kills":9,"damage":1329,"players":[{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":4,"knocks":3,"assists":0,"damage":301,"headshots":1,"revives":0,"longestKill":137,"timeSurvived":1623,"deathType":"byplayer"},{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":3,"knocks":1,"assists":2,"damage":560,"headshots":2,"revives":0,"longestKill":156,"timeSurvived":1623,"deathType":"byplayer"},{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":1,"knocks":0,"assists":1,"damage":274,"headshots":0,"revives":0,"longestKill":9,"timeSurvived":1623,"deathType":"byplayer"},{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":1,"knocks":2,"assists":1,"damage":194,"headshots":0,"revives":1,"longestKill":16,"timeSurvived":1623,"deathType":"byplayer"}]},{"rank":8,"teamId":7,"won":false,"kills":1,"damage":340,"players":[{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":1,"knocks":0,"assists":0,"damage":121,"headshots":0,"revives":0,"longestKill":148,"timeSurvived":1313,"deathType":"byplayer"},{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":0,"knocks":1,"assists":1,"damage":116,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1280,"deathType":"byplayer"},{"name":"KAZ_Verstory","playerId":"account.1c6bfacadb3947a486f134f0819bd9f2","kills":0,"knocks":0,"assists":1,"damage":61,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":952,"deathType":"byplayer"},{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":0,"knocks":0,"assists":0,"damage":42,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1313,"deathType":"byplayer"}]},{"rank":9,"teamId":5,"won":false,"kills":2,"damage":645,"players":[{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":1,"knocks":1,"assists":0,"damage":271,"headshots":0,"revives":0,"longestKill":180,"timeSurvived":1276,"deathType":"byplayer"},{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":1,"knocks":0,"assists":0,"damage":161,"headshots":0,"revives":0,"longestKill":293,"timeSurvived":1230,"deathType":"byplayer"},{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":0,"knocks":1,"assists":0,"damage":175,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1276,"deathType":"byplayer"},{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":1,"damage":38,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1276,"deathType":"byplayer"}]},{"rank":10,"teamId":6,"won":false,"kills":5,"damage":524,"players":[{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":2,"knocks":2,"assists":1,"damage":226,"headshots":1,"revives":2,"longestKill":35,"timeSurvived":1236,"deathType":"byplayer"},{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":2,"knocks":2,"assists":1,"damage":198,"headshots":0,"revives":0,"longestKill":196,"timeSurvived":980,"deathType":"suicide"},{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":1,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":0,"longestKill":61,"timeSurvived":700,"deathType":"byplayer"},{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":842,"deathType":"byplayer"}]},{"rank":11,"teamId":15,"won":false,"kills":0,"damage":333,"players":[{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":0,"knocks":0,"assists":0,"damage":145,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1203,"deathType":"byplayer"},{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":0,"knocks":0,"assists":1,"damage":70,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1204,"deathType":"byplayer"},{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":0,"knocks":0,"assists":0,"damage":68,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1188,"deathType":"byplayer"},{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":0,"knocks":1,"assists":1,"damage":50,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1219,"deathType":"byzone"}]},{"rank":12,"teamId":4,"won":false,"kills":1,"damage":391,"players":[{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":1,"knocks":0,"assists":0,"damage":144,"headshots":0,"revives":0,"longestKill":164,"timeSurvived":973,"deathType":"byplayer"},{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":0,"knocks":1,"assists":0,"damage":164,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":910,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":1,"assists":1,"damage":83,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1062,"deathType":"byplayer"},{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":789,"deathType":"byplayer"}]},{"rank":13,"teamId":12,"won":false,"kills":5,"damage":1153,"players":[{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":4,"knocks":3,"assists":0,"damage":334,"headshots":3,"revives":0,"longestKill":44,"timeSurvived":1040,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":1,"knocks":2,"assists":3,"damage":309,"headshots":0,"revives":0,"longestKill":33,"timeSurvived":1025,"deathType":"byplayer"},{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":0,"knocks":0,"assists":0,"damage":389,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1041,"deathType":"byplayer"},{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":0,"knocks":0,"assists":1,"damage":121,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1008,"deathType":"byplayer"}]},{"rank":14,"teamId":14,"won":false,"kills":4,"damage":425,"players":[{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":2,"knocks":1,"assists":0,"damage":55,"headshots":2,"revives":0,"longestKill":98,"timeSurvived":962,"deathType":"byplayer"},{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":1,"knocks":1,"assists":0,"damage":159,"headshots":0,"revives":0,"longestKill":27,"timeSurvived":962,"deathType":"byplayer"},{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":1,"knocks":0,"assists":1,"damage":68,"headshots":0,"revives":0,"longestKill":95,"timeSurvived":902,"deathType":"suicide"},{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":0,"knocks":0,"assists":3,"damage":143,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":802,"deathType":"byplayer"}]},{"rank":15,"teamId":8,"won":false,"kills":1,"damage":233,"players":[{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":1,"knocks":1,"assists":1,"damage":162,"headshots":0,"revives":0,"longestKill":19,"timeSurvived":677,"deathType":"byplayer"},{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":0,"knocks":0,"assists":1,"damage":44,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":679,"deathType":"byplayer"},{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":0,"knocks":0,"assists":0,"damage":21,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":679,"deathType":"byplayer"},{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":0,"knocks":1,"assists":1,"damage":6,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":672,"deathType":"byplayer"}]},{"rank":16,"teamId":10,"won":false,"kills":0,"damage":0,"players":[{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":542,"deathType":"byplayer"},{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":542,"deathType":"byplayer"},{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":542,"deathType":"byplayer"},{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":538,"deathType":"byplayer"}]}]},{"matchId":"a1a6b598-40a9-4a90-8c8b-c5391acd8a70","createdAt":"2026-06-24T10:00:01Z","duration":1687,"map":"TAEGO","mapCode":"Tiger_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/24/10/30/a9612c3c-6fb7-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":1,"won":true,"kills":5,"damage":1726,"players":[{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":2,"knocks":4,"assists":4,"damage":586,"headshots":0,"revives":1,"longestKill":56,"timeSurvived":1687,"deathType":"alive"},{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":2,"knocks":2,"assists":0,"damage":532,"headshots":1,"revives":0,"longestKill":81,"timeSurvived":1687,"deathType":"alive"},{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":1,"knocks":1,"assists":1,"damage":292,"headshots":0,"revives":0,"longestKill":172,"timeSurvived":1687,"deathType":"alive"},{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":0,"knocks":1,"assists":2,"damage":316,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1687,"deathType":"alive"}]},{"rank":2,"teamId":2,"won":false,"kills":16,"damage":2230,"players":[{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":6,"knocks":2,"assists":1,"damage":689,"headshots":1,"revives":0,"longestKill":120,"timeSurvived":1683,"deathType":"byplayer"},{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":5,"knocks":2,"assists":0,"damage":424,"headshots":1,"revives":1,"longestKill":113,"timeSurvived":1684,"deathType":"byplayer"},{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":4,"knocks":2,"assists":0,"damage":527,"headshots":0,"revives":0,"longestKill":334,"timeSurvived":1583,"deathType":"byplayer"},{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":1,"knocks":1,"assists":3,"damage":590,"headshots":0,"revives":0,"longestKill":28,"timeSurvived":1516,"deathType":"byplayer"}]},{"rank":3,"teamId":3,"won":false,"kills":1,"damage":667,"players":[{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":1,"knocks":0,"assists":0,"damage":100,"headshots":1,"revives":0,"longestKill":145,"timeSurvived":1356,"deathType":"byplayer"},{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":0,"knocks":0,"assists":1,"damage":389,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1441,"deathType":"byplayer"},{"name":"NOR_Tekkerz","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":0,"knocks":0,"assists":0,"damage":178,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1459,"deathType":"byplayer"},{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":545,"deathType":"byplayer"}]},{"rank":4,"teamId":4,"won":false,"kills":1,"damage":411,"players":[{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":1,"knocks":2,"assists":0,"damage":131,"headshots":0,"revives":1,"longestKill":15,"timeSurvived":1016,"deathType":"byplayer"},{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":0,"knocks":2,"assists":2,"damage":218,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1034,"deathType":"byplayer"},{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":0,"knocks":0,"assists":0,"damage":40,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":229,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":0,"assists":0,"damage":22,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1447,"deathType":"byplayer"}]},{"rank":5,"teamId":8,"won":false,"kills":11,"damage":2475,"players":[{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":3,"knocks":4,"assists":3,"damage":665,"headshots":0,"revives":0,"longestKill":344,"timeSurvived":1402,"deathType":"byplayer"},{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":3,"knocks":3,"assists":4,"damage":635,"headshots":0,"revives":1,"longestKill":26,"timeSurvived":1400,"deathType":"byplayer"},{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":3,"knocks":2,"assists":1,"damage":534,"headshots":0,"revives":0,"longestKill":60,"timeSurvived":1325,"deathType":"byplayer"},{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":2,"knocks":3,"assists":1,"damage":641,"headshots":2,"revives":1,"longestKill":168,"timeSurvived":1214,"deathType":"byplayer"}]},{"rank":6,"teamId":7,"won":false,"kills":7,"damage":1483,"players":[{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":2,"knocks":3,"assists":1,"damage":517,"headshots":1,"revives":0,"longestKill":115,"timeSurvived":1332,"deathType":"byplayer"},{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":2,"knocks":1,"assists":0,"damage":311,"headshots":1,"revives":0,"longestKill":62,"timeSurvived":1141,"deathType":"byplayer"},{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":2,"knocks":2,"assists":1,"damage":250,"headshots":1,"revives":0,"longestKill":163,"timeSurvived":1332,"deathType":"byplayer"},{"name":"KAZ_210","playerId":"account.e89e6087542a4eb5bfd6bd054cf6f01a","kills":1,"knocks":2,"assists":0,"damage":405,"headshots":1,"revives":1,"longestKill":26,"timeSurvived":1332,"deathType":"byplayer"}]},{"rank":7,"teamId":9,"won":false,"kills":3,"damage":465,"players":[{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":2,"knocks":0,"assists":1,"damage":150,"headshots":1,"revives":1,"longestKill":199,"timeSurvived":1224,"deathType":"byplayer"},{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":1,"knocks":1,"assists":0,"damage":94,"headshots":1,"revives":0,"longestKill":54,"timeSurvived":1224,"deathType":"byplayer"},{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":0,"knocks":1,"assists":0,"damage":144,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1224,"deathType":"byplayer"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":0,"knocks":0,"assists":0,"damage":77,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1224,"deathType":"byplayer"}]},{"rank":8,"teamId":15,"won":false,"kills":2,"damage":396,"players":[{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":2,"knocks":2,"assists":1,"damage":195,"headshots":1,"revives":0,"longestKill":95,"timeSurvived":1178,"deathType":"byplayer"},{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":0,"knocks":0,"assists":0,"damage":175,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":923,"deathType":"byplayer"},{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":0,"knocks":0,"assists":0,"damage":26,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":840,"deathType":"byplayer"},{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":833,"deathType":"byplayer"}]},{"rank":9,"teamId":6,"won":false,"kills":3,"damage":600,"players":[{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":2,"knocks":2,"assists":0,"damage":230,"headshots":1,"revives":1,"longestKill":209,"timeSurvived":1143,"deathType":"byplayer"},{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":1,"knocks":1,"assists":1,"damage":290,"headshots":1,"revives":1,"longestKill":53,"timeSurvived":1170,"deathType":"byplayer"},{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":0,"knocks":0,"assists":0,"damage":80,"headshots":0,"revives":2,"longestKill":0,"timeSurvived":1136,"deathType":"byplayer"},{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":0,"knocks":0,"assists":1,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1130,"deathType":"suicide"}]},{"rank":10,"teamId":11,"won":false,"kills":6,"damage":476,"players":[{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":2,"knocks":1,"assists":1,"damage":126,"headshots":0,"revives":2,"longestKill":172,"timeSurvived":1014,"deathType":"byplayer"},{"name":"ARG_Dr4ftk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":2,"knocks":1,"assists":0,"damage":72,"headshots":0,"revives":0,"longestKill":314,"timeSurvived":1085,"deathType":"byplayer"},{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":1,"knocks":2,"assists":3,"damage":205,"headshots":0,"revives":0,"longestKill":4,"timeSurvived":1166,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":1,"knocks":1,"assists":0,"damage":73,"headshots":0,"revives":0,"longestKill":138,"timeSurvived":971,"deathType":"byplayer"}]},{"rank":11,"teamId":14,"won":false,"kills":3,"damage":308,"players":[{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":1,"knocks":1,"assists":0,"damage":152,"headshots":0,"revives":0,"longestKill":30,"timeSurvived":1091,"deathType":"byplayer"},{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":1,"knocks":2,"assists":1,"damage":108,"headshots":0,"revives":2,"longestKill":26,"timeSurvived":1051,"deathType":"byzone"},{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":1,"knocks":1,"assists":1,"damage":48,"headshots":0,"revives":0,"longestKill":31,"timeSurvived":1091,"deathType":"byplayer"},{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":864,"deathType":"byplayer"}]},{"rank":12,"teamId":13,"won":false,"kills":1,"damage":227,"players":[{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":1,"knocks":1,"assists":0,"damage":157,"headshots":0,"revives":0,"longestKill":18,"timeSurvived":707,"deathType":"byplayer"},{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":0,"knocks":0,"assists":1,"damage":46,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1014,"deathType":"byplayer"},{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":0,"knocks":0,"assists":0,"damage":24,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":687,"deathType":"byplayer"},{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":705,"deathType":"byplayer"}]},{"rank":13,"teamId":5,"won":false,"kills":0,"damage":0,"players":[{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":824,"deathType":"byplayer"},{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":830,"deathType":"byplayer"},{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":889,"deathType":"byplayer"},{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":961,"deathType":"byplayer"}]},{"rank":14,"teamId":10,"won":false,"kills":0,"damage":232,"players":[{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":0,"knocks":1,"assists":0,"damage":148,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":942,"deathType":"byplayer"},{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":0,"knocks":1,"assists":0,"damage":84,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":942,"deathType":"byplayer"},{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":882,"deathType":"byplayer"},{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":942,"deathType":"byplayer"}]},{"rank":15,"teamId":12,"won":false,"kills":1,"damage":451,"players":[{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":1,"knocks":1,"assists":0,"damage":60,"headshots":0,"revives":0,"longestKill":37,"timeSurvived":928,"deathType":"byplayer"},{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":0,"knocks":2,"assists":0,"damage":247,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":928,"deathType":"byplayer"},{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":0,"knocks":0,"assists":0,"damage":80,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":928,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":0,"knocks":1,"assists":0,"damage":64,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":928,"deathType":"byplayer"}]},{"rank":16,"teamId":16,"won":false,"kills":1,"damage":191,"players":[{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":1,"knocks":1,"assists":0,"damage":5,"headshots":0,"revives":1,"longestKill":25,"timeSurvived":385,"deathType":"byplayer"},{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":0,"knocks":0,"assists":0,"damage":92,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":385,"deathType":"byplayer"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":0,"knocks":0,"assists":1,"damage":55,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":355,"deathType":"byplayer"},{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":0,"knocks":0,"assists":1,"damage":39,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":385,"deathType":"byplayer"}]}]},{"matchId":"95b2b210-fd05-4b24-a987-e79e027d0cbe","createdAt":"2026-06-24T10:36:00Z","duration":1648,"map":"ERANGEL","mapCode":"Baltic_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/24/11/05/9bca30a8-6fbc-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":2,"won":true,"kills":16,"damage":2955,"players":[{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":6,"knocks":3,"assists":2,"damage":1102,"headshots":0,"revives":0,"longestKill":70,"timeSurvived":1648,"deathType":"alive"},{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":4,"knocks":3,"assists":4,"damage":774,"headshots":1,"revives":1,"longestKill":186,"timeSurvived":1648,"deathType":"logout"},{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":3,"knocks":3,"assists":2,"damage":543,"headshots":1,"revives":0,"longestKill":188,"timeSurvived":1643,"deathType":"byplayer"},{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":3,"knocks":4,"assists":4,"damage":536,"headshots":0,"revives":0,"longestKill":87,"timeSurvived":1648,"deathType":"alive"}]},{"rank":2,"teamId":8,"won":false,"kills":8,"damage":1431,"players":[{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":5,"knocks":4,"assists":1,"damage":722,"headshots":0,"revives":2,"longestKill":117,"timeSurvived":1645,"deathType":"byzone"},{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":3,"knocks":1,"assists":0,"damage":270,"headshots":0,"revives":0,"longestKill":52,"timeSurvived":1553,"deathType":"byplayer"},{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":0,"knocks":1,"assists":1,"damage":305,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1316,"deathType":"byzone"},{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":0,"knocks":1,"assists":0,"damage":134,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1163,"deathType":"byplayer"}]},{"rank":3,"teamId":7,"won":false,"kills":1,"damage":777,"players":[{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":1,"knocks":0,"assists":0,"damage":144,"headshots":0,"revives":0,"longestKill":206,"timeSurvived":1401,"deathType":"byplayer"},{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":0,"knocks":1,"assists":1,"damage":377,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1600,"deathType":"byplayer"},{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":0,"knocks":0,"assists":0,"damage":243,"headshots":0,"revives":2,"longestKill":0,"timeSurvived":1534,"deathType":"byplayer"},{"name":"KAZ_210","playerId":"account.e89e6087542a4eb5bfd6bd054cf6f01a","kills":0,"knocks":0,"assists":0,"damage":13,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1634,"deathType":"byplayer"}]},{"rank":4,"teamId":11,"won":false,"kills":3,"damage":578,"players":[{"name":"ARG_Dr4ftk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":2,"knocks":3,"assists":0,"damage":428,"headshots":1,"revives":0,"longestKill":130,"timeSurvived":1364,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":1,"knocks":1,"assists":0,"damage":150,"headshots":0,"revives":1,"longestKill":49,"timeSurvived":1569,"deathType":"byplayer"},{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":598,"deathType":"byplayer"},{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":621,"deathType":"byplayer"}]},{"rank":5,"teamId":4,"won":false,"kills":1,"damage":419,"players":[{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":1,"knocks":0,"assists":0,"damage":56,"headshots":1,"revives":0,"longestKill":6,"timeSurvived":666,"deathType":"byzone"},{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":0,"knocks":1,"assists":1,"damage":212,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1534,"deathType":"byplayer"},{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":0,"knocks":0,"assists":0,"damage":79,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1146,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":0,"assists":1,"damage":72,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":731,"deathType":"byplayer"}]},{"rank":6,"teamId":10,"won":false,"kills":8,"damage":1049,"players":[{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":4,"knocks":1,"assists":1,"damage":414,"headshots":0,"revives":0,"longestKill":192,"timeSurvived":1436,"deathType":"byplayer"},{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":3,"knocks":2,"assists":1,"damage":147,"headshots":0,"revives":0,"longestKill":236,"timeSurvived":1324,"deathType":"byplayer"},{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":1,"knocks":1,"assists":0,"damage":193,"headshots":0,"revives":0,"longestKill":85,"timeSurvived":1323,"deathType":"byplayer"},{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":0,"knocks":2,"assists":3,"damage":295,"headshots":0,"revives":2,"longestKill":0,"timeSurvived":1436,"deathType":"byplayer"}]},{"rank":7,"teamId":6,"won":false,"kills":3,"damage":638,"players":[{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":2,"knocks":2,"assists":0,"damage":218,"headshots":0,"revives":0,"longestKill":160,"timeSurvived":1309,"deathType":"byplayer"},{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":1,"knocks":2,"assists":0,"damage":147,"headshots":1,"revives":0,"longestKill":182,"timeSurvived":1195,"deathType":"byplayer"},{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":0,"knocks":2,"assists":2,"damage":195,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1304,"deathType":"byplayer"},{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":0,"knocks":0,"assists":1,"damage":78,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1295,"deathType":"byplayer"}]},{"rank":8,"teamId":9,"won":false,"kills":6,"damage":823,"players":[{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":3,"knocks":3,"assists":0,"damage":249,"headshots":0,"revives":1,"longestKill":91,"timeSurvived":920,"deathType":"byplayer"},{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":2,"knocks":2,"assists":1,"damage":279,"headshots":1,"revives":0,"longestKill":44,"timeSurvived":1304,"deathType":"byplayer"},{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":1,"knocks":0,"assists":4,"damage":149,"headshots":0,"revives":2,"longestKill":29,"timeSurvived":1061,"deathType":"suicide"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":0,"knocks":0,"assists":1,"damage":146,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":903,"deathType":"byplayer"}]},{"rank":9,"teamId":3,"won":false,"kills":1,"damage":362,"players":[{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":1,"knocks":1,"assists":0,"damage":93,"headshots":0,"revives":0,"longestKill":68,"timeSurvived":1221,"deathType":"byzone"},{"name":"NOR_Tekkerz","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":0,"knocks":1,"assists":0,"damage":146,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1203,"deathType":"byplayer"},{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":0,"knocks":0,"assists":0,"damage":123,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1254,"deathType":"byplayer"},{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1105,"deathType":"byplayer"}]},{"rank":10,"teamId":14,"won":false,"kills":3,"damage":895,"players":[{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":1,"knocks":1,"assists":0,"damage":449,"headshots":0,"revives":0,"longestKill":65,"timeSurvived":1242,"deathType":"byzone"},{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":1,"knocks":2,"assists":0,"damage":188,"headshots":0,"revives":0,"longestKill":38,"timeSurvived":1196,"deathType":"byplayer"},{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":1,"knocks":0,"assists":0,"damage":72,"headshots":0,"revives":0,"longestKill":6,"timeSurvived":1148,"deathType":"byplayer"},{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":0,"knocks":0,"assists":2,"damage":186,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1054,"deathType":"byplayer"}]},{"rank":11,"teamId":13,"won":false,"kills":2,"damage":439,"players":[{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":1,"knocks":1,"assists":0,"damage":174,"headshots":0,"revives":0,"longestKill":128,"timeSurvived":1130,"deathType":"byplayer"},{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":1,"knocks":1,"assists":0,"damage":103,"headshots":0,"revives":0,"longestKill":42,"timeSurvived":1075,"deathType":"byplayer"},{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":0,"knocks":0,"assists":0,"damage":139,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1130,"deathType":"byzone"},{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":0,"knocks":0,"assists":0,"damage":23,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1065,"deathType":"byzone"}]},{"rank":12,"teamId":12,"won":false,"kills":6,"damage":739,"players":[{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":4,"knocks":3,"assists":1,"damage":269,"headshots":1,"revives":0,"longestKill":70,"timeSurvived":959,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":1,"knocks":1,"assists":3,"damage":227,"headshots":0,"revives":0,"longestKill":26,"timeSurvived":851,"deathType":"byplayer"},{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":1,"knocks":1,"assists":1,"damage":83,"headshots":0,"revives":0,"longestKill":111,"timeSurvived":790,"deathType":"byplayer"},{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":0,"knocks":0,"assists":0,"damage":160,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":754,"deathType":"byplayer"}]},{"rank":13,"teamId":5,"won":false,"kills":0,"damage":69,"players":[{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":0,"damage":69,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":975,"deathType":"byplayer"},{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":973,"deathType":"byplayer"},{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":975,"deathType":"byplayer"},{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":945,"deathType":"byplayer"}]},{"rank":14,"teamId":16,"won":false,"kills":1,"damage":267,"players":[{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":1,"knocks":1,"assists":0,"damage":188,"headshots":1,"revives":1,"longestKill":284,"timeSurvived":916,"deathType":"byplayer"},{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":0,"knocks":0,"assists":0,"damage":57,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":916,"deathType":"byplayer"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":0,"knocks":0,"assists":0,"damage":22,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":916,"deathType":"byplayer"},{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":916,"deathType":"byplayer"}]},{"rank":15,"teamId":15,"won":false,"kills":1,"damage":541,"players":[{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":1,"knocks":3,"assists":1,"damage":342,"headshots":1,"revives":0,"longestKill":3,"timeSurvived":903,"deathType":"byplayer"},{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":0,"knocks":1,"assists":0,"damage":116,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":654,"deathType":"byplayer"},{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":0,"knocks":1,"assists":0,"damage":83,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":835,"deathType":"byplayer"},{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":650,"deathType":"byplayer"}]},{"rank":16,"teamId":1,"won":false,"kills":1,"damage":445,"players":[{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":1,"knocks":1,"assists":0,"damage":190,"headshots":0,"revives":0,"longestKill":268,"timeSurvived":799,"deathType":"byplayer"},{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":0,"knocks":1,"assists":0,"damage":196,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":836,"deathType":"byplayer"},{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":0,"knocks":1,"assists":0,"damage":59,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":836,"deathType":"byplayer"},{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":800,"deathType":"byplayer"}]}]},{"matchId":"6db3779d-dbe9-412e-8310-91144232830c","createdAt":"2026-06-24T11:16:02Z","duration":1658,"map":"RONDO","mapCode":"Neon_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/24/11/45/3a3f7846-6fc2-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":8,"won":true,"kills":9,"damage":1441,"players":[{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":3,"knocks":2,"assists":2,"damage":759,"headshots":1,"revives":1,"longestKill":171,"timeSurvived":1658,"deathType":"alive"},{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":3,"knocks":2,"assists":2,"damage":293,"headshots":2,"revives":1,"longestKill":199,"timeSurvived":1602,"deathType":"byplayer"},{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":2,"knocks":2,"assists":2,"damage":185,"headshots":1,"revives":0,"longestKill":446,"timeSurvived":1635,"deathType":"alive"},{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":1,"knocks":0,"assists":0,"damage":204,"headshots":0,"revives":0,"longestKill":34,"timeSurvived":1658,"deathType":"alive"}]},{"rank":2,"teamId":2,"won":false,"kills":20,"damage":2986,"players":[{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":8,"knocks":5,"assists":2,"damage":779,"headshots":3,"revives":0,"longestKill":260,"timeSurvived":1619,"deathType":"byplayer"},{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":4,"knocks":6,"assists":3,"damage":960,"headshots":2,"revives":2,"longestKill":292,"timeSurvived":1655,"deathType":"byplayer"},{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":4,"knocks":3,"assists":0,"damage":797,"headshots":2,"revives":1,"longestKill":134,"timeSurvived":1574,"deathType":"byplayer"},{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":4,"knocks":2,"assists":3,"damage":450,"headshots":1,"revives":0,"longestKill":321,"timeSurvived":1539,"deathType":"byplayer"}]},{"rank":3,"teamId":12,"won":false,"kills":5,"damage":1389,"players":[{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":2,"knocks":2,"assists":1,"damage":556,"headshots":0,"revives":0,"longestKill":80,"timeSurvived":1562,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":2,"knocks":2,"assists":0,"damage":474,"headshots":0,"revives":0,"longestKill":157,"timeSurvived":1562,"deathType":"byplayer"},{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":1,"knocks":1,"assists":1,"damage":268,"headshots":0,"revives":0,"longestKill":121,"timeSurvived":1562,"deathType":"byplayer"},{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":0,"knocks":0,"assists":1,"damage":91,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1106,"deathType":"byplayer"}]},{"rank":4,"teamId":1,"won":false,"kills":5,"damage":600,"players":[{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":3,"knocks":3,"assists":2,"damage":260,"headshots":1,"revives":1,"longestKill":82,"timeSurvived":1476,"deathType":"byzone"},{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":1,"knocks":0,"assists":1,"damage":143,"headshots":0,"revives":0,"longestKill":4,"timeSurvived":1140,"deathType":"byplayer"},{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":1,"knocks":2,"assists":0,"damage":106,"headshots":0,"revives":0,"longestKill":12,"timeSurvived":1184,"deathType":"byplayer"},{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":0,"knocks":0,"assists":0,"damage":91,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1048,"deathType":"byplayer"}]},{"rank":5,"teamId":16,"won":false,"kills":3,"damage":433,"players":[{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":3,"knocks":2,"assists":0,"damage":343,"headshots":0,"revives":1,"longestKill":44,"timeSurvived":1401,"deathType":"byplayer"},{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":0,"knocks":0,"assists":0,"damage":46,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":582,"deathType":"byplayer"},{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":0,"knocks":0,"assists":0,"damage":44,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1197,"deathType":"byplayer"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":586,"deathType":"byplayer"}]},{"rank":6,"teamId":10,"won":false,"kills":1,"damage":411,"players":[{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":1,"knocks":2,"assists":0,"damage":242,"headshots":0,"revives":0,"longestKill":53,"timeSurvived":1378,"deathType":"byplayer"},{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":0,"knocks":1,"assists":1,"damage":100,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1378,"deathType":"byplayer"},{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":0,"knocks":0,"assists":0,"damage":44,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1378,"deathType":"byplayer"},{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":0,"knocks":0,"assists":0,"damage":25,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1376,"deathType":"byplayer"}]},{"rank":7,"teamId":14,"won":false,"kills":3,"damage":533,"players":[{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":2,"knocks":2,"assists":0,"damage":220,"headshots":0,"revives":0,"longestKill":115,"timeSurvived":1052,"deathType":"byplayer"},{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":1,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":1,"longestKill":1,"timeSurvived":1111,"deathType":"byplayer"},{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":0,"knocks":2,"assists":3,"damage":187,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1134,"deathType":"byplayer"},{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":0,"knocks":0,"assists":1,"damage":126,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1055,"deathType":"byplayer"}]},{"rank":8,"teamId":15,"won":false,"kills":2,"damage":340,"players":[{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":2,"knocks":1,"assists":0,"damage":81,"headshots":0,"revives":0,"longestKill":29,"timeSurvived":1067,"deathType":"byzone"},{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":0,"knocks":1,"assists":2,"damage":158,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":817,"deathType":"byplayer"},{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":0,"knocks":1,"assists":1,"damage":101,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1121,"deathType":"byplayer"},{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":246,"deathType":"byplayer"}]},{"rank":9,"teamId":4,"won":false,"kills":0,"damage":204,"players":[{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":0,"knocks":0,"assists":0,"damage":133,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":384,"deathType":"byplayer"},{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":0,"knocks":1,"assists":0,"damage":71,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":383,"deathType":"byplayer"},{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1012,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1012,"deathType":"byplayer"}]},{"rank":10,"teamId":7,"won":false,"kills":3,"damage":268,"players":[{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":2,"knocks":0,"assists":0,"damage":161,"headshots":1,"revives":1,"longestKill":9,"timeSurvived":976,"deathType":"byplayer"},{"name":"KAZ_210","playerId":"account.e89e6087542a4eb5bfd6bd054cf6f01a","kills":1,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":8,"timeSurvived":979,"deathType":"byplayer"},{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":0,"knocks":0,"assists":0,"damage":78,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":966,"deathType":"byplayer"},{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":0,"knocks":0,"assists":0,"damage":29,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":556,"deathType":"byplayer"}]},{"rank":11,"teamId":9,"won":false,"kills":2,"damage":119,"players":[{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":1,"knocks":0,"assists":0,"damage":0,"headshots":1,"revives":0,"longestKill":58,"timeSurvived":919,"deathType":"byplayer"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":1,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":45,"timeSurvived":919,"deathType":"byplayer"},{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":0,"knocks":0,"assists":0,"damage":119,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":879,"deathType":"byplayer"},{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":914,"deathType":"byplayer"}]},{"rank":12,"teamId":5,"won":false,"kills":1,"damage":180,"players":[{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":1,"knocks":1,"assists":0,"damage":108,"headshots":0,"revives":0,"longestKill":17,"timeSurvived":859,"deathType":"byplayer"},{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":1,"damage":72,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":833,"deathType":"byplayer"},{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":839,"deathType":"byplayer"},{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":859,"deathType":"byplayer"}]},{"rank":13,"teamId":3,"won":false,"kills":0,"damage":180,"players":[{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":0,"knocks":0,"assists":0,"damage":140,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":768,"deathType":"byplayer"},{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":0,"knocks":0,"assists":0,"damage":40,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":797,"deathType":"byplayer"},{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":728,"deathType":"byplayer"},{"name":"NOR_Tekkerz","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":797,"deathType":"byplayer"}]},{"rank":14,"teamId":11,"won":false,"kills":5,"damage":651,"players":[{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":2,"knocks":2,"assists":0,"damage":200,"headshots":0,"revives":0,"longestKill":24,"timeSurvived":755,"deathType":"byplayer"},{"name":"ARG_Dr4ftk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":2,"knocks":2,"assists":1,"damage":185,"headshots":0,"revives":0,"longestKill":49,"timeSurvived":742,"deathType":"byplayer"},{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":1,"knocks":0,"assists":1,"damage":212,"headshots":0,"revives":0,"longestKill":39,"timeSurvived":758,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":0,"knocks":0,"assists":2,"damage":54,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":751,"deathType":"byplayer"}]},{"rank":15,"teamId":13,"won":false,"kills":0,"damage":383,"players":[{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":0,"knocks":1,"assists":1,"damage":215,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":734,"deathType":"byplayer"},{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":0,"knocks":0,"assists":1,"damage":116,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":734,"deathType":"byplayer"},{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":0,"knocks":1,"assists":1,"damage":29,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":734,"deathType":"byplayer"},{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":0,"knocks":0,"assists":0,"damage":23,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":734,"deathType":"byplayer"}]},{"rank":16,"teamId":6,"won":false,"kills":0,"damage":209,"players":[{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":0,"knocks":1,"assists":0,"damage":132,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":294,"deathType":"byplayer"},{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":0,"knocks":0,"assists":0,"damage":59,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":294,"deathType":"byplayer"},{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":0,"knocks":0,"assists":0,"damage":18,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":294,"deathType":"byplayer"},{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":294,"deathType":"byplayer"}]}]},{"matchId":"e0856049-b7d7-4f91-8b36-953820e87e7d","createdAt":"2026-06-24T11:51:17Z","duration":1699,"map":"MIRAMAR","mapCode":"Desert_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/24/12/21/3cb1bc2c-6fc7-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":16,"won":true,"kills":11,"damage":1934,"players":[{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":4,"knocks":3,"assists":1,"damage":708,"headshots":1,"revives":0,"longestKill":90,"timeSurvived":1699,"deathType":"alive"},{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":4,"knocks":5,"assists":2,"damage":590,"headshots":2,"revives":2,"longestKill":153,"timeSurvived":1699,"deathType":"alive"},{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":2,"knocks":4,"assists":2,"damage":458,"headshots":0,"revives":1,"longestKill":180,"timeSurvived":1699,"deathType":"alive"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":1,"knocks":0,"assists":0,"damage":178,"headshots":0,"revives":0,"longestKill":21,"timeSurvived":1699,"deathType":"alive"}]},{"rank":2,"teamId":4,"won":false,"kills":5,"damage":1392,"players":[{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":2,"knocks":2,"assists":0,"damage":464,"headshots":1,"revives":0,"longestKill":179,"timeSurvived":1696,"deathType":"byplayer"},{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":2,"knocks":1,"assists":2,"damage":367,"headshots":0,"revives":0,"longestKill":137,"timeSurvived":1690,"deathType":"byplayer"},{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":1,"knocks":2,"assists":2,"damage":430,"headshots":1,"revives":0,"longestKill":228,"timeSurvived":1696,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":0,"assists":1,"damage":131,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1676,"deathType":"byplayer"}]},{"rank":3,"teamId":11,"won":false,"kills":8,"damage":2152,"players":[{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":5,"knocks":4,"assists":2,"damage":664,"headshots":1,"revives":0,"longestKill":160,"timeSurvived":1542,"deathType":"byplayer"},{"name":"ARG_Dr4ftk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":2,"knocks":3,"assists":2,"damage":603,"headshots":0,"revives":1,"longestKill":158,"timeSurvived":1590,"deathType":"byplayer"},{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":1,"knocks":2,"assists":2,"damage":250,"headshots":0,"revives":0,"longestKill":82,"timeSurvived":1571,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":0,"knocks":0,"assists":2,"damage":635,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1628,"deathType":"byzone"}]},{"rank":4,"teamId":7,"won":false,"kills":4,"damage":926,"players":[{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":3,"knocks":2,"assists":1,"damage":409,"headshots":0,"revives":1,"longestKill":126,"timeSurvived":1441,"deathType":"byplayer"},{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":1,"knocks":2,"assists":1,"damage":377,"headshots":0,"revives":0,"longestKill":57,"timeSurvived":1534,"deathType":"byplayer"},{"name":"KAZ_210","playerId":"account.e89e6087542a4eb5bfd6bd054cf6f01a","kills":0,"knocks":0,"assists":0,"damage":114,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1441,"deathType":"byplayer"},{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":0,"knocks":0,"assists":0,"damage":26,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1438,"deathType":"byplayer"}]},{"rank":5,"teamId":1,"won":false,"kills":5,"damage":924,"players":[{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":3,"knocks":3,"assists":0,"damage":119,"headshots":1,"revives":1,"longestKill":283,"timeSurvived":1189,"deathType":"byplayer"},{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":1,"knocks":0,"assists":1,"damage":211,"headshots":0,"revives":0,"longestKill":307,"timeSurvived":1303,"deathType":"byplayer"},{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":1,"knocks":0,"assists":0,"damage":206,"headshots":0,"revives":0,"longestKill":118,"timeSurvived":1327,"deathType":"byplayer"},{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":0,"knocks":1,"assists":3,"damage":388,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1392,"deathType":"byplayer"}]},{"rank":6,"teamId":14,"won":false,"kills":4,"damage":677,"players":[{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":2,"knocks":1,"assists":0,"damage":217,"headshots":0,"revives":2,"longestKill":11,"timeSurvived":1243,"deathType":"byplayer"},{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":1,"knocks":1,"assists":1,"damage":228,"headshots":0,"revives":1,"longestKill":119,"timeSurvived":1194,"deathType":"byplayer"},{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":1,"knocks":1,"assists":1,"damage":112,"headshots":0,"revives":0,"longestKill":19,"timeSurvived":1227,"deathType":"byplayer"},{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":0,"knocks":1,"assists":0,"damage":120,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1383,"deathType":"byplayer"}]},{"rank":7,"teamId":8,"won":false,"kills":4,"damage":598,"players":[{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":2,"knocks":1,"assists":0,"damage":184,"headshots":1,"revives":0,"longestKill":40,"timeSurvived":1374,"deathType":"byzone"},{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":1,"knocks":1,"assists":0,"damage":202,"headshots":0,"revives":1,"longestKill":24,"timeSurvived":1356,"deathType":"byplayer"},{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":1,"knocks":1,"assists":1,"damage":118,"headshots":0,"revives":0,"longestKill":52,"timeSurvived":1209,"deathType":"byplayer"},{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":0,"knocks":0,"assists":0,"damage":94,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1223,"deathType":"byplayer"}]},{"rank":8,"teamId":5,"won":false,"kills":3,"damage":999,"players":[{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":1,"knocks":1,"assists":0,"damage":210,"headshots":1,"revives":0,"longestKill":142,"timeSurvived":1245,"deathType":"byplayer"},{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":1,"knocks":0,"assists":0,"damage":202,"headshots":0,"revives":1,"longestKill":60,"timeSurvived":1369,"deathType":"byplayer"},{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":1,"knocks":1,"assists":0,"damage":182,"headshots":0,"revives":0,"longestKill":51,"timeSurvived":1368,"deathType":"byplayer"},{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":0,"damage":405,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1328,"deathType":"byplayer"}]},{"rank":9,"teamId":3,"won":false,"kills":1,"damage":848,"players":[{"name":"NOR_Tekkerz","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":1,"knocks":0,"assists":0,"damage":158,"headshots":0,"revives":0,"longestKill":42,"timeSurvived":1047,"deathType":"byplayer"},{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":0,"knocks":1,"assists":0,"damage":396,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1293,"deathType":"byplayer"},{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":0,"knocks":1,"assists":0,"damage":188,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1266,"deathType":"byplayer"},{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":0,"knocks":1,"assists":0,"damage":106,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1080,"deathType":"byplayer"}]},{"rank":10,"teamId":2,"won":false,"kills":3,"damage":652,"players":[{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":1,"knocks":3,"assists":1,"damage":368,"headshots":0,"revives":0,"longestKill":6,"timeSurvived":1209,"deathType":"byplayer"},{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":1,"knocks":1,"assists":0,"damage":153,"headshots":1,"revives":0,"longestKill":122,"timeSurvived":974,"deathType":"byplayer"},{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":1,"knocks":1,"assists":0,"damage":54,"headshots":0,"revives":1,"longestKill":176,"timeSurvived":1055,"deathType":"byzone"},{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":0,"knocks":0,"assists":0,"damage":77,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1116,"deathType":"byplayer"}]},{"rank":11,"teamId":12,"won":false,"kills":4,"damage":810,"players":[{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":3,"knocks":2,"assists":1,"damage":381,"headshots":1,"revives":0,"longestKill":45,"timeSurvived":1139,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":1,"knocks":3,"assists":0,"damage":337,"headshots":1,"revives":0,"longestKill":193,"timeSurvived":1139,"deathType":"byplayer"},{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":0,"knocks":0,"assists":0,"damage":92,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1001,"deathType":"byplayer"},{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1034,"deathType":"byplayer"}]},{"rank":12,"teamId":6,"won":false,"kills":2,"damage":410,"players":[{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":1,"knocks":0,"assists":0,"damage":150,"headshots":0,"revives":1,"longestKill":23,"timeSurvived":1048,"deathType":"byplayer"},{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":1,"knocks":0,"assists":0,"damage":144,"headshots":0,"revives":0,"longestKill":47,"timeSurvived":1048,"deathType":"byplayer"},{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":0,"knocks":0,"assists":0,"damage":93,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1048,"deathType":"byplayer"},{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":0,"knocks":0,"assists":0,"damage":23,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":971,"deathType":"byplayer"}]},{"rank":13,"teamId":9,"won":false,"kills":1,"damage":268,"players":[{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":1,"knocks":1,"assists":0,"damage":22,"headshots":1,"revives":0,"longestKill":33,"timeSurvived":839,"deathType":"byplayer"},{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":0,"knocks":0,"assists":1,"damage":102,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":799,"deathType":"byplayer"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":0,"knocks":1,"assists":1,"damage":100,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":892,"deathType":"byplayer"},{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":0,"knocks":0,"assists":0,"damage":44,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":997,"deathType":"byplayer"}]},{"rank":14,"teamId":13,"won":false,"kills":3,"damage":494,"players":[{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":1,"knocks":1,"assists":0,"damage":211,"headshots":0,"revives":0,"longestKill":112,"timeSurvived":973,"deathType":"byplayer"},{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":1,"knocks":2,"assists":0,"damage":152,"headshots":1,"revives":0,"longestKill":23,"timeSurvived":794,"deathType":"byplayer"},{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":1,"knocks":1,"assists":0,"damage":111,"headshots":1,"revives":1,"longestKill":69,"timeSurvived":966,"deathType":"byplayer"},{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":0,"knocks":0,"assists":2,"damage":20,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":951,"deathType":"byplayer"}]},{"rank":15,"teamId":15,"won":false,"kills":0,"damage":98,"players":[{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":0,"knocks":0,"assists":0,"damage":56,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":934,"deathType":"byplayer"},{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":0,"knocks":0,"assists":0,"damage":42,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":938,"deathType":"byplayer"},{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":927,"deathType":"byplayer"},{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":938,"deathType":"byplayer"}]},{"rank":16,"teamId":10,"won":false,"kills":0,"damage":94,"players":[{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":0,"knocks":1,"assists":0,"damage":94,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":901,"deathType":"byplayer"},{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":901,"deathType":"byplayer"},{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":901,"deathType":"byplayer"},{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":901,"deathType":"byplayer"}]}]},{"matchId":"1e7aebb8-5765-4b13-9546-3dea96182b86","createdAt":"2026-06-24T12:31:22Z","duration":1749,"map":"TAEGO","mapCode":"Tiger_Main","gameMode":"esports-squad","matchType":"","isCustomMatch":true,"telemetryUrl":"https://telemetry-cdn.pubg.com/bluehole-pubg/tournament/2026/06/24/13/02/f7113d81-6fcc-11f1-b872-96012a753116-telemetry.json","teamCount":16,"rosters":[{"rank":1,"teamId":16,"won":true,"kills":8,"damage":2557,"players":[{"name":"TUR_Metebey","playerId":"account.68e47c639a684d7ca4fc4d4aa6b04b38","kills":5,"knocks":5,"assists":2,"damage":989,"headshots":2,"revives":0,"longestKill":283,"timeSurvived":1749,"deathType":"alive"},{"name":"TUR_Celtik","playerId":"account.7d815dbb5f1e458db3c3550338d49cae","kills":2,"knocks":0,"assists":4,"damage":816,"headshots":1,"revives":1,"longestKill":51,"timeSurvived":1749,"deathType":"alive"},{"name":"TUR_Shilla","playerId":"account.1afd46c388f347fc863198e2712706dd","kills":1,"knocks":2,"assists":0,"damage":262,"headshots":1,"revives":0,"longestKill":46,"timeSurvived":1229,"deathType":"byplayer"},{"name":"TUR_CodeMarco","playerId":"account.1d883dcd5dcb4915b33f317c2172e3db","kills":0,"knocks":1,"assists":2,"damage":490,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1749,"deathType":"alive"}]},{"rank":2,"teamId":6,"won":false,"kills":8,"damage":1384,"players":[{"name":"DEN_Gustav","playerId":"account.ed0f3e29c53a47deb101473a838dee25","kills":5,"knocks":3,"assists":0,"damage":453,"headshots":2,"revives":0,"longestKill":225,"timeSurvived":1652,"deathType":"byplayer"},{"name":"DEN_Ketter","playerId":"account.19f008ac8ba74076b81cdac79cfaa71d","kills":3,"knocks":2,"assists":1,"damage":431,"headshots":1,"revives":0,"longestKill":52,"timeSurvived":1746,"deathType":"byplayer"},{"name":"DEN_Beami","playerId":"account.f44626d418604d19892f6305ad35caaa","kills":0,"knocks":1,"assists":2,"damage":321,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1386,"deathType":"byplayer"},{"name":"DEN_Mikzenn","playerId":"account.d9796119597f4106abe77ed6a9117944","kills":0,"knocks":1,"assists":1,"damage":179,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1366,"deathType":"byplayer"}]},{"rank":3,"teamId":14,"won":false,"kills":5,"damage":870,"players":[{"name":"NEU_ADOUZ1E","playerId":"account.139e46d92d4b4ff58cd6aa9b45abfc67","kills":2,"knocks":2,"assists":0,"damage":334,"headshots":0,"revives":1,"longestKill":250,"timeSurvived":1491,"deathType":"byplayer"},{"name":"NEU_BatulinS","playerId":"account.c3b8b2adf0d44043b12717c1399a358a","kills":2,"knocks":1,"assists":0,"damage":88,"headshots":1,"revives":0,"longestKill":99,"timeSurvived":1130,"deathType":"byplayer"},{"name":"NEU_Lu","playerId":"account.d812fc773ec849b5a3c2c0aacffe4b00","kills":1,"knocks":1,"assists":1,"damage":295,"headshots":0,"revives":0,"longestKill":2,"timeSurvived":1579,"deathType":"byplayer"},{"name":"NEU_Lev4nte","playerId":"account.bd8f1aed6a814b11991501ffb2604771","kills":0,"knocks":1,"assists":0,"damage":153,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":143,"deathType":"byplayer"}]},{"rank":4,"teamId":4,"won":false,"kills":1,"damage":88,"players":[{"name":"MAS_Shen","playerId":"account.c0270d6fb20b49b686e1a5b0f4199754","kills":1,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":20,"timeSurvived":1494,"deathType":"byplayer"},{"name":"MAS_empt","playerId":"account.eb6cd07ab19c4a4d95591270732438ed","kills":0,"knocks":0,"assists":0,"damage":71,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":980,"deathType":"byplayer"},{"name":"MAS_AJ","playerId":"account.b230de04c026403ba33f18fc19c3c9b9","kills":0,"knocks":0,"assists":0,"damage":17,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":956,"deathType":"byplayer"},{"name":"MAS_SlyDD","playerId":"account.2241583d86ba43b4a471bb203f8f8a11","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":948,"deathType":"byplayer"}]},{"rank":5,"teamId":11,"won":false,"kills":6,"damage":677,"players":[{"name":"ARG_Capitan","playerId":"account.fe7d09e092fc44739dbb10b0894474ab","kills":6,"knocks":3,"assists":0,"damage":335,"headshots":2,"revives":2,"longestKill":87,"timeSurvived":1359,"deathType":"byplayer"},{"name":"ARG_Dr4ftk1NG","playerId":"account.dc96932708ce49a2998c52444c3e0846","kills":0,"knocks":0,"assists":1,"damage":148,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1027,"deathType":"byplayer"},{"name":"ARG_emikxz","playerId":"account.b55eb2e4fa91487bb122f14c44901117","kills":0,"knocks":0,"assists":1,"damage":119,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1293,"deathType":"byplayer"},{"name":"ARG_PIPAA","playerId":"account.80524bb7a5ad41ca9f5002669c553b75","kills":0,"knocks":0,"assists":1,"damage":75,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1408,"deathType":"byzone"}]},{"rank":6,"teamId":8,"won":false,"kills":8,"damage":1389,"players":[{"name":"GBR_TeaBone","playerId":"account.2c7bf3d60cff481e9c5cd7e2e3ad73e2","kills":5,"knocks":4,"assists":0,"damage":472,"headshots":2,"revives":0,"longestKill":43,"timeSurvived":1390,"deathType":"byplayer"},{"name":"GBR_vard","playerId":"account.36c8fe5a6c79424cbfb9cd2e561ee024","kills":2,"knocks":1,"assists":0,"damage":415,"headshots":0,"revives":0,"longestKill":44,"timeSurvived":1390,"deathType":"byplayer"},{"name":"GBR_Fexx","playerId":"account.28436c977b98444f8a8ceb5ee17aa5ed","kills":1,"knocks":1,"assists":1,"damage":313,"headshots":1,"revives":1,"longestKill":23,"timeSurvived":1276,"deathType":"byplayer"},{"name":"GBR_mykLe","playerId":"account.2baaad1c59894a299e6c543f15695195","kills":0,"knocks":1,"assists":0,"damage":189,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":1390,"deathType":"byplayer"}]},{"rank":7,"teamId":13,"won":false,"kills":7,"damage":1449,"players":[{"name":"AUS_Fludd","playerId":"account.0e8f2d1abf2245db88fb4fcf37abb9cc","kills":2,"knocks":1,"assists":0,"damage":573,"headshots":2,"revives":1,"longestKill":81,"timeSurvived":1339,"deathType":"byplayer"},{"name":"AUS_TGLTN","playerId":"account.fc09a08505424ecda1f6a585f101a6b6","kills":2,"knocks":2,"assists":3,"damage":389,"headshots":0,"revives":0,"longestKill":115,"timeSurvived":1216,"deathType":"byplayer"},{"name":"AUS_luke12","playerId":"account.9ff2629cfb5448e7bfc096ecd476c127","kills":2,"knocks":3,"assists":2,"damage":209,"headshots":1,"revives":0,"longestKill":177,"timeSurvived":1200,"deathType":"byplayer"},{"name":"AUS_monty","playerId":"account.86b005607b9b4e28af2caf1b0788c5a4","kills":1,"knocks":1,"assists":2,"damage":278,"headshots":0,"revives":1,"longestKill":8,"timeSurvived":1331,"deathType":"byplayer"}]},{"rank":8,"teamId":12,"won":false,"kills":4,"damage":443,"players":[{"name":"PHI_alec","playerId":"account.f332cec829464c7b866f98d3f79ce9e9","kills":3,"knocks":1,"assists":0,"damage":161,"headshots":1,"revives":0,"longestKill":87,"timeSurvived":1300,"deathType":"byplayer"},{"name":"PHI_Eyaaa","playerId":"account.7280d176b21d46d784a9aa176ff1b1da","kills":1,"knocks":1,"assists":0,"damage":136,"headshots":0,"revives":0,"longestKill":27,"timeSurvived":1042,"deathType":"byplayer"},{"name":"PHI_AljnBOTz","playerId":"account.5d23f1c9af5041f78e2e0836da86892e","kills":0,"knocks":0,"assists":0,"damage":104,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1336,"deathType":"byplayer"},{"name":"PHI_CeeJay18","playerId":"account.0d9790de2ac04ca7a96f25c4ddc8aec4","kills":0,"knocks":0,"assists":0,"damage":42,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1336,"deathType":"byplayer"}]},{"rank":9,"teamId":7,"won":false,"kills":3,"damage":399,"players":[{"name":"KAZ_210","playerId":"account.e89e6087542a4eb5bfd6bd054cf6f01a","kills":2,"knocks":2,"assists":0,"damage":146,"headshots":0,"revives":0,"longestKill":130,"timeSurvived":1213,"deathType":"byplayer"},{"name":"KAZ_iamf1ve","playerId":"account.7f4f7ab8625842d8a86526473384670b","kills":1,"knocks":2,"assists":2,"damage":193,"headshots":0,"revives":0,"longestKill":38,"timeSurvived":1328,"deathType":"byplayer"},{"name":"KAZ_Ermaak","playerId":"account.eb0844cf679f49318ef440c74c422137","kills":0,"knocks":0,"assists":0,"damage":39,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1328,"deathType":"byplayer"},{"name":"KAZ_Hoba","playerId":"account.ec37e6eb30eb4a35bf54378f2617ee0a","kills":0,"knocks":0,"assists":0,"damage":21,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1117,"deathType":"byplayer"}]},{"rank":10,"teamId":3,"won":false,"kills":1,"damage":351,"players":[{"name":"NOR_jeemzz","playerId":"account.7a71db28399b4bacb3b6d374643425d0","kills":1,"knocks":1,"assists":0,"damage":177,"headshots":1,"revives":0,"longestKill":4,"timeSurvived":531,"deathType":"byplayer"},{"name":"NOR_Tekkerz","playerId":"account.b1cf4718394148139cd606d7b52d9dfe","kills":0,"knocks":1,"assists":1,"damage":158,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1276,"deathType":"byplayer"},{"name":"NOR_Himan","playerId":"account.f6f2878447a347838c152d1337191405","kills":0,"knocks":0,"assists":0,"damage":16,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1250,"deathType":"byplayer"},{"name":"NOR_Aitzy","playerId":"account.59eb418709554995bbb9a7042ffe84c1","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":1,"longestKill":0,"timeSurvived":527,"deathType":"byplayer"}]},{"rank":11,"teamId":9,"won":false,"kills":0,"damage":387,"players":[{"name":"TPE_Savior","playerId":"account.9574ba8960ef40dbbd5ddc4e00f5f857","kills":0,"knocks":0,"assists":0,"damage":230,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1212,"deathType":"byzone"},{"name":"TPE_Upchen","playerId":"account.047a35a3ae1f44f6883a3f4f5d9564de","kills":0,"knocks":0,"assists":0,"damage":74,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1159,"deathType":"byplayer"},{"name":"TPE_lunlun","playerId":"account.f7a732cad0f847a88aee0d9df74cd180","kills":0,"knocks":0,"assists":0,"damage":60,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1172,"deathType":"byplayer"},{"name":"TPE_X1no","playerId":"account.148cbb0f16d148158176f2da27cd9ee5","kills":0,"knocks":0,"assists":0,"damage":23,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1166,"deathType":"byplayer"}]},{"rank":12,"teamId":1,"won":false,"kills":3,"damage":401,"players":[{"name":"FIN_SkaV","playerId":"account.2f8d495c3d8345e09ff4bf4e017dd422","kills":2,"knocks":1,"assists":0,"damage":181,"headshots":0,"revives":0,"longestKill":214,"timeSurvived":1049,"deathType":"byplayer"},{"name":"FIN_curexi","playerId":"account.824614c78e7a4e4f9a984125d438a6fa","kills":1,"knocks":1,"assists":0,"damage":153,"headshots":1,"revives":0,"longestKill":184,"timeSurvived":937,"deathType":"byplayer"},{"name":"FIN_S4TTA","playerId":"account.a62b9a853973464cafdf98cca924a547","kills":0,"knocks":0,"assists":1,"damage":67,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":934,"deathType":"byplayer"},{"name":"FIN_iExE","playerId":"account.62a9f35726d543d3bd4b78f4e1bd7f77","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":1049,"deathType":"byplayer"}]},{"rank":13,"teamId":5,"won":false,"kills":3,"damage":425,"players":[{"name":"JPN_G0ni1","playerId":"account.0bb2c957666e4964ba1af0e3b0714f03","kills":1,"knocks":1,"assists":1,"damage":251,"headshots":0,"revives":0,"longestKill":28,"timeSurvived":995,"deathType":"byplayer"},{"name":"JPN_Feaven","playerId":"account.71234de7d0bc4d698bbf94d9e3dac8f2","kills":1,"knocks":1,"assists":1,"damage":121,"headshots":0,"revives":0,"longestKill":146,"timeSurvived":870,"deathType":"byplayer"},{"name":"JPN_Sunnys1de-up","playerId":"account.49b57d76ca1a472d95977e8030a8c52b","kills":1,"knocks":1,"assists":0,"damage":2,"headshots":0,"revives":0,"longestKill":198,"timeSurvived":866,"deathType":"byplayer"},{"name":"JPN_Runax","playerId":"account.7d3d2d062c5e4fa9baa18efc47b23c5b","kills":0,"knocks":0,"assists":1,"damage":51,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":995,"deathType":"byplayer"}]},{"rank":14,"teamId":15,"won":false,"kills":1,"damage":112,"players":[{"name":"IND_Unforgiven","playerId":"account.d7b659ab21f94ca0b7e6fecc8f429199","kills":1,"knocks":1,"assists":0,"damage":75,"headshots":1,"revives":0,"longestKill":112,"timeSurvived":873,"deathType":"byplayer"},{"name":"IND_Trnsluc3nt","playerId":"account.1816e8c890f4495a8b66052824d63047","kills":0,"knocks":0,"assists":1,"damage":37,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":888,"deathType":"byplayer"},{"name":"IND_SniPauL","playerId":"account.d845265c51f14ec8a34a51eeecb20145","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":519,"deathType":"byplayer"},{"name":"IND_Ryzn07","playerId":"account.7d27bbf5e3fd42b5ae4874ed89b2a923","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":945,"deathType":"byplayer"}]},{"rank":15,"teamId":2,"won":false,"kills":0,"damage":254,"players":[{"name":"UKR_Hakatory","playerId":"account.ba7b87fad7f844bfa5db625d8212483b","kills":0,"knocks":1,"assists":0,"damage":145,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":778,"deathType":"byplayer"},{"name":"UKR_boost1k-","playerId":"account.60ce989a121f40eca376d288c3fd126c","kills":0,"knocks":0,"assists":0,"damage":49,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":778,"deathType":"byplayer"},{"name":"UKR_Feyerist","playerId":"account.89d027be95ec439194d197ee4930dc8e","kills":0,"knocks":0,"assists":0,"damage":41,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":778,"deathType":"suicide"},{"name":"UKR_DIFX","playerId":"account.0c9d0814ea1440cd8047f662113232e8","kills":0,"knocks":1,"assists":0,"damage":19,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":778,"deathType":"byplayer"}]},{"rank":16,"teamId":10,"won":false,"kills":1,"damage":146,"players":[{"name":"CAN_Kaymind","playerId":"account.c9510826ee4141d281addb24451e4693","kills":1,"knocks":1,"assists":0,"damage":100,"headshots":0,"revives":0,"longestKill":14,"timeSurvived":512,"deathType":"byplayer"},{"name":"CAN_Adam","playerId":"account.dfdc32d4ed9a422e9bf2086e10578b35","kills":0,"knocks":0,"assists":1,"damage":25,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":512,"deathType":"byplayer"},{"name":"CAN_Shinboi","playerId":"account.b84b73e9e65a464cba98809b3f95717a","kills":0,"knocks":0,"assists":0,"damage":21,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":512,"deathType":"byplayer"},{"name":"CAN_f1nna","playerId":"account.ec3b0870b7584abd86a9ac9f7874c75d","kills":0,"knocks":0,"assists":0,"damage":0,"headshots":0,"revives":0,"longestKill":0,"timeSurvived":313,"deathType":"byplayer"}]}]}],"adjustments":[],"tournamentInfo":{"name":"PUBG Nations Cup 2026","startDate":"2026-06-23","endDate":"2026-06-28","place":"PUBG Seongsu, Seoul, South Korea","teamNumber":24,"prizeDisplay":"$1,051,550 (₩1,518,028,096)","broadcastUrl":null,"officialUrl":null,"status":null,"crossCheck":"단일소스"}};
+
+/* ── 상태 ───────────────────────────────────────────────────── */
+const N = D.matches.length;
+let range = [1, N];
+let tab = 'rank';
+const openMatches = new Set();
+/** 자동으로 펼쳐준 "최신 매치"의 id. 최신이 바뀔 때만 갱신됩니다. */
+let autoOpenKey = null;
+
+/* 자동 새로고침을 해도 보던 화면이 유지되도록 주소 뒤에 상태를 저장합니다.
+   to=end 로 저장해두면 새 매치가 추가됐을 때 자동으로 끝까지 포함됩니다. */
+function loadState() {
+  try {
+    const p = new URLSearchParams(location.hash.slice(1));
+    if (p.get('t')) tab = p.get('t');
+    const f = Number(p.get('f') || 1);
+    const o = p.get('o') === 'end' || !p.get('o') ? N : Number(p.get('o'));
+    range = [Math.min(Math.max(1, f), N), Math.min(Math.max(1, o), N)];
+    if (range[0] > range[1]) range = [1, N];
+    if (p.get('auto') === '0') autoOn = false;
+    for (const [q, scope] of [['sr', 'rank'], ['sm', 'match'], ['sp', 'player']]) {
+      const v = p.get(q);
+      if (!v) continue;
+      const [k, d] = v.split('.');
+      if (k) sort[scope] = { key: k, dir: d === 'asc' ? 'asc' : 'desc' };
+    }
+  } catch (e) { /* 무시 */ }
+}
+function saveState() {
+  const s = (scope) => sort[scope].key + '.' + sort[scope].dir;
+  const h = '#t=' + tab + '&f=' + range[0] + '&o=' + (range[1] === N ? 'end' : range[1]) +
+    '&auto=' + (autoOn ? 1 : 0) +
+    '&sr=' + s('rank') + '&sm=' + s('match') + '&sp=' + s('player');
+  try { history.replaceState(null, '', h); } catch (e) { location.hash = h; }
+}
+
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g,
+  (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf = (n) => (n == null ? '-' : Number(n).toLocaleString('ko-KR'));
+/** 초 → "12:34" (생존 시간 표시용) */
+const fmtTime = (sec) => {
+  if (sec == null || !Number.isFinite(sec)) return '-';
+  const s = Math.max(0, Math.round(sec));
+  const m = Math.floor(s / 60);
+  return m + ':' + String(s % 60).padStart(2, '0');
+};
+
+/* ── 정렬 엔진 ──────────────────────────────────────────────
+   표마다(scope) 기준 컬럼(key)과 방향(dir)을 따로 기억합니다.
+   같은 컬럼을 다시 누르면 오름차순 ↔ 내림차순이 뒤집힙니다. */
+const TEXT_KEYS = new Set(['name', 'team', 'map']);
+const defaultDir = (key) => (key === 'rank' || TEXT_KEYS.has(key)) ? 'asc' : 'desc';
+
+const sort = {
+  rank:   { key: 'rank',  dir: 'asc'  },
+  match:  { key: 'pts',   dir: 'desc' },   // 그 매치에서 딴 점수 순 (엑셀과 동일)
+  player: { key: 'kills', dir: 'desc' },
+};
+
+function toggleSort(scope, key) {
+  const st = sort[scope];
+  if (st.key === key) st.dir = st.dir === 'asc' ? 'desc' : 'asc';
+  else { st.key = key; st.dir = defaultDir(key); }
+}
+
+/** 정렬 가능한 헤더 셀 */
+function th(scope, key, label, cls, tip) {
+  const st = sort[scope];
+  const on = st.key === key;
+  const arrow = on ? '<span class="arw">' + (st.dir === 'asc' ? '▲' : '▼') + '</span>' : '';
+  // cls 를 '' 로 넘기면 "클래스 없음(왼쪽 정렬)" 이라는 뜻입니다.
+  // 예전에는 (cls || 'num') 이라 빈 문자열이 falsy 로 걸려 팀·선수 헤더까지
+  // num(우측 정렬)이 붙는 바람에 글자가 팀명이 아니라 매치 칸 쪽에 붙어 있었습니다.
+  const klass = (cls === undefined || cls === null) ? 'num' : cls;
+  return '<th class="' + (klass ? klass + ' ' : '') + 'sortable' + (on ? ' on' : '') + '"' +
+    (tip ? ' title="' + esc(tip) + '"' : '') +
+    ' data-scope="' + scope + '" data-sk="' + key + '">' + label + arrow + '</th>';
+}
+
+/* 전투 스탯은 어느 화면에서든 같은 순서·같은 이름으로 씁니다.
+   킬 → 딜량 → 기절시킴 → 어시스트 → 헤드샷.
+   knocks 는 PUBG API 의 DBNOs 로, "상대를" 기절시킨 횟수입니다. 본인이 당한 수가 아닙니다. */
+const STAT_COLS = [
+  { key: 'kills',     label: '킬',      tip: '처치 수' },
+  { key: 'damage',    label: '딜량',    tip: '누적 피해량' },
+  { key: 'knocks',    label: '기절시킴', tip: '상대를 기절시킨 횟수 (DBNO). 본인이 기절한 수가 아닙니다.' },
+  { key: 'assists',   label: '어시스트', tip: '어시스트' },
+  { key: 'headshots', label: '헤드샷',  tip: '헤드샷 처치 수' },
+];
+
+/** 정렬 실행. get(row) 로 값을 꺼내는 방식이라 계산 컬럼도 됩니다. */
+function sortRows(rows, scope, getters) {
+  const { key, dir } = sort[scope];
+  const get = getters[key] || ((r) => r[key]);
+  const sign = dir === 'asc' ? 1 : -1;
+  return rows.slice().sort((a, b) => {
+    const x = get(a), y = get(b);
+    if (typeof x === 'string' || typeof y === 'string') {
+      return sign * String(x).localeCompare(String(y), 'ko');
+    }
+    if (x !== y) return sign * (x - y);
+    // 값이 같으면 항상 같은 줄 순서가 나오도록 순위 → 킬 → 딜량으로 갈라줍니다.
+    return (a.rank || 0) - (b.rank || 0) ||
+           (b.kills || 0) - (a.kills || 0) ||
+           (b.damage || 0) - (a.damage || 0);
+  });
+}
+
+const inRange = () => D.matches.slice(range[0] - 1, range[1]);
+const board = () => computeLeaderboard(inRange(), D.rules, D.teams, D.adjustments || []);
+
+/* 팀 로고 — public/logos/<태그>.png 가 있으면 이미지, 없으면 색 뱃지 */
+function logoOf(tag, name, color) {
+  const file = (D.logos || {})[String(tag).toUpperCase()];
+  if (file) {
+    // loading="lazy" 를 쓰면 안 됩니다.
+    // 이 표는 15초마다 innerHTML 로 통째로 다시 그려지는데, 지연 로딩이
+    // 시작되기 전에 요소가 교체돼 로고가 영영 안 뜹니다. (실측: 15개 중 0개 로드)
+    return '<img class="lg" src="' + esc((D.logoBase || 'logos/') + file) +
+      '" alt="' + esc(name || tag) + '" decoding="async" ' +
+      'onload="window.__logoTone(this)" ' +
+      'onerror="this.outerHTML=window.__badge(' + JSON.stringify(String(tag)) + ')">';
+  }
+  return badge(tag, color);
+}
+
+/* 로고 파일이 없을 때 쓰는 약자 뱃지 */
+function badge(tag, color) {
+  const c = colorOf(tag, color);
+  const t = String(tag).replace(/[^A-Za-z0-9]/g, '').slice(0, 3).toUpperCase() || '?';
+  return '<span class="lgx" style="background:' + c + '">' + esc(t) + '</span>';
+}
+window.__badge = (tag) => badge(tag, null);
+
+/* 어두운 로고는 검은 배경에 묻힙니다.
+   불러온 뒤 실제 밝기를 재서, 어두우면 흰 테두리+밝은 바탕을 입힙니다.
+   (로고는 우리 사이트에서 같이 서빙되므로 canvas 로 읽어도 CORS 문제가 없습니다) */
+const __toneCache = {};
+window.__logoTone = (img) => {
+  const key = img.getAttribute('src');
+  const apply = (dark) => { if (dark) img.classList.add('ondark'); };
+  if (key in __toneCache) return apply(__toneCache[key]);
+  try {
+    const N = 24;                       // 24x24 로 줄여서 훑습니다. 정확도보다 속도.
+    const cv = document.createElement('canvas');
+    cv.width = N; cv.height = N;
+    const cx = cv.getContext('2d', { willReadFrequently: true });
+    cx.drawImage(img, 0, 0, N, N);
+    const d = cx.getImageData(0, 0, N, N).data;
+    let sum = 0, n = 0;
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i + 3] < 40) continue;      // 투명한 부분은 빼고 잽니다
+      sum += 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+      n++;
+    }
+    // 불투명 화소가 거의 없으면(전부 투명) 판단을 보류합니다.
+    // 배경이 #0b0d11 이라 어지간히 어두우면 묻힙니다. 기준을 넉넉히 잡습니다.
+    const dark = n > 20 && (sum / n) < 95;
+    __toneCache[key] = dark;
+    apply(dark);
+  } catch {
+    /* canvas 를 못 쓰는 환경이면 그냥 둡니다 — 로고는 그대로 보입니다 */
+  }
+};
+
+/* 직전 매치 대비 순위 변동 */
+function deltaCell(d) {
+  if (d === null || d === undefined) return '<td class="dl nw">NEW</td>';
+  if (d > 0) return '<td class="dl up">▲' + d + '</td>';
+  if (d < 0) return '<td class="dl dn">▼' + (-d) + '</td>';
+  return '<td class="dl fl">–</td>';
+}
+
+/* 이번 범위의 마지막 매치를 뺀 순위 (변동 계산용) */
+function prevRanks() {
+  const m = inRange();
+  if (m.length < 2) return null;
+  const { leaderboard } = computeLeaderboard(m.slice(0, -1), D.rules, D.teams);
+  const map = {};
+  for (const r of leaderboard) map[r.tag] = r.rank;
+  return map;
+}
+
+/* 팀 태그 색 (수동 지정이 없으면 이름 해시로 고정 색) */
+function colorOf(tag, given) {
+  if (given) return given;
+  let h = 0;
+  for (let i = 0; i < tag.length; i++) h = (h * 31 + tag.charCodeAt(i)) % 360;
+  return 'hsl(' + h + ',62%,58%)';
+}
+
+/* ── 헤더 ───────────────────────────────────────────────────── */
+function renderHead() {
+  // 사이트 브랜드는 어느 페이지에서나 동일하게 표시합니다.
+  // 대회 이름은 그 아래 제목으로 남겨 어느 대회인지 알 수 있게 합니다.
+  $('brand').textContent = D.brand;
+  if (D.hub) $('brand').setAttribute('href', D.hub);
+  document.title = D.title + ' · ' + D.brand;
+
+  $('title').textContent = D.title;
+  $('meta').textContent = '총 ' + N + '매치 · ' +
+    (D.matches[0] ? D.matches[0].teamCount : 0) + '팀';
+
+  // "데이터 기준" 은 파일을 만든 시각이 아니라 마지막 경기가 끝난 시각이어야 합니다.
+  const fmt = (d) => new Date(d).toLocaleString('ko-KR', { dateStyle: 'medium', timeStyle: 'short' });
+  const lastM = D.matches[D.matches.length - 1];
+  const lastEnd = lastM
+    ? new Date(new Date(lastM.createdAt).getTime() + (lastM.duration || 0) * 1000)
+    : null;
+  $('updated').innerHTML = (lastEnd ? '마지막 경기 ' + fmt(lastEnd) : '') +
+    '<br><span style="opacity:.55">갱신 ' + fmt(D.builtAt) + '</span>';
+  $('built').textContent = '갱신 ' + fmt(D.builtAt);
+
+  for (const sel of [$('from'), $('to')]) {
+    sel.innerHTML = '';
+    for (let i = 1; i <= N; i++) {
+      const o = document.createElement('option');
+      o.value = i; o.textContent = '매치 ' + i;
+      sel.appendChild(o);
+    }
+  }
+  $('from').value = range[0]; $('to').value = range[1];
+  $('from').onchange = $('to').onchange = () => {
+    let a = Number($('from').value), b = Number($('to').value);
+    if (a > b) { b = a; $('to').value = b; }
+    range = [a, b];
+    render();
+  };
+}
+
+/* 대회정보 헤더 배너 — wwcd.lol 스타일 참고.
+   D.tournamentInfo 는 build-all.js 가 pubgesports.com·Liquipedia 자동수집값과
+   구글시트("대회정보" 탭) 수동 override 를 미리 합쳐 넣어준 최종값입니다.
+   수집 실패 등으로 값이 하나도 없으면 배너 자체를 그리지 않습니다. */
+function renderBanner() {
+  const info = D.tournamentInfo;
+  const el = $('infoBanner');
+  if (!info || !(info.name || info.startDate || info.place || info.prizeDisplay)) {
+    el.innerHTML = '';
+    return;
+  }
+
+  const period = (info.startDate || info.endDate)
+    ? '📅 ' + (info.startDate || '?') + ' ~ ' + (info.endDate || '?') : '';
+  const place = info.place ? '📍 ' + esc(info.place) : '';
+  const teams = info.teamNumber ? '👥 ' + info.teamNumber + '팀' : '';
+  const prize = info.prizeDisplay ? '🏆 ' + esc(info.prizeDisplay) : '';
+  const metaItems = [period, place, teams, prize].filter(Boolean)
+    .map((t) => '<span>' + t + '</span>').join('');
+
+  const live = info.status === 'LIVE' ? '<span class="info-live">LIVE</span>' : '';
+  const viewUrl = info.officialUrl || info.broadcastUrl;
+
+  el.innerHTML =
+    '<div class="info-banner">' +
+      '<div>' +
+        '<div class="info-banner-title"><h2>' + esc(info.name || D.title) + '</h2>' + live + '</div>' +
+        '<div class="info-meta">' + metaItems + '</div>' +
+      '</div>' +
+      (viewUrl
+        ? '<a class="info-view-btn" href="' + esc(viewUrl) + '" target="_blank" rel="noopener">VIEW EVENT →</a>'
+        : '') +
+    '</div>';
+}
+
+/* ── 자동 새로고침 ──────────────────────────────────────────
+   watch.js 가 새 매치를 받을 때마다 이 HTML 파일 자체를 다시 굽습니다.
+   그래서 페이지를 새로고침하면 최신 순위가 들어옵니다. */
+const RELOAD_SEC = 20;
+let autoOn = true;
+let left = RELOAD_SEC;
+
+function startAuto() {
+  setInterval(() => {
+    if (!autoOn) { $('cnt').textContent = ''; return; }
+    left -= 1;
+    if (left <= 0) { saveState(); location.reload(); return; }
+    $('cnt').textContent = left + '초';
+  }, 1000);
+  $('auto').checked = autoOn;
+  $('auto').onchange = () => {
+    autoOn = $('auto').checked;
+    left = RELOAD_SEC;
+    saveState();
+  };
+}
+
+/* ── 1. 누적 순위표 ───────────────────────────────────────────
+   wwcd.lol 처럼 팀 로고 · 직전 매치 대비 순위 변동 · 최다 킬 선수를
+   한 화면에 같이 보여줍니다. */
+function viewRank() {
+  const { leaderboard, killLeaders } = board();
+  const prev = prevRanks();
+  const rows = sortRows(leaderboard, 'rank', {
+    name: (r) => r.name || r.tag,
+    avgKills: (r) => r.kills / (r.matches || 1),
+    delta: (r) => (prev && prev[r.tag] != null ? prev[r.tag] - r.rank : 99),
+  });
+
+  const head = '<thead><tr>' +
+    th('rank', 'rank', '#', 'rk') +
+    (prev ? th('rank', 'delta', '±', 'dl') : '') +
+    th('rank', 'name', '팀', 'tmh') +
+    th('rank', 'matches', '매치') +
+    th('rank', 'placementPoints', '순위') +
+    th('rank', 'kills', '킬') +
+    th('rank', 'totalPoints', '합계') +
+    '</tr></thead>';
+
+  const rowHtml = (r) => {
+    const d = prev ? (prev[r.tag] != null ? prev[r.tag] - r.rank : null) : undefined;
+    return '<tr class="clickable top' + r.rank + '" data-team="' + esc(r.tag) + '">' +
+      '<td class="rk">#' + r.rank + '</td>' +
+      (prev ? deltaCell(d) : '') +
+      '<td><span class="tag">' + logoOf(r.tag, r.name, r.color) +
+        '<span class="tnm" title="' + esc(r.name || r.tag) + '">' +
+        esc(r.name || r.tag) + '</span>' +
+        (r.hasAdjustment
+          ? '<span class="adj-dot" title="' + esc(r.adjustmentTooltip || '점수 조정 적용됨') + '"></span>'
+          : '') +
+      '</span></td>' +
+      '<td class="num muted">' + r.matches + '</td>' +
+      '<td class="num">' + r.placementPoints + '</td>' +
+      '<td class="num">' + r.kills + '</td>' +
+      '<td class="num total">' + r.totalPoints + '</td>' +
+      '</tr>';
+  };
+
+  // 팀이 많으면 좌우 두 줄로 나눠 한 화면에 담습니다.
+  let boardHtml;
+  if (rows.length > 10) {
+    const half = Math.ceil(rows.length / 2);
+    const tbl = (part) => '<div><table>' + head + '<tbody>' +
+      part.map(rowHtml).join('') + '</tbody></table></div>';
+    boardHtml = '<div class="lbsplit">' +
+      tbl(rows.slice(0, half)) + tbl(rows.slice(half)) + '</div>';
+  } else {
+    boardHtml = '<div class="lbsplit"><div><table>' + head + '<tbody>' +
+      rows.map(rowHtml).join('') + '</tbody></table></div></div>';
+  }
+
+  // 최다 킬 선수 — 데미지는 wwcd.lol 과 같이 경기당 평균으로 보여줍니다.
+  const kl = killLeaders.slice(0, 10);
+  const tagOfPlayer = {};
+  for (const t of leaderboard) tagOfPlayer[t.tag] = t;
+  const killHtml = '<div class="kpanel"><h4>최다 킬 선수</h4>' +
+    '<div class="khead"><span class="kno"></span>' +
+      '<span class="kwho">선수 / 팀</span>' +
+      '<span class="kdmg">경기당<br>평균 DMG</span>' +
+      '<span class="kkil">킬</span></div>' +
+    (kl.length ? kl.map((p, i) => {
+      const bare = p.name.indexOf('_') > 0 ? p.name.slice(p.name.indexOf('_') + 1) : p.name;
+      const tm = tagOfPlayer[p.team];
+      const team = tm ? (tm.name || tm.tag) : p.team;
+      const avg = Math.round(p.damage / (p.matches || 1));
+      return '<div class="krow" title="' + esc(bare + ' · ' + team) + ' — ' +
+          p.matches + '경기 ' + p.kills + '킬, 누적 ' + nf(p.damage) + ' 딜 (경기당 평균 ' + nf(avg) + ')">' +
+        '<span class="kno' + (i < 3 ? ' m' : '') + '">' + (i + 1) + '</span>' +
+        '<span class="kwho"><span class="knick">' + esc(bare) + '</span>' +
+          '<span class="kteam">' + esc(team) + '</span></span>' +
+        '<span class="kdmg">' + nf(avg) + '</span>' +
+        '<span class="kkil">' + p.kills + '</span>' +
+        '</div>';
+    }).join('') : '<div class="sub">아직 기록이 없습니다.</div>') +
+    '</div>';
+
+  const note = '<div class="sub" style="margin-top:12px">' +
+    (prev ? '± 는 직전 매치까지의 순위 대비 변동입니다. ' : '') +
+    '컬럼 제목을 누르면 정렬되고, 팀을 누르면 매치별 추이가 열립니다.' +
+    ((D.logos && Object.keys(D.logos).length) ? '' :
+      ' 팀 로고는 public\\logos 폴더에 &lt;팀태그&gt;.png 를 넣으면 자동으로 표시됩니다.') +
+    '</div>';
+
+  return '<div class="rankwrap"><div>' + boardHtml + note + '</div>' + killHtml + '</div>';
+}
+
+/* ── 2. 매치별 결과 ─────────────────────────────────────────── */
+function viewMatch() {
+  const { teamMeta } = board();
+  const tagOf = {};
+  teamMeta.forEach((m) => m.members.forEach((n) => { tagOf[n] = m; }));
+
+  const list = inRange();
+
+  /* 가장 최근 매치는 클릭 없이 바로 펼쳐 보여줍니다.
+     새 매치가 들어와 "최신"이 바뀔 때만 자동으로 열고,
+     사용자가 직접 접은 건 다시 열지 않습니다. */
+  const newest = list[list.length - 1];
+  if (newest && autoOpenKey !== newest.matchId) {
+    openMatches.add(newest.matchId);
+    autoOpenKey = newest.matchId;
+  }
+
+  let h = '';
+  list.forEach((s, i) => {
+    const no = range[0] + i;
+    const win = s.rosters[0];
+    const winTag = win && tagOf[win.players[0].name];
+    const open = openMatches.has(s.matchId);
+    const isNewest = newest && s.matchId === newest.matchId;
+    h += '<div class="card' + (isNewest ? ' newest' : '') + '">' +
+      '<div class="mhead" data-match="' + esc(s.matchId) + '">' +
+        '<div><h3>매치 ' + no + ' <span class="map">' + esc(s.map) + '</span>' +
+        (isNewest ? '<span class="latest">최신</span>' : '') + '</h3>' +
+        '<div class="sub">' + new Date(s.createdAt).toLocaleString('ko-KR',
+          { dateStyle: 'short', timeStyle: 'short' }) +
+        ' · ' + s.teamCount + '팀 · ' + Math.round((s.duration || 0) / 60) + '분</div></div>' +
+        '<div style="text-align:right"><div class="wwcd">WWCD ' +
+          esc(winTag ? (winTag.name || winTag.tag) : '-') + '</div>' +
+        '<div class="sub">' + (win ? win.kills : 0) + '킬 · ' +
+          nf(win ? win.damage : 0) + ' 딜</div></div>' +
+      '</div>' +
+      '<div class="mbody' + (open ? ' open' : '') + '">' +
+        '<table><thead><tr>' +
+        th('match', 'rank', '순위', 'rk') +
+        th('match', 'name', '팀', 'tmh') +
+        // 전투 스탯(킬·딜량)을 붙여 두고, 점수 계열은 그 뒤로 분리합니다.
+        th('match', 'kills', '킬', 'num', '처치 수') +
+        th('match', 'damage', '딜량', 'num', '누적 피해량') +
+        th('match', 'placePts', '순위 점수') +
+        th('match', 'pts', '획득 점수') +
+        '<th>선수 (킬)</th></tr></thead><tbody>';
+    const placePt = (rk) => Number(D.rules.placementPoints[String(rk)] || 0);
+    const sorted = sortRows(s.rosters, 'match', {
+      name: (r) => { const m = tagOf[r.players[0].name]; return m ? (m.name || m.tag) : '?'; },
+      placePts: (r) => placePt(r.rank),
+      pts: (r) => placePt(r.rank) + r.kills * D.rules.killPoint,
+    });
+    for (const r of sorted) {
+      const m = tagOf[r.players[0].name];
+      h += '<tr class="top' + r.rank + '"><td class="rk">' + r.rank + '</td>' +
+        '<td><span class="tag">' +
+          logoOf(m ? m.tag : '?', m && m.name, m && m.color) +
+          esc(m ? (m.name || m.tag) : '?') + '</span></td>' +
+        '<td class="num">' + r.kills + '</td>' +
+        '<td class="num muted">' + nf(r.damage) + '</td>' +
+        '<td class="num muted">' + placePt(r.rank) + '</td>' +
+        '<td class="num total">' + (placePt(r.rank) + r.kills * D.rules.killPoint) + '</td>' +
+        '<td class="plist">' + r.players.map((p) =>
+          esc(p.name) + ' <span style="color:var(--txt)">' + p.kills + '</span>').join(' · ') +
+        '</td></tr>';
+    }
+    h += '</tbody></table></div></div>';
+  });
+  return h || '<div class="card">표시할 매치가 없습니다.</div>';
+}
+
+/* ── 3. 선수 기록실 ─────────────────────────────────────────── */
+function viewPlayer() {
+  const { killLeaders } = board();
+  const rows = sortRows(killLeaders, 'player', {
+    avgKills: (p) => p.kills / (p.matches || 1),
+    avgDamage: (p) => p.damage / (p.matches || 1),
+    avgSurvival: (p) => (p.timeSurvived || 0) / (p.matches || 1),
+  });
+  let h = '<table><thead><tr><th class="rk">#</th>' +
+    th('player', 'name', '선수', '') +
+    th('player', 'team', '팀', '') +
+    STAT_COLS.map((c) => th('player', c.key, c.label, 'num', c.tip)).join('') +
+    th('player', 'matches', '경기') +
+    th('player', 'avgKills', '경기당킬') +
+    th('player', 'avgDamage', '경기당딜') +
+    th('player', 'avgSurvival', '평균 생존시간', 'num', '경기당 평균 생존 시간') +
+    '</tr></thead><tbody>';
+  rows.forEach((p, i) => {
+    h += '<tr><td class="rk">' + (i + 1) + '</td>' +
+      '<td style="font-weight:700">' + esc(p.name) + '</td>' +
+      '<td class="muted">' + esc(p.team) + '</td>' +
+      '<td class="num total">' + p.kills + '</td>' +
+      '<td class="num">' + nf(p.damage) + '</td>' +
+      '<td class="num muted">' + p.knocks + '</td>' +
+      '<td class="num muted">' + p.assists + '</td>' +
+      '<td class="num muted">' + p.headshots + '</td>' +
+      '<td class="num muted">' + p.matches + '</td>' +
+      '<td class="num">' + (p.kills / (p.matches || 1)).toFixed(1) + '</td>' +
+      '<td class="num muted">' + Math.round(p.damage / (p.matches || 1)) + '</td>' +
+      '<td class="num muted">' + fmtTime((p.timeSurvived || 0) / (p.matches || 1)) + '</td></tr>';
+  });
+  return h + '</tbody></table>' +
+    '<div class="sub" style="margin-top:12px">' +
+    '컬럼 제목을 클릭하면 정렬됩니다. 한 번 더 누르면 오름차순 ↔ 내림차순.</div>';
+}
+
+/* ── 4. 팀 상세 (모달) ──────────────────────────────────────── */
+function showTeam(tag) {
+  const { leaderboard, teamMeta } = board();
+  const row = leaderboard.find((r) => r.tag === tag);
+  if (!row) return;
+  let meta = null;
+  teamMeta.forEach((m) => { if (m.tag === tag) meta = m; });
+  const names = new Set(meta ? meta.members : []);
+
+  const per = [];
+  inRange().forEach((s, i) => {
+    const r = s.rosters.find((x) => x.players.some((p) => names.has(p.name)));
+    if (r) per.push({ no: range[0] + i, map: s.map, rank: r.rank, kills: r.kills,
+      damage: r.damage, players: r.players });
+  });
+
+  const worst = Math.max.apply(null, per.map((p) => p.rank).concat([1]));
+  const bars = per.map((p) =>
+    '<div class="bar' + (p.rank === 1 ? ' w' : '') +
+    '" style="height:' + Math.max(8, (1 - (p.rank - 1) / worst) * 100) + '%" ' +
+    'title="매치 ' + p.no + ' — ' + p.rank + '위"></div>').join('');
+
+  const perRows = per.map((p) =>
+    '<tr><td class="rk">' + p.no + '</td><td class="map">' + esc(p.map) + '</td>' +
+    '<td class="num" style="font-weight:700' + (p.rank === 1 ? ';color:var(--win)' : '') + '">' +
+      p.rank + '위</td>' +
+    '<td class="num">' + p.kills + '</td>' +
+    '<td class="num muted">' + nf(p.damage) + '</td>' +
+    '<td class="plist">' + p.players.map((x) => esc(x.name) + ' ' + x.kills).join(' · ') +
+    '</td></tr>').join('');
+
+  const totals = {};
+  per.forEach((p) => p.players.forEach((x) => {
+    const t = totals[x.name] ||
+      (totals[x.name] = { kills: 0, damage: 0, knocks: 0, assists: 0, headshots: 0, timeSurvived: 0, matches: 0 });
+    t.kills += x.kills; t.damage += x.damage; t.knocks += x.knocks;
+    t.assists += x.assists; t.headshots += (x.headshots || 0);
+    t.timeSurvived += (x.timeSurvived || 0); t.matches += 1;
+  }));
+  const memRows = Object.entries(totals)
+    .sort((a, b) => b[1].kills - a[1].kills)
+    .map(([n, t]) => '<tr><td style="font-weight:700">' + esc(n) + '</td>' +
+      '<td class="num">' + t.kills + '</td><td class="num">' + nf(t.damage) + '</td>' +
+      '<td class="num muted">' + t.knocks + '</td>' +
+      '<td class="num muted">' + t.assists + '</td>' +
+      '<td class="num muted">' + t.headshots + '</td>' +
+      '<td class="num muted">' + fmtTime(t.timeSurvived / (t.matches || 1)) + '</td></tr>').join('');
+
+  $('modal').innerHTML =
+    '<button class="close" id="x">&times;</button>' +
+    '<h2 style="margin:0 0 2px">' + esc(row.name || row.tag) + '</h2>' +
+    '<div class="sub">종합 ' + row.rank + '위 · ' + row.totalPoints + '점 ' +
+      '(순위 ' + row.placementPoints + ' + 킬 ' + row.kills + ') · WWCD ' + row.wwcd +
+      (row.hasAdjustment
+        ? '<span class="adj-dot" title="' + esc(row.adjustmentTooltip || '점수 조정 적용됨') + '"></span> ' +
+          esc(row.adjustmentTooltip || '')
+        : '') +
+    '</div>' +
+    '<div style="margin:20px 0 6px" class="ctl-label">매치별 순위 추이 (높을수록 상위)</div>' +
+    '<div class="bars">' + bars + '</div>' +
+    '<div class="grid2" style="margin-top:22px">' +
+      '<div><div class="ctl-label" style="margin-bottom:8px">선수 누적</div>' +
+      '<table><thead><tr><th>선수</th>' +
+      STAT_COLS.map((c) => '<th class="num" title="' + esc(c.tip) + '">' + c.label + '</th>').join('') +
+      '<th class="num" title="경기당 평균 생존 시간">평균 생존시간</th>' +
+      '</tr></thead><tbody>' +
+      memRows + '</tbody></table></div>' +
+    '</div>' +
+    '<div class="ctl-label" style="margin:22px 0 8px">매치별 상세</div>' +
+    '<table><thead><tr><th class="rk">매치</th><th>맵</th><th class="num">순위</th>' +
+    '<th class="num">킬</th><th class="num">딜량</th><th>선수 (킬)</th></tr></thead><tbody>' +
+    perRows + '</tbody></table>';
+
+  $('overlay').classList.add('on');
+  $('x').onclick = () => $('overlay').classList.remove('on');
+}
+
+/* ── 렌더 ───────────────────────────────────────────────────── */
+function render() {
+  saveState();
+  left = RELOAD_SEC;
+  $('rangeInfo').textContent = '매치 ' + range[0] + '~' + range[1] +
+    ' (' + (range[1] - range[0] + 1) + '경기)';
+  document.querySelectorAll('.tab').forEach((t) => {
+    t.classList.toggle('on', t.dataset.tab === tab);
+  });
+
+  $('view').innerHTML = tab === 'rank' ? viewRank()
+    : tab === 'match' ? viewMatch() : viewPlayer();
+
+  document.querySelectorAll('[data-team]').forEach((el) => {
+    el.onclick = () => showTeam(el.dataset.team);
+  });
+  document.querySelectorAll('[data-match]').forEach((el) => {
+    el.onclick = () => {
+      const id = el.dataset.match;
+      openMatches.has(id) ? openMatches.delete(id) : openMatches.add(id);
+      el.parentElement.querySelector('.mbody').classList.toggle('open');
+    };
+  });
+  document.querySelectorAll('[data-sk]').forEach((el) => {
+    el.onclick = (e) => {
+      e.stopPropagation();
+      toggleSort(el.dataset.scope, el.dataset.sk);
+      render();
+    };
+  });
+}
+
+document.querySelectorAll('.tab').forEach((el) => {
+  el.onclick = () => {
+    document.querySelectorAll('.tab').forEach((t) => t.classList.remove('on'));
+    el.classList.add('on');
+    tab = el.dataset.tab;
+    render();
+  };
+});
+$('overlay').onclick = (e) => { if (e.target === $('overlay')) $('overlay').classList.remove('on'); };
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') $('overlay').classList.remove('on');
+});
+
+loadState();
+renderHead();
+renderBanner();
+render();
+startAuto();
+</script>
+</body>
+</html>
