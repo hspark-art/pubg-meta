@@ -33,7 +33,7 @@
 </head>
 <body>
 <div class="wrap">
-  <a class="brand" id="home" href="index.html">PUBG META</a>
+  <a class="brand" href="index.html">PUBG META</a>
   <h1>구글 시트 연동</h1>
   <div class="sub">계정 연동이나 권한 설정 없이, 함수 한 줄로 시트가 최신 결과를 가져갑니다.</div>
 
@@ -61,9 +61,8 @@
 </div>
 
 <script>
-const D = {"base":"https://hspark-art.github.io/pubg-meta","series":[{"id":"as-pgs7","name":"PGS 2026 Circuit 3 - Series 1"},{"id":"as-gotf26","name":"Games of the Future 2026"},{"id":"eu-ewc26","name":"Esports World Cup 2026"},{"id":"as-pnc26","name":"PUBG Nations Cup 2026"},{"id":"kr-pws2","name":"PUBG Weekly Series 2026 Phase 2 Cup"},{"id":"as-pgs6","name":"PGS 2026 Circuit 2 - Series Final"},{"id":"as-pgs5","name":"PGS 2026 Circuit 2 - Series 2"},{"id":"as-pgs4","name":"PGS 2026 Circuit 2 - Series 1"},{"id":"as-pgs3","name":"PGS 2026 Circuit 1 - Series Final"},{"id":"as-pgs2","name":"PGS 2026 Circuit 1 - Series 2"},{"id":"as-pgs1","name":"PGS 2026 Circuit 1 - Series 1"},{"id":"kr-pws1","name":"PUBG Weekly Series 2026 Phase 1"}],"pageExt":"html"};
+const D = {"base":"https://hspark-art.github.io/pubg-meta","series":[{"id":"as-gotf26","name":"Games of the Future 2026"},{"id":"eu-ewc26","name":"Esports World Cup 2026"},{"id":"as-pnc26","name":"PUBG Nations Cup 2026"},{"id":"kr-pws2","name":"PUBG Weekly Series 2026 Phase 2 Cup"},{"id":"as-pgs6","name":"PGS 2026 Circuit 2 - Series Final"},{"id":"as-pgs5","name":"PGS 2026 Circuit 2 - Series 2"},{"id":"as-pgs4","name":"PGS 2026 Circuit 2 - Series 1"},{"id":"as-pgs3","name":"PGS 2026 Circuit 1 - Series Final"},{"id":"as-pgs2","name":"PGS 2026 Circuit 1 - Series 2"},{"id":"as-pgs1","name":"PGS 2026 Circuit 1 - Series 1"},{"id":"kr-pws1","name":"PUBG Weekly Series 2026 Phase 1"}]};
 const $ = (id) => document.getElementById(id);
-$('home').setAttribute('href', 'index.' + (D.pageExt || 'html'));
 const KINDS = [
   ['summary', 'SUMMARY (누적 순위표)'],
   ['matches', '매치별 결과'],
